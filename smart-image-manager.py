@@ -56,8 +56,13 @@ class SmartImageManager:
     
     def get_full_image_name(self, image_name: str, tag: str) -> str:
         """获取完整的镜像名称"""
-        if '/' in image_name:
+        # 如果镜像名称已经包含完整路径（包含registry），直接返回
+        if image_name.startswith('rd.clouditera.com/') or image_name.startswith('docker.io/') or image_name.startswith('quay.io/'):
             return f"{image_name}:{tag}"
+        # 如果镜像名称包含路径但不包含registry，添加registry前缀
+        elif '/' in image_name:
+            return f"{self.registry}/{image_name}:{tag}"
+        # 如果只是镜像名，添加registry前缀
         else:
             return f"{self.registry}/{image_name}:{tag}"
     
