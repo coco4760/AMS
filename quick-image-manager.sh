@@ -46,7 +46,21 @@ check_python() {
     # 检查虚拟环境
     if [ -d "venv" ]; then
         print_info "发现虚拟环境，自动激活..."
-        source venv/bin/activate
+        if [ -f "venv/bin/activate" ]; then
+            source venv/bin/activate
+        elif [ -f "venv/Scripts/activate" ]; then
+            source venv/Scripts/activate
+        else
+            print_warning "虚拟环境激活脚本不存在，尝试直接使用..."
+            if [ -f "venv/bin/python" ]; then
+                PYTHON_CMD="venv/bin/python"
+            elif [ -f "venv/bin/python3" ]; then
+                PYTHON_CMD="venv/bin/python3"
+            else
+                print_error "虚拟环境中的Python不可用"
+                exit 1
+            fi
+        fi
         return 0
     fi
     
