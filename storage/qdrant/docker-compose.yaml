@@ -1,0 +1,11 @@
+services:
+  qdrant:
+    image: rd.clouditera.com/sca-sast-lib/library/qdrant:v1.9.3
+    restart: always
+    environment:
+      QDRANT_API_KEY: ${QDRANT_API_KEY}
+    volumes:
+      - ${INSTALL_LOCAL}/qdrant:/qdrant/storage
+    ports:
+      - "${QDRANT_REST_API_PORT}:6333"
+      - "${QDRANT_GRPC_API_PORT}:6334"

@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  crawler:
+    image: rd.clouditera.com/plugin/crawl4ai:v4.1
+    container_name: crawler
+    ports:
+      - "11001:1001"
+    restart: unless-stopped
+
+  title:
+    image: rd.clouditera.com/plugin/title:v1.0
+    container_name: titles
+    ports:
+      - "11002:1002"
+    shm_size: 2gb
+    restart: unless-stopped
+
+  favicon:
+    image: rd.clouditera.com/plugin/favicon:latest
+    container_name: favicon
+    ports:
+      - "11003:1003"
+    restart: unless-stopped
+
+  urlfinder:
+    image: rd.clouditera.com/plugin/urlfinder:latest
+    container_name: urlfinder
+    ports:
+      - "11004:1004"
+    restart: unless-stopped

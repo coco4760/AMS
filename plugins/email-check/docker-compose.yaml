@@ -1,0 +1,9 @@
+services:
+  email-plugin:
+    image: ${EMAIL_PLUGIN_IMAGE}:${EMAIL_VERSION}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "18003:8080"
+    network_mode: "bridge"

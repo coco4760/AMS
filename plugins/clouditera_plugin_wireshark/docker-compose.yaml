@@ -1,0 +1,11 @@
+services:
+  plugin-wireshrk:
+    image: ${PLUGIN_WIRESHARK_IMAGE}:${PLUGIN_WIRESHARK_VERSION}
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ${INSTALL_LOCAL}/plugin/data:/app/data
+      - ${INSTALL_LOCAL}/plugin/nuclei-templates:/root/nuclei-templates
+    ports:
+      - "18005:5000"

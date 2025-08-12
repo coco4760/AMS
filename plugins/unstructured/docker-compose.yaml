@@ -1,0 +1,10 @@
+services:
+  unstructured:
+    image: ${UNSTRUCTURED_IMAGE}:${UNSTRUCTURED_VERSION}
+    restart: always
+    ports:
+      - "15002:5002"
+    environment:
+      HF_HUB_OFFLINE: 1
+      PORT: 5002
+      UNSTRUCTURED_API_KEY: "clouditera-unstructured"

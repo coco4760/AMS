@@ -1,0 +1,8 @@
+services:
+  ai-plugin:
+    image: ${PLUGIN_IMAGE}:${VERSION}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "18002:8001"

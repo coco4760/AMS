@@ -1,0 +1,10 @@
+services:
+  nacos:
+    image: rd.clouditera.com/aigc/nacos-server:${NACOS_VERSION}
+    container_name: nacos-standalone-mysql
+    env_file:
+      - .env
+    ports:
+      - "18848:8848"
+      - "19848:9848"
+    restart: always

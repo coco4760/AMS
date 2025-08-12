@@ -1,0 +1,19 @@
+services:
+  iam:
+    image: rd.clouditera.com/sca-sast-lib/library/keycloak:22.0.0
+    container_name: "clouditera-iam"
+    restart: always
+    command: [ "start", "--hostname-strict-https=false" ]
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_PROXY: edge
+      KC_DB: ${KC_DB}
+      KC_DB_URL: jdbc:mysql://clouditera.mysql.com:13306/clouditera_iam
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_HOSTNAME_STRICT: false
+    extra_hosts:
+      - "clouditera.mysql.com:${MYSQL_HOST}"
+    ports:
+      - "18080:8080"

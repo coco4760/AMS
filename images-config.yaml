@@ -1,0 +1,267 @@
+# Docker镜像配置文件
+# 支持版本控制、环境区分和分类管理
+
+# 全局配置
+global:
+  default_tag: "latest"
+  environments:
+    - dev
+    - test
+    - prod
+
+# 镜像分类配置
+categories:
+  ai_brain:
+    name: "AI大脑平台"
+    description: "核心AI智能体应用服务"
+    images:
+      - name: "rd.clouditera.com/aigc/ai-intelligence-api"
+        tags: ["v6.3.1.post6"]
+      - name: "rd.clouditera.com/aigc/ai-intelligence-web"
+        tags: ["v6.3.1"]
+      - name: "rd.clouditera.com/aigc/ai-intelligence-sandbox"
+        tags: ["0.2.11"]
+      - name: "rd.clouditera.com/aigc/ai-intelligence-plugin-daemon"
+        tags: ["0.0.7"]
+      - name: "rd.clouditera.com/infra/nginx"
+        tags: ["latest"]
+
+  services:
+    name: "业务服务"
+    description: "主要业务逻辑服务"
+    images:
+      - name: "rd.clouditera.com/aigc/sast-http-api"
+        tags: ["v5.2.34"]
+      - name: "rd.clouditera.com/aigc/client-http-api"
+        tags: ["v3.8.46"]
+      - name: "rd.clouditera.com/aigc/client-web"
+        tags: ["v3.3.80"]
+      - name: "rd.clouditera.com/aigc/auth-http-api"
+        tags: ["v1.5.5"]
+
+  asset_judgment:
+    name: "资产研判"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/plugin/crawl4ai"
+        tags: ["v4.1"]
+      - name: "rd.clouditera.com/plugin/title"
+        tags: ["v1.0"]
+      - name: "rd.clouditera.com/plugin/favicon"
+        tags: ["latest"]
+      - name: "rd.clouditera.com/plugin/urlfinder"
+        tags: ["latest"]
+
+  clouditera_plugin:
+    name: "云起插件"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/aigc/ai-plugin-projects"
+        tags: ["v0.7.8"]
+
+  clouditera_plugin_for_vul:
+    name: "漏洞插件"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/aigc/ai-plugin-for-vul"
+        tags: ["v0.1.7"]
+
+  clouditera_plugin_sectools:
+    name: "安全工具插件"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/aigc/sectoolsapi"
+        tags: ["v0.1.0"]
+
+  clouditera_plugin_wireshark:
+    name: "流量包解析插件"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/aigc/plugin-wireshark"
+        tags: ["v0.3.12-stable"]
+
+  defect_judgement:
+    name: "缺陷研判插件"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/aigc/llm_sast"
+        tags: ["x86_64-0.2.0-backend"]
+      - name: "rd.clouditera.com/aigc/llm_sast"
+        tags: ["x86_64-0.2.0-frontend"]
+      - name: "rd.clouditera.com/library/pgvector"
+        tags: ["pg17"]
+
+  email_check:
+    name: "邮箱检测"
+    description: "能力支撑"
+    images:
+      - name: "aigc/email-plugin"
+        tags: ["v2.0.0-stable"]
+
+  firecrawl:
+    name: "网页爬虫"
+    description: "能力支撑"
+    images:
+      - name: "rd.clouditera.com/firecrawl/firecrawl-playwright-service"
+        tags: ["v1.0.0"]
+      - name: "rd.clouditera.com/firecrawl/firecrawl-api"
+        tags: ["v1.0.0"]
+      - name: "rd.clouditera.com/firecrawl/firecrawl-worker"
+        tags: ["v1.0.0"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/redis"
+        tags: ["7.2.0"]
+
+  mcp_tools:
+    name: "mcp 工具"
+    description: "nmap"
+    images:
+      - name: "rd.clouditera.com/mcp-tool/mcp-tool"
+        tags: ["v1.0.13"]
+
+  ragflow:
+    name: "ragflow"
+    description: "rag"
+    images:
+      - name: "rd.clouditera.com/sca-sast-lib/library/redis"
+        tags: ["7.2.0"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/mysql"
+        tags: ["8.0.34"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/minio"
+        tags: ["RELEASE.2023-08-16T20-17-30Z"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/elasticsearch"
+        tags: ["8.12.2"]
+      - name: "rd.clouditera.com/aigc/ai-intelligence-rag"
+        tags: ["v0.18.0"]
+
+  unstructured:
+    name: "unstructured"
+    description: "文件解析"
+    images:
+      - name: "rd.clouditera.com/aigc/ai-intelligence-unstructured"
+        tags: ["0.2.0-test-ocr"]
+  
+  storage:
+    name: "storage"
+    description: "存储"
+    images:
+      - name: "rd.clouditera.com/sca-sast-lib/library/elasticsearch"
+        tags: ["8.12.2"]
+      - name: "rd.clouditera.com/infra/minio"
+        tags: ["RELEASE.2023-08-16T20-17-30Z"]
+      - name: "rd.clouditera.com/sca-sast-lib/mongo"
+        tags: ["5.0.5"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/mysql"
+        tags: ["8.0.34"]
+      - name: "rd.clouditera.com/sca-sast-lib/postgres"
+        tags: ["15-alpine"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/qdrant"
+        tags: ["v1.9.3"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/redis"
+        tags: ["7.2.0"]
+
+  collabnet:
+    name: "调度工具"
+    description: "自研调度工具"
+    images:
+      - name: "rd.clouditera.com/sca-sast-lib/library/mysql"
+        tags: ["8.0.34"]
+      - name: "rd.clouditera.com/infra/rmq-dme"
+        tags: ["3.7.23-management"]
+      - name: "rd.clouditera.com/sca-sast-lib/library/redis"
+        tags: ["7.2.0"]
+      - name: "rd.clouditera.com/infra/minio"
+        tags: ["RELEASE.2023-08-16T20-17-30Z"]
+      - name: "rd.clouditera.com/infra/go-message-app"
+        tags: ["v1.8.0-release"]
+      - name: "rd.clouditera.com/infra/collabnet"
+        tags: ["v2.7-collabnet-test-93"]
+  
+  collabnet_node_manager:
+    name: "调度节点"
+    description: "自研调度工具agent"
+    images:
+      - name: "rd.clouditera.com/infra/collabnet"
+        tags: ["v2.7-node_manager-x86_64-test-8"]
+  
+
+  filems:
+    name: "filems"
+    description: "minio 分布式调度工具"
+    images:
+      - name: "rd.clouditera.com/infra/filems"
+        tags: ["sast-v2.5-0"]
+
+  iam:
+    name: "keyloak"
+    description: "认证服务"
+    images:
+      - name: "rd.clouditera.com/sca-sast-lib/library/keycloak"
+        tags: ["22.0.0"]
+
+  kong:
+    name: "kong"
+    description: "网关"
+    images:
+      - name: "rd.clouditera.com/sca-sast-lib/kong"
+        tags: ["3.7.0"]
+      - name: "rd.clouditera.com/sca-sast-lib/kong"
+        tags: ["3.7.0"]
+      - name: "rd.clouditera.com/sca-sast-lib/kong/deck"
+        tags: ["v1.37.0"]
+  mineru:
+    name: "minerU"
+    description: "PDF 解析"
+    images:
+      - name: "rd.clouditera.com/aigc/mineru"
+        tags: ["v1.3.12"]
+  nacos:
+    name: "nacos"
+    description: "配置中心"
+    images:
+      - name: "rd.clouditera.com/aigc/nacos-server"
+        tags: ["v2.4.3"]
+
+  rabbitmq:
+    name: "rabbitmq"
+    description: "消息队列"
+    images:
+      - name: "rd.clouditera.com/library/rabbitmq"
+        tags: ["4.1.3-management"]
+
+  rag_server:
+    name: "rag_server"
+    description: "rag 服务"
+    images:
+      - name: "rd.clouditera.com/aigc/rag_service"
+        tags: ["x86_64-0.5.0-backend"]
+      - name: "rd.clouditera.com/rd.clouditera.com/aigc/rag_service"
+        tags: ["x86_64-0.5.0-frontend"]
+      - name: "rd.clouditera.com/library/pgvector"
+        tags: ["pg17"]
+      - name: "rd.clouditera.com/library/redis"
+        tags: ["latest"]
+
+# 环境特定配置
+environments:
+  dev:
+    description: "开发环境"
+    tag_suffix: "dev"
+    required_categories: ["services"]
+    
+  test:
+    description: "测试环境"
+    tag_suffix: "test"
+    required_categories: ["ai_brain", "services", "asset_judgment", "clouditera_plugin", "clouditera_plugin_for_vul", "clouditera_plugin_sectools", "clouditera_plugin_wireshark", "defect_judgement", "email_check", "firecrawl", "mcp_tools", "ragflow", "unstructured", "storage", "collabnet", "collabnet_node_manager", "filems", "iam", "kong", "mineru", "nacos", "rabbitmq", "rag_server"]
+    
+  prod:
+    description: "生产环境"
+    tag_suffix: "prod"
+    required_categories: ["ai_brain", "services", "asset_judgment", "clouditera_plugin", "clouditera_plugin_for_vul", "clouditera_plugin_sectools", "clouditera_plugin_wireshark", "defect_judgement", "email_check", "firecrawl", "mcp_tools", "ragflow", "unstructured", "storage", "collabnet", "collabnet_node_manager", "filems", "iam", "kong", "mineru", "nacos", "rabbitmq", "rag_server"]
+
+# 下载策略配置
+download_strategy:
+  parallel_downloads: 3
+  retry_count: 3
+  timeout_seconds: 300
+  skip_existing: true
+  

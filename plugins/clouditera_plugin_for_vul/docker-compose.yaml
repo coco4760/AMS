@@ -1,0 +1,9 @@
+version: '3.1'
+services:
+  ai-plugin-for-vul:
+    image: ${PLUGIN_IMAGE}:${version}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "18882:8001"

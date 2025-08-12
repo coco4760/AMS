@@ -1,0 +1,13 @@
+services:
+  mcp-tool:
+    image: rd.clouditera.com/mcp-tool/mcp-tool:v1.0.13
+    restart: always
+    ports:
+      - "18089:8081"
+    environment:
+      - TZ=Asia/Shanghai
+      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    network_mode: "bridge"

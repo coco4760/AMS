@@ -1,0 +1,71 @@
+services:
+  kong-migrations:
+    image: rd.clouditera.com/sca-sast-lib/kong:3.7.0
+    user: kong
+    command: kong migrations bootstrap
+    restart: on-failure
+    environment:
+      KONG_DATABASE: ${KONG_DATABASE}
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+      KONG_PG_HOST: ${KONG_PG_HOST}
+      KONG_PG_PORT: ${KONG_PG_PORT}
+      KONG_PG_USER: ${KONG_PG_USER}
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
+    networks:
+      - kong-network
+  kong:
+    image: rd.clouditera.com/sca-sast-lib/kong:3.7.0
+    user: kong
+    restart: always
+    environment:
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_GUI_LISTEN: ${KONG_ADMIN_GUI_LISTEN}
+      KONG_ADMIN_LISTEN: ${KONG_ADMIN_LISTEN}
+      KONG_PROXY_LISTEN: ${KONG_PROXY_LISTEN}
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_DECLARATIVE_CONFIG: /opt/kong/kong.yaml
+      KONG_DATABASE: ${KONG_DATABASE}
+      KONG_PG_DATABASE: ${KONG_PG_DATABASE}
+      KONG_PG_HOST: ${KONG_PG_HOST}
+      KONG_PG_PORT: ${KONG_PG_PORT}
+      KONG_PG_USER: ${KONG_PG_USER}
+      KONG_PG_PASSWORD: ${KONG_PG_PASSWORD}
+      DECK_KONG_ADDR: ${DECK_KONG_ADDR}
+    ports:
+      - "${KONG_INBOUND_PROXY_LISTEN:-0.0.0.0}:8000:8000/tcp"
+      - "${KONG_INBOUND_SSL_PROXY_LISTEN:-0.0.0.0}:8443:8443/tcp"
+      - "0.0.0.0:8001:8001/tcp"
+      - "0.0.0.0:8444:8444/tcp"
+      - "0.0.0.0:8002:8002/tcp"
+    healthcheck:
+      test: [ "CMD", "kong", "health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - ./volumes/kong/config:/opt/kong
+    networks:
+      - kong-network
+    extra_hosts:
+      - "authhttp:${AUTH_HTTP_HOST}"
+      - "clienthttp:${CLIENT_HTTP_HOST}"
+      - "ai-plugin:${AI_PLUGIN_HOST}"
+      - "sasthttp:${SAST_HTTP_HOST}"
+
+  kong-deck:
+    image: rd.clouditera.com/sca-sast-lib/kong/deck:v1.37.0
+    restart: on-failure
+    depends_on:
+      kong:
+        condition: service_healthy
+    command: [ 'gateway', 'sync', '/opt/kong-deck/kong.yaml' ]
+    environment:
+      DECK_KONG_ADDR: http://kong:8001
+    volumes:
+      - ./volumes/kong/deck:/opt/kong-deck:ro
+    networks:
+      - kong-network
+networks:
+  kong-network:

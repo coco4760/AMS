@@ -1,0 +1,88 @@
+services:
+  api:
+    image: rd.clouditera.com/aigc/ai-intelligence-api:${API_VERSION}
+    restart: always
+    env_file:
+      - base.env
+    environment:
+      MODE: api
+    volumes:
+      - ${INSTALL_LOCAL}/ai_brain/app/storage:/app/api/storage
+    ports:
+      - "15001:5001"
+    depends_on:
+      - sandbox
+    extra_hosts:
+      - "xinference-service:${XINFERENCE_SERVICE}"
+      - "ai-plugin:${AI_PLUGIN}"
+      - "ai-plugin-vul:${AI_PLUGIN_VUL}"
+      - "email-plugin:${EMAIL_PLUGIN}"
+
+  worker:
+    image: rd.clouditera.com/aigc/ai-intelligence-api:${API_VERSION}
+    restart: always
+    deploy:
+      replicas: 1
+    env_file:
+      - base.env
+    environment:
+      MODE: worker
+    volumes:
+      - ${INSTALL_LOCAL}/ai_brain/app/storage:/app/api/storage
+    extra_hosts:
+      - "xinference-service:${XINFERENCE_SERVICE}"
+      - "ai-plugin:${AI_PLUGIN}"
+      - "ai-plugin-vul:${AI_PLUGIN_VUL}"
+      - "email-plugin:${EMAIL_PLUGIN}"
+
+  # Frontend web application.
+  web:
+    image: rd.clouditera.com/aigc/ai-intelligence-web:${WEB_VERSION}
+    restart: always
+    env_file:
+      - base.env
+    environment:
+      PORT: 3000
+
+  sandbox:
+    image: rd.clouditera.com/aigc/ai-intelligence-sandbox:${SANDBOX_VERSION}
+    restart: always
+    cap_add:
+      - SYS_ADMIN
+    env_file:
+      - base.env
+    volumes:
+      - ${INSTALL_LOCAL}/ai_brain/sandbox/dependencies:/dependencies
+    ports:
+      - "18194:8194"
+
+  plugin_daemon:
+    image: rd.clouditera.com/aigc/ai-intelligence-plugin-daemon:${PLUGIN_VERSION}
+    restart: always
+    env_file:
+      - base.env
+    environment:
+      DB_DATABASE: dify_plugin
+      SERVER_PORT: 5002
+      PLUGIN_REMOTE_INSTALLING_HOST: 0.0.0.0
+      PLUGIN_REMOTE_INSTALLING_PORT: 5003
+      PLUGIN_WORKING_PATH: /app/storage/cwd
+      FORCE_VERIFYING_SIGNATURE: "false"
+    ports:
+      - "15004:5002"
+      - "15003:5003"
+    volumes:
+      - ${INSTALL_LOCAL}/ai_brain/plugin_daemon:/app/storage
+
+  nginx:
+    image: rd.clouditera.com/infra/nginx:latest
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/proxy.conf:/etc/nginx/proxy.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - api
+      - web
+    ports:
+      - "10081:80"

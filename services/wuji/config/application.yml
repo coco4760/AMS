@@ -1,0 +1,40 @@
+server:
+  port: 80
+  servlet:
+    context-path: /clientapi
+springdoc:
+  swagger-ui:
+    enabled: true
+spring:
+  data:
+    redis:
+      repositories:
+        enabled: false
+  servlet:
+    multipart:
+      enabled: true #是否启用http上传处理
+      max-file-size: 100MB #设置单个文件最大长度
+      max-request-size: 100MB #最大请求文件的大小
+nacos:
+  config:
+    server-addr: 192.168.31.69:18848
+    username: nacos
+    password: clouditera
+    data-ids: redis, security, mysql, postgresql, webide, dify, plugin, keycloak, minio, rag, rabbitmq
+    enable-remote-sync-config: true
+    remote-first: true
+clouditera:
+  webflux:
+    maxInMemorySize: 16777216  #缓冲区大小 16*1024*1024
+  invitation:
+    hostname: http://dev.ailab.clouditera.com/#/inviteLogin
+    param: invitation
+  sm2:
+    privateKey: 6f866337bda6fd555033d5952dabe9fcc7c1d58e36294a8a391358c65f4cdf8a
+    publicKey: 044f27668d4bdbb9607eeb679a14d23b4fa4e3aa02d63a2c2108a00f9c9cb290677e451eecf41f1f551cdbfbd678822fb54a915c2f38d1423e8db401a553e931ee
+
+entity:
+  vulid: YQ
+vul:
+  allow:
+    offline-update: true

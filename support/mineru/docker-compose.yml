@@ -1,0 +1,18 @@
+services:
+  mineru:
+    image: rd.clouditera.com/aigc/mineru:v1.3.12
+    restart: always
+    ports:
+      - "48000:8000"
+    volumes:
+      - ./volumes/output:/tmp/output
+
+    # GPU support
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    runtime: nvidia
+    environment:
+      - CUDA_VISIBLE_DEVICES=0

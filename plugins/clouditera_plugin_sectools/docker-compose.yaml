@@ -1,0 +1,8 @@
+services:
+  plugin-sectools:
+    image: ${SECTOOLS_IMAGE}:${SECTOOLS_VERSION}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "18006:5000"

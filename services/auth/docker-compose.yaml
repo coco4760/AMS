@@ -1,0 +1,13 @@
+services:
+  auth-http-api:
+    image: rd.clouditera.com/aigc/auth-http-api:${AUTH_HTTP_VER}
+    restart: always
+    environment:
+      CONTEXT_PATH: /authapi
+    env_file:
+      - .env
+    ports:
+      - "${AUTH_HTTP_PORT}:80"
+    volumes:
+      - ${INSTALL_LOCAL}/wuji/volumes/webide/code:/tmp/webide
+      - ./config/application.yml:/app/resources/application.yml

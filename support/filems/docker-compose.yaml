@@ -1,0 +1,12 @@
+services:
+  filems:
+    image: rd.clouditera.com/infra/filems:sast-v2.5-0
+    restart: always
+    logging:
+      options:
+        max-size: "5G"
+    volumes:
+      - ./config/config.json:/root/config.json
+    ports:
+      - "30793:8840"
+      - "31937:2201"

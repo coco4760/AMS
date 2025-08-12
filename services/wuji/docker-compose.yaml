@@ -1,0 +1,14 @@
+services:
+  client-http:
+    image: rd.clouditera.com/aigc/client-http-api:${CLIENT_HTTP_VER}
+    restart: always
+    environment:
+      CONTEXT_PATH: /clientapi
+      TZ: Asia/Shanghai
+      SWAGGER_UI: ${SWAGGER_UI}
+    env_file:
+      - .env
+    volumes:
+      - ./config/application.yml:/app/resources/application.yml
+    ports:
+      - "${CLIENT_HTTP_PORT}:80"

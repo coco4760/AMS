@@ -1,0 +1,222 @@
+version: '3.3'
+services:
+  mysql-collabnet:
+    container_name: mysql-collabnet
+    image: rd.clouditera.com/sca-sast-lib/library/mysql:8.0.34
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=gznPzkTJ8xEgGZO6
+      - MYSQL_DATABASE=biz
+    volumes:
+      - ${INSTALL_LOCAL}/infra/database/collabnet/conf:/etc/mysql/mysql.conf.d
+      - ${INSTALL_LOCAL}/infra/database/collabnet/logs:/logs
+      - ${INSTALL_LOCAL}/infra/database/collabnet/data:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30306:3306"
+
+  rmq-cluster:
+    container_name: rmq-cluster
+    image: rd.clouditera.com/infra/rmq-dme:3.7.23-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "15672:15672"
+  rmq-message:
+    container_name: rmq-message
+    image: rd.clouditera.com/infra/rmq-dme:3.7.23-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "25672:15672"
+
+  redis-service:
+    container_name: redis-service
+    image: rd.clouditera.com/sca-sast-lib/library/redis:7.2.0
+    command: redis-server --appendonly yes
+    restart: always
+    volumes:
+      - ${INSTALL_LOCAL}/infra/redis/data:/data
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "31379:6379"
+
+  minio-service:
+    container_name: minio-service
+    image: rd.clouditera.com/infra/minio:RELEASE.2023-08-16T20-17-30Z
+    command: server /data --console-address :9001
+    restart: always
+    environment:
+      - MINIO_ACCESS_KEY=admin
+      - MINIO_SECRET_KEY=password
+    volumes:
+      - ${INSTALL_LOCAL}/infra/minio/data:/data
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "32000:9000"
+      - "32001:9001"
+
+  go-message-gateway:
+    container_name: go-message-gateway
+    image: rd.clouditera.com/infra/go-message-app:v1.8.0-release
+    restart: always
+    environment:
+      - MODE=gateway
+      - DEBUG_DEBUG_MODE=false
+      - DEPEND_REDIS_DSN=redis-service:6379
+      - DEPEND_QUEUE=amqp://guest:guest@rmq-message:5672
+      - GATEWAY_PORT_HTTP=:18081
+      - POD_NAME=go-message-gateway
+    volumes:
+      - ${INSTALL_LOCAL}/infra/go-message/config:/app/config
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30081:18081"
+    depends_on:
+      - redis-service
+      - rmq-message
+
+  go-message-notify:
+    container_name: go-message-notify
+    image: rd.clouditera.com/infra/go-message-app:v1.8.0-release
+    restart: always
+    environment:
+      - MODE=notify
+      - DEBUG_DEBUG_MODE=false
+      - DEPEND_QUEUE=amqp://guest:guest@rmq-message:5672
+      - NOTIFY_PORT_HTTP=:9102
+      - POD_NAME=go-message-notify
+    volumes:
+      - ${INSTALL_LOCAL}/infra/go-message/config:/app/config
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30102:9102"
+    depends_on:
+      - redis-service
+      - rmq-message
+
+  go-message-sink:
+    container_name: go-message-sink
+    image: rd.clouditera.com/infra/go-message-app:v1.8.0-release
+    restart: always
+    environment:
+      - MODE=sink
+      - DEBUG_DEBUG_MODE=false
+      - DEPEND_QUEUE=amqp://guest:guest@rmq-message:5672
+      - DEPEND_REDIS_DSN=redis-service:6379
+      - POD_NAME=go-message-sink
+    volumes:
+      - ${INSTALL_LOCAL}/infra/go-message/config:/app/config
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30076:20080"
+    depends_on:
+      - redis-service
+      - rmq-message
+
+  go-message-waiter:
+    container_name: go-message-waiter
+    image: rd.clouditera.com/infra/go-message-app:v1.8.0-release
+    restart: always
+    environment:
+      - MODE=waiter
+      - WAITER_PORT_RPC=:10051
+      - DEPEND_QUEUE=amqp://guest:guest@rmq-message:5672
+      - DEPEND_REDIS_DSN=redis-service:6379
+      - DEBUG_DEBUG_MODE=false
+      - POD_NAME=go-message-waiter
+    volumes:
+      - ${INSTALL_LOCAL}/infra/go-message/config:/app/config
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30051:10051"
+    depends_on:
+      - redis-service
+      - rmq-message
+
+  collabnet:
+    container_name: collabnet
+    image: rd.clouditera.com/infra/collabnet:v2.7-collabnet-test-93
+    restart: always
+    environment:
+      - MYSQL_DSN=root:gznPzkTJ8xEgGZO6@tcp(mysql-collabnet:3306)/biz?charset=utf8mb4&parseTime=True&loc=Local
+      - MQ_DSN=amqp://guest:guest@rmq-cluster:5672
+      - REDIS_DSN=redis-service:6379
+      - MSG_RPC=go-message-waiter:10051
+      - BIZ_TASK_CONCURRENT=40
+      - POD_NAME=collabnet
+      - WORKFLOW_SERVICE_HOST=workflow_service_ip:port
+#     WORKFLOW_SERVICE_HOST环境变量用来设置swagger的host的，port为下面8081映射的，默认是30181，ip为本机ip，如果不需要swagger接口文档可以不改
+    networks:
+      - infra-network
+    logging:
+      options:
+        max-size: "5G"
+    ports:
+      - "30080:80"
+      - "31080:1080"
+      - "32080:2080"
+      - "30181:8081"
+    depends_on:
+      - mysql-collabnet
+      - rmq-cluster
+      - redis-service
+      - minio-service
+      - go-message-gateway
+      - go-message-notify
+      - go-message-sink
+      - go-message-waiter
+
+networks:
+  infra-network:
