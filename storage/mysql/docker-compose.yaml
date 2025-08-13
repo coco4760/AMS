@@ -10,6 +10,7 @@ services:
     volumes:
       - ${INSTALL_LOCAL}/mysql:/var/lib/mysql
       - ${INSTALL_LOCAL}/init_db:/docker-entrypoint-initdb.d
+      - ./mysql_conf/my.cnf:/etc/my.cnf
     healthcheck:
       test: [ "CMD-SHELL", "mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD || exit 1" ]
       interval: 30s
@@ -17,4 +18,3 @@ services:
       retries: 5
       start_period: 30s
     restart: always
-

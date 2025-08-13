@@ -28,16 +28,20 @@ categories:
 
   services:
     name: "业务服务"
-    description: "主要业务逻辑服务"
+    description: "主要业务逻辑服务 web版本: 主线：v3.3.87  冀北：v3.3.88  国网：v3.3.84"
     images:
       - name: "rd.clouditera.com/aigc/sast-http-api"
         tags: ["v5.2.34"]
       - name: "rd.clouditera.com/aigc/client-http-api"
         tags: ["v3.8.46"]
-      - name: "rd.clouditera.com/aigc/client-web"
-        tags: ["v3.3.80"]
       - name: "rd.clouditera.com/aigc/auth-http-api"
         tags: ["v1.5.5"]
+      - name: "rd.clouditera.com/aigc/client-web"
+        tags: ["v3.3.87"]
+      - name: "rd.clouditera.com/aigc/client-web"
+        tags: ["v3.3.88"]
+      - name: "rd.clouditera.com/aigc/client-web"
+        tags: ["v3.3.84"]
 
   asset_judgment:
     name: "资产研判"

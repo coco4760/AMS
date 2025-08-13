@@ -135,8 +135,6 @@ services:
     image: rd.clouditera.com/aigc/rag_service:x86_64-0.5.0-frontend
     ports:
       - "38082:8080"
-    volumes:
-      - ./docker/frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     restart: always
     logging:
       driver: "json-file"
@@ -173,7 +171,8 @@ services:
         max-file: "3"
     restart: always
 
-networks:
-  default:
-    external:
-      name: aigc
+# 移除外部网络依赖，让Docker Compose自动创建网络
+# networks:
+#   default:
+#     name: aigc
+#     external: true
