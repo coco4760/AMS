@@ -192,12 +192,11 @@ main() {
                     sudo find /var/lib/clouditera/data -name "*.pid" -delete 2>/dev/null || true
                     
                     echo "4. 重新创建目录结构..."
-                    sudo mkdir -p /var/lib/clouditera/data/{es/{data,plugins},mysql/{data,logs},redis/data,mongo/data,postgres/data,minio/data,qdrant/data}
+                    sudo mkdir -p /var/lib/clouditera/data/{es,rag_data/es/data,rag_data/es/plugins}
                     
                     echo "5. 设置目录权限..."
                     sudo chown -R 1000:1000 /var/lib/clouditera/data/es
-                    sudo chown -R 999:999 /var/lib/clouditera/data/{mysql,redis,mongo,postgres}
-                    sudo chown -R 1000:1000 /var/lib/clouditera/data/{minio,qdrant}
+                    sudo chown -R 1000:1000 /var/lib/clouditera/data/rag_data/es
                     sudo chmod -R 755 /var/lib/clouditera/data
                     
                     echo -e "${GREEN}安全清理完成！${NC}"
@@ -216,12 +215,11 @@ main() {
                         sudo rm -rf /var/lib/clouditera/data/*
                         
                         echo "3. 重新创建目录结构..."
-                        sudo mkdir -p /var/lib/clouditera/data/{es/{data,plugins},mysql/{data,logs},redis/data,mongo/data,postgres/data,minio/data,qdrant/data}
+                        sudo mkdir -p /var/lib/clouditera/data/{es,rag_data/es/data,rag_data/es/plugins}
                         
                         echo "4. 设置目录权限..."
                         sudo chown -R 1000:1000 /var/lib/clouditera/data/es
-                        sudo chown -R 999:999 /var/lib/clouditera/data/{mysql,redis,mongo,postgres}
-                        sudo chown -R 1000:1000 /var/lib/clouditera/data/{minio,qdrant}
+                        sudo chown -R 1000:1000 /var/lib/clouditera/data/rag_data/es
                         sudo chmod -R 755 /var/lib/clouditera/data
                         
                         echo -e "${GREEN}完全清理完成！${NC}"

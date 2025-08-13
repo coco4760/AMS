@@ -1,0 +1,20 @@
+=========================================
+部署脚本启动时间: Wed Aug 13 18:19:13 UTC 2025
+=========================================
+[0;32m[SUCCESS][0m Docker服务检查通过
+[0;32m[SUCCESS][0m Docker Compose检查通过
+[0;32m[SUCCESS][0m 脚本目录检查通过
+[0;32m[SUCCESS][0m 脚本文件检查通过: start-support-services.sh
+[0;32m[SUCCESS][0m 脚本文件检查通过: start-ai-brain.sh
+[0;32m[SUCCESS][0m 脚本文件检查通过: start-services.sh
+[0;32m[SUCCESS][0m 存储服务启动成功
+[0;34m[INFO][0m 等待存储服务稳定运行...
+[0;32m[SUCCESS][0m 基础服务启动成功
+[0;34m[INFO][0m 等待基础服务稳定运行...
+[0;32m[SUCCESS][0m 插件服务启动成功
+[0;34m[INFO][0m 等待插件服务稳定运行...
+[0;32m[SUCCESS][0m AI Brain服务启动成功
+[0;34m[INFO][0m 等待AI Brain服务稳定运行...
+[0;32m[SUCCESS][0m 业务服务启动成功
+[0;32m[SUCCESS][0m 成功启动的服务 (5): 存储服务 基础服务 插件服务 AI Brain服务 业务服务
+[0;32m[SUCCESS][0m 🎉 所有服务启动完成！

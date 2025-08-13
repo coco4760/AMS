@@ -80,6 +80,9 @@ start_service() {
     local service_name="$2"
     local compose_file="$3"
     
+    # 使用全局等待时间变量，如果没有设置则使用默认值
+    local default_wait_time=${SERVICE_WAIT_TIME:-8}
+    
     print_info "正在启动服务: $service_name"
     
     cd "$service_dir"
@@ -96,12 +99,44 @@ start_service() {
     if $compose_cmd -f "$compose_file" up -d; then
         print_success "服务 $service_name 启动成功"
         
-        # 等待服务启动
-        sleep 3
+        # 根据服务类型调整等待时间
+        local wait_time=$default_wait_time
+        case $service_name in
+            "kong"|"nacos"|"rabbitmq")
+                wait_time=$((default_wait_time + 7))  # 关键基础服务需要更长时间
+                print_info "等待 $wait_time 秒让 $service_name 完全启动..."
+                ;;
+            *)
+                print_info "等待 $wait_time 秒让 $service_name 启动..."
+                ;;
+        esac
+        
+        sleep $wait_time
         
         # 检查服务状态
         if $compose_cmd -f "$compose_file" ps | grep -q "Up"; then
             print_success "服务 $service_name 运行正常"
+            
+            # 对于有健康检查的服务，等待健康检查通过
+            if [ "$service_name" = "kong" ]; then
+                print_info "等待 Kong 健康检查通过..."
+                local health_check_attempts=0
+                local max_attempts=10
+                
+                while [ $health_check_attempts -lt $max_attempts ]; do
+                    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "kong.*healthy"; then
+                        print_success "Kong 健康检查通过"
+                        break
+                    fi
+                    print_info "等待 Kong 健康检查... (尝试 $((health_check_attempts + 1))/$max_attempts)"
+                    sleep 3
+                    health_check_attempts=$((health_check_attempts + 1))
+                done
+                
+                if [ $health_check_attempts -eq $max_attempts ]; then
+                    print_warning "Kong 健康检查超时，但服务已启动"
+                fi
+            fi
         else
             print_warning "服务 $service_name 可能未完全启动"
         fi
@@ -148,9 +183,21 @@ show_service_status() {
     cd - >/dev/null
 }
 
+# 显示启动配置
+show_startup_config() {
+    print_info "启动配置信息:"
+    print_info "  服务等待时间: ${SERVICE_WAIT_TIME:-8} 秒"
+    print_info "  失败时继续执行: $CONTINUE_ON_FAILURE"
+    print_info "  详细输出: $verbose"
+    echo ""
+}
+
 # 主启动函数
 start_all_services() {
     print_header "开始启动Support服务"
+    
+    # 显示启动配置
+    show_startup_config
     
     # 定义服务启动顺序（基础服务优先）
     local services=(
@@ -162,7 +209,9 @@ start_all_services() {
         "collabnet:collabnet:docker-compose.yml"
         "mineru:mineru:docker-compose.yml"
         "node_manager:node_manager:docker-compose.yml"
-        "rag-server:rag-server:docker-compose.yml"
+        "mineru_cpu:mineru_cpu:docker-compose.yml"
+        "rag_service:rag_service:docker-compose.yml"
+        "ragflow:ragflow:docker-compose.yml"
     )
     
     local failed_services=()
@@ -199,6 +248,12 @@ start_all_services() {
         else
             print_warning "服务目录 $service_dir 不存在"
             skipped_services+=("$service_name")
+        fi
+        
+        # 在服务之间添加短暂延迟，确保前一个服务完全启动
+        if [ "$service_name" != "ragflow" ]; then  # 最后一个服务不需要等待
+            print_info "等待 3 秒后启动下一个服务..."
+            sleep 3
         fi
         
         echo ""
@@ -245,7 +300,9 @@ stop_all_services() {
     print_header "停止所有Support服务"
     
     local services=(
-        "rag-server:rag-server:docker-compose.yml"
+        "mineru_cpu:mineru_cpu:docker-compose.yml"
+        "rag_service:rag_service:docker-compose.yml"
+        "ragflow:ragflow:docker-compose.yml"
         "node_manager:node_manager:docker-compose.yml"
         "mineru:mineru:docker-compose.yml"
         "collabnet:collabnet:docker-compose.yml"
@@ -272,7 +329,7 @@ stop_all_services() {
 restart_all_services() {
     print_header "重启所有Support服务"
     stop_all_services
-    sleep 5
+    sleep 8  # 增加等待时间，确保服务完全停止
     start_all_services
 }
 
@@ -289,7 +346,9 @@ show_all_services_status() {
         "collabnet:collabnet:docker-compose.yml"
         "mineru:mineru:docker-compose.yml"
         "node_manager:node_manager:docker-compose.yml"
-        "rag-server:rag-server:docker-compose.yml"
+        "mineru_cpu:mineru_cpu:docker-compose.yml"
+        "rag_service:rag_service:docker-compose.yml"
+        "ragflow:ragflow:docker-compose.yml"
     )
     
     for service_info in "${services[@]}"; do
@@ -328,14 +387,17 @@ show_successful_services_status() {
             "collabnet")
                 show_service_status "$SUPPORT_DIR/collabnet" "$service_name" "docker-compose.yml"
                 ;;
-            "mineru")
-                show_service_status "$SUPPORT_DIR/mineru" "$service_name" "docker-compose.yml"
-                ;;
             "node_manager")
                 show_service_status "$SUPPORT_DIR/node_manager" "$service_name" "docker-compose.yml"
                 ;;
-            "rag-server")
-                show_service_status "$SUPPORT_DIR/rag-server" "$service_name" "docker-compose.yml"
+            "mineru_cpu")
+                show_service_status "$SUPPORT_DIR/mineru_cpu" "$service_name" "docker-compose.yml"
+                ;;
+            "rag_service")
+                show_service_status "$SUPPORT_DIR/rag_server" "$service_name" "docker-compose.yml"
+                ;;
+            "ragflow")
+                show_service_status "$SUPPORT_DIR/ragflow" "$service_name" "docker-compose.yml"
                 ;;
         esac
         echo ""
@@ -369,10 +431,12 @@ Support服务管理脚本
   --no-log    不记录日志到文件
   --verbose   详细输出
   --continue-on-failure  启动失败时继续执行，不退出
+  --wait-time <秒数>  设置服务启动等待时间（默认8秒）
 
 示例:
   $0 start                    # 启动所有服务
   $0 start --continue-on-failure  # 启动失败时继续执行
+  $0 start --wait-time 10    # 设置等待时间为10秒
   $0 stop                     # 停止所有服务
   $0 status                   # 查看服务状态
   $0 restart                  # 重启所有服务
@@ -406,6 +470,16 @@ main() {
                 CONTINUE_ON_FAILURE="true"
                 print_info "启用失败时继续执行模式"
                 shift
+                ;;
+            --wait-time)
+                if [[ $# -gt 1 && $2 =~ ^[0-9]+$ ]]; then
+                    SERVICE_WAIT_TIME="$2"
+                    print_info "设置服务启动等待时间为 $SERVICE_WAIT_TIME 秒"
+                    shift 2
+                else
+                    print_error "--wait-time 需要指定一个数字"
+                    exit 1
+                fi
                 ;;
             -h|--help)
                 show_help

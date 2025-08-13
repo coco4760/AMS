@@ -79,7 +79,7 @@ prepare_data_directories() {
     fi
     
     # 创建各个服务的子目录
-    local services=("es" "mysql" "redis" "mongo" "postgres" "minio" "qdrant")
+    local services=(es rag_data rag_data/es/data rag_data/es/plugins)
     
     for service in "${services[@]}"; do
         local service_dir="$data_root/$service"
@@ -98,7 +98,7 @@ prepare_data_directories() {
                     sudo mkdir -p "$service_dir/plugins"
                 fi
                 ;;
-            "mysql")
+            "rag_data")
                 if [[ ! -d "$service_dir/data" ]]; then
                     sudo mkdir -p "$service_dir/data"
                 fi
@@ -106,42 +106,13 @@ prepare_data_directories() {
                     sudo mkdir -p "$service_dir/logs"
                 fi
                 ;;
-            "redis")
-                if [[ ! -d "$service_dir/data" ]]; then
-                    sudo mkdir -p "$service_dir/data"
-                fi
-                ;;
-            "mongo")
-                if [[ ! -d "$service_dir/data" ]]; then
-                    sudo mkdir -p "$service_dir/data"
-                fi
-                ;;
-            "postgres")
-                if [[ ! -d "$service_dir/data" ]]; then
-                    sudo mkdir -p "$service_dir/data"
-                fi
-                ;;
-            "minio")
-                if [[ ! -d "$service_dir/data" ]]; then
-                    sudo mkdir -p "$service_dir/data"
-                fi
-                ;;
-            "qdrant")
-                if [[ ! -d "$service_dir/data" ]]; then
-                    sudo mkdir -p "$service_dir/data"
-                fi
-                ;;
         esac
     done
     
     # 设置目录权限
     log "设置目录权限..."
-    sudo chown -R 1000:1000 "$data_root/es" 2>/dev/null || true
-    sudo chown -R 999:999 "$data_root/mysql" 2>/dev/null || true
-    sudo chown -R 999:999 "$data_root/redis" 2>/dev/null || true
-    sudo chown -R 999:999 "$data_root/mongo" 2>/dev/null || true
-    sudo chown -R 999:999 "$data_root/postgres" 2>/dev/null || true
-    sudo chown -R 1000:1000 "$data_root/qdrant" 2>/dev/null || true
+    sudo chown -R 1000:1000 "$data_root/es" || true
+    sudo chown -R 1000:1000 "$data_root/rag_data/es" 2>/dev/null || true
     
     # 设置目录权限
     sudo chmod -R 755 "$data_root"

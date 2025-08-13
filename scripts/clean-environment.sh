@@ -89,7 +89,7 @@ show_cleanup_preview() {
     echo -e "${BLUE}🗑️  清理操作将执行:${NC}"
     echo -e "   1. 停止所有运行中的容器"
     echo -e "   2. 删除所有容器（包括已停止的）"
-    echo -e "   3. 删除所有Docker镜像"
+    echo -e "   3. 删除所有Docker镜像（可选）"
     echo -e "   4. 删除数据目录: $DATA_DIR"
     echo -e "   5. 清理Docker系统（可选）"
     echo ""
@@ -175,13 +175,24 @@ remove_data_directory() {
 
 # 清理Docker系统
 cleanup_docker_system() {
+    local no_images=$1
     print_info "清理Docker系统..."
     
-    # 清理未使用的数据
-    if docker system prune -af --volumes 2>/dev/null; then
-        print_success "Docker系统清理完成"
+    # 根据no_images参数决定是否删除镜像
+    if [ "$no_images" = "true" ]; then
+        print_info "跳过镜像清理（--no-images），仅清理其他未使用数据"
+        if docker system prune -af --volumes --filter "type=container" --filter "type=network" --filter "type=volume" 2>/dev/null; then
+            print_success "Docker系统清理完成（跳过镜像）"
+        else
+            print_warning "Docker系统清理失败"
+        fi
     else
-        print_warning "Docker系统清理失败"
+        # 清理未使用的数据（包括镜像）
+        if docker system prune -af --volumes 2>/dev/null; then
+            print_success "Docker系统清理完成"
+        else
+            print_warning "Docker系统清理失败"
+        fi
     fi
 }
 
@@ -253,6 +264,7 @@ show_help() {
 选项:
   --preview-only    仅显示清理预览，不执行清理
   --no-data-dir     不删除数据目录
+  --no-images       不删除Docker镜像
   --no-docker-clean 不清理Docker系统
   --force           跳过确认提示
   --help            显示此帮助信息
@@ -273,6 +285,8 @@ show_help() {
   $0 --force           # 强制清理（跳过确认）
   $0 --preview-only    # 仅显示清理预览
   $0 --no-data-dir     # 不删除数据目录
+  $0 --no-images       # 不删除Docker镜像
+  $0 --no-images --no-data-dir  # 不删除镜像和数据目录
 
 EOF
 }
@@ -282,6 +296,7 @@ main() {
     local preview_only=false
     local no_data_dir=false
     local no_docker_clean=false
+    local no_images=false
     local force=false
     
     # 解析命令行参数
@@ -297,6 +312,10 @@ main() {
                 ;;
             --no-docker-clean)
                 no_docker_clean=true
+                shift
+                ;;
+            --no-images)
+                no_images=true
                 shift
                 ;;
             --force)
@@ -348,14 +367,19 @@ main() {
     # 执行清理步骤
     stop_all_containers
     remove_all_containers
-    remove_all_images
+    
+    if [ "$no_images" != "true" ]; then
+        remove_all_images
+    else
+        print_info "跳过镜像清理（--no-images）"
+    fi
     
     if [ "$no_data_dir" != "true" ]; then
         remove_data_directory
     fi
     
     if [ "$no_docker_clean" != "true" ]; then
-        cleanup_docker_system
+        cleanup_docker_system "$no_images"
         cleanup_networks
         cleanup_volumes
     fi

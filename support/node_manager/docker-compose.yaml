@@ -10,7 +10,7 @@ services:
     network_mode: "host"
     environment:
       - DOCKER_MODE=true
-      - SCHED_SERVER=192.168.31.26
+      - SCHED_SERVER=192.168.31.92
       - FIRST_PARTY=true
       - CACHE_DIR=/cache
     volumes:

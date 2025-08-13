@@ -1,0 +1,6 @@
+services:
+  mineru:
+    image: rd.clouditera.com/aigc/mineru:v1.3.12-cpu
+    restart: always
+    ports:
+      - "48000:8000"
