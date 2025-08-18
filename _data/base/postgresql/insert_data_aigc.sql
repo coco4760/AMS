@@ -1,5 +1,5 @@
 INSERT INTO public.accounts (id,"name",email,"password",password_salt,avatar,interface_language,interface_theme,timezone,last_login_at,last_login_ip,status,initialized_at,created_at,updated_at,last_active_at) VALUES
-	 ('8b3128aa-cf5a-47c7-be68-fee8bcec51f7'::uuid,'admin','admin@clouditera.com','ZWEzZjZkY2Q5YWM2OGExOGQ3ZmYxNDU0NzdjODUxOTYwN2QwNTZhOTkxMGFhZWY4Y2Q1MjgyMTcyMTJiMGM1ZA==','NvP+wJ/GG+inEpsUlzC8Yg==',NULL,'en-US','light','America/New_York','2025-08-18 06:03:14.74237','192.168.35.34','active','2025-08-18 06:03:10.962781','2025-08-18 06:03:11','2025-08-18 06:03:11','2025-08-18 06:03:11');
+	 ('8b3128aa-cf5a-47c7-be68-fee8bcec51f7'::uuid,'admin','admin@clouditera.com','ZWEzZjZkY2Q5YWM2OGExOGQ3ZmYxNDU0NzdjODUxOTYwN2QwNTZhOTkxMGFhZWY4Y2Q1MjgyMTcyMTJiMGM1ZA==','NvP+wJ/GG+inEpsUlzC8Yg==',NULL,'en-US','light','America/New_York','2025-08-18 06:03:14.74237','192.168.35.34','active','2025-08-18 06:03:10.962781','2025-08-18 06:03:11','2025-08-18 06:03:11','2025-08-18 09:41:03.052276');
 INSERT INTO public.alembic_version (version_num) VALUES
 	 ('6a9f914f656c');
 INSERT INTO public.dify_setups ("version",setup_at) VALUES
@@ -16,3 +16,5 @@ mtSEbM7v0cAwhB2Ed2n34ULj3WdZt+Wug1v71bUkDr/MDx8Qf7ChzIUqgdet+J+I
 3DO7zkgnHeINJkF+A2E7IORqw3xsX79Yb3pgSEFxIzfr8I7bdSn4T90zzRZDloWC
 AwIDAQAB
 -----END PUBLIC KEY-----','basic','normal','2025-08-18 06:03:11','2025-08-18 06:03:11',NULL);
+INSERT INTO public.tool_builtin_providers (id,tenant_id,user_id,provider,encrypted_credentials,created_at,updated_at) VALUES
+	 ('be51dd48-8b87-4733-8ead-031e69ab0ea6'::uuid,'5a1eb0a8-9ccf-4a4a-9101-7d6273ee5bb3'::uuid,'8b3128aa-cf5a-47c7-be68-fee8bcec51f7'::uuid,'junjiem/mcp_sse/mcp_sse','{"servers_config": "{     \"mcpServers\":     {         \"nmap_tool\":         {             \"url\": \"http://192.168.31.92:18089/sse\",             \"transport\": \"sse\",         \t\"timeout\": 3600,         \t\"sse_read_timeout\": 3600         }     } }"}','2025-08-18 09:42:21','2025-08-18 09:42:21');

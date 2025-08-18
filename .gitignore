@@ -5,7 +5,6 @@ support/rag_service/postgres-data/*
 plugins/defect_judgement/data/postgres/*
 plugins/defect_judgement/data/backend/*
 ai_brain/app
-ai_brain/plugin_daemon
 ai_brain/sandbox
 HELP.md
 .gradle

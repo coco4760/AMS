@@ -8,6 +8,7 @@ services:
       MODE: api
     volumes:
       - ${INSTALL_LOCAL}/ai_brain/app/storage:/app/api/storage
+      - ./privkeys:/app/api/storage/privkeys
     ports:
       - "15001:5001"
     depends_on:
@@ -73,7 +74,7 @@ services:
       - "15004:5002"
       - "15003:5003"
     volumes:
-      - ${INSTALL_LOCAL}/ai_brain/plugin_daemon:/app/storage
+      - ./plugin_daemon:/app/storage
 
   nginx:
     image: rd.clouditera.com/infra/nginx:latest
