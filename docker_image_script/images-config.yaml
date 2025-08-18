@@ -45,7 +45,7 @@ categories:
     description: "无极后台接口服务"
     images:
       - name: "rd.clouditera.com/aigc/client-http-api"
-        tags: ["v3.8.48"]
+        tags: ["v3.8.49"]
 
   
   services_web_main:
