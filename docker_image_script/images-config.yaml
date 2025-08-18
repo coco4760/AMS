@@ -16,7 +16,7 @@ categories:
     description: "核心AI智能体应用服务"
     images:
       - name: "rd.clouditera.com/aigc/ai-intelligence-api"
-        tags: ["v6.3.1.post6"]
+        tags: ["v6.3.1.post7"]
       - name: "rd.clouditera.com/aigc/ai-intelligence-web"
         tags: ["v6.3.1"]
       - name: "rd.clouditera.com/aigc/ai-intelligence-sandbox"
@@ -26,22 +26,46 @@ categories:
       - name: "rd.clouditera.com/infra/nginx"
         tags: ["latest"]
 
-  services:
-    name: "业务服务"
-    description: "主要业务逻辑服务 web版本: 主线：v3.3.87  冀北：v3.3.88  国网：v3.3.84"
+  services_sast:
+    name: "代码安全接口服务"
+    description: "代码安全接口服务"
     images:
       - name: "rd.clouditera.com/aigc/sast-http-api"
         tags: ["v5.2.34"]
-      - name: "rd.clouditera.com/aigc/client-http-api"
-        tags: ["v3.8.46"]
+  
+  services_auth:
+    name: "认证服务"
+    description: "认证服务"
+    images:
       - name: "rd.clouditera.com/aigc/auth-http-api"
         tags: ["v1.5.6"]
+
+  services_wuji:
+    name: "无极后台接口服务"
+    description: "无极后台接口服务"
+    images:
+      - name: "rd.clouditera.com/aigc/client-http-api"
+        tags: ["v3.8.48"]
+
+  
+  services_web_main:
+    name: "主分支页面"
+    description: "主分支页面"
+    images:
       - name: "rd.clouditera.com/aigc/client-web"
-        tags: ["v3.3.87"]
+        tags: ["v3.3.89"]
+  services_web_jibei:
+    name: "主分支页面"
+    description: "主分支页面"
+    images:
       - name: "rd.clouditera.com/aigc/client-web"
-        tags: ["v3.3.88"]
+        tags: ["v3.3.90"]
+  services_web_guowang:
+    name: "国网web"
+    description: "国网web"
+    images:
       - name: "rd.clouditera.com/aigc/client-web"
-        tags: ["v3.3.84"]
+        tags: ["v3.3.92"]
 
   asset_judgment:
     name: "资产研判"
@@ -256,7 +280,7 @@ environments:
   dev:
     description: "开发环境"
     tag_suffix: "dev"
-    required_categories: ["mineru_cpu"]
+    required_categories: ["services_web_guowang", "services_auth"]
     
   test:
     description: "测试环境"
