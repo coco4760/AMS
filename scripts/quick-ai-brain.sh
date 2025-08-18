@@ -55,16 +55,16 @@ if [ ! -f "$AI_BRAIN_DIR/base.env" ]; then
 fi
 
 # 设置环境变量
-if [ -z "$INSTALL_LOCAL" ]; then
-    export INSTALL_LOCAL="$PROJECT_ROOT"
-    echo -e "${BLUE}📋 设置 INSTALL_LOCAL: $INSTALL_LOCAL${NC}"
-fi
+# if [ -z "$INSTALL_LOCAL" ]; then
+#     export INSTALL_LOCAL="$PROJECT_ROOT"
+#     echo -e "${BLUE}📋 设置 INSTALL_LOCAL: $INSTALL_LOCAL${NC}"
+# fi
 
-# 创建必要的目录
-echo -e "${BLUE}📁 检查并创建必要的目录...${NC}"
-mkdir -p "$INSTALL_LOCAL/ai_brain/app/storage"
-mkdir -p "$INSTALL_LOCAL/ai_brain/sandbox/dependencies"
-mkdir -p "$INSTALL_LOCAL/ai_brain/plugin_daemon"
+# # 创建必要的目录
+# echo -e "${BLUE}📁 检查并创建必要的目录...${NC}"
+# mkdir -p "$INSTALL_LOCAL/ai_brain/app/storage"
+# mkdir -p "$INSTALL_LOCAL/ai_brain/sandbox/dependencies"
+# mkdir -p "$INSTALL_LOCAL/ai_brain/plugin_daemon"
 
 # 启动服务
 echo -e "${GREEN}📦 启动AI Brain服务...${NC}"
