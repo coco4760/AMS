@@ -37,21 +37,6 @@ CREATE TABLE `AGENT` (
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
--- clouditera_aigc.AGENT_LINK definition
-
-CREATE TABLE `AGENT_LINK` (
-  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键',
-  `AGENT_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '智能体id',
-  `LINK_ADDRESS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '飞书链接',
-  `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
-  `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
-  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='智能体-飞书链接表';
-
-
 -- clouditera_aigc.AGENT_MODEL definition
 
 CREATE TABLE `AGENT_MODEL` (
@@ -696,25 +681,6 @@ CREATE TABLE `KNOWLEDGE_INFORMATION` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `BUG_SIGN` (`BUG_SIGN`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-
--- clouditera_aigc.LOGIN_INFO definition
-
-CREATE TABLE `LOGIN_INFO` (
-  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键',
-  `USER_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID',
-  `WE_CHART_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '微信ID',
-  `EMAIL` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `IP_ADDRESS` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP地址',
-  `METHOD` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '同意方式',
-  `TYPE` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型，1-注册，2-登录',
-  `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
-  `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
-  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='登录信息表';
-
 
 -- clouditera_aigc.MESSAGE_RETRIEVER definition
 
