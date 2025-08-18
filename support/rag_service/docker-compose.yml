@@ -10,10 +10,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    environment:
-      - POSTGRES_SERVER=rag_service_postgres
-      - REDIS_SERVER=rag_service_redis
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     env_file:
       - .env
     depends_on:
@@ -36,9 +32,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-      - REDIS_SERVER=rag_service_redis
-      - POSTGRES_SERVER=rag_service_postgres
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     depends_on:
       - rag_service_postgres
       - rag_service_redis
@@ -59,9 +52,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-      - REDIS_SERVER=rag_service_redis
-      - POSTGRES_SERVER=rag_service_postgres
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     depends_on:
       - rag_service_postgres
       - rag_service_redis
@@ -82,9 +72,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-      - REDIS_SERVER=rag_service_redis
-      - POSTGRES_SERVER=rag_service_postgres
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     depends_on:
       - rag_service_postgres
       - rag_service_redis
@@ -105,9 +92,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-      - REDIS_SERVER=rag_service_redis
-      - POSTGRES_SERVER=rag_service_postgres
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     depends_on:
       - rag_service_postgres
       - rag_service_redis
@@ -123,9 +107,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-      - REDIS_SERVER=rag_service_redis
-      - POSTGRES_SERVER=rag_service_postgres
-      - VECTOR_STORE_SERVER_HOST=rag_service_postgres
     depends_on:
       - rag_service_postgres
       - rag_service_redis
