@@ -29,6 +29,7 @@ services:
       MODE: worker
     volumes:
       - ${INSTALL_LOCAL}/ai_brain/app/storage:/app/api/storage
+      - ./privkeys:/app/api/storage/privkeys
     extra_hosts:
       - "xinference-service:${XINFERENCE_SERVICE}"
       - "ai-plugin:${AI_PLUGIN}"
