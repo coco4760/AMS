@@ -6,8 +6,6 @@ plugins/defect_judgement/data/postgres/*
 plugins/defect_judgement/data/backend/*
 ai_brain/app
 ai_brain/sandbox
-ai_brain/plugin_daemon/cwd/junjiem/*
-ai_brain/plugin_daemon/cwd/langgenius/*
 HELP.md
 .gradle
 build/
