@@ -10,21 +10,6 @@ services:
     ports:
       - "26379:6379"
 
-  mysql-rag:
-    image: rd.clouditera.com/sca-sast-lib/library/mysql:8.0.34
-    restart: always
-    command: ["--character-set-server=utf8mb4"]
-    environment:
-      TIMEZONE: "Asia/Shanghai"
-      TZ: Asia/Shanghai
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: "rag_flow"
-    ports:
-      - "23306:3306"
-    volumes:
-      - ${INSTALL_LOCAL}/rag_data/mysql:/var/lib/mysql
-      - ${INSTALL_LOCAL}/rag_data/mysql.cnf:/etc/mysql/my.cnf
-
   storage-rag:
     image: rd.clouditera.com/infra/minio:RELEASE.2023-08-16T20-17-30Z
     restart: always
@@ -57,7 +42,6 @@ services:
   ragflow:
     image: rd.clouditera.com/aigc/ai-intelligence-rag:${RAG_VERSION}
     depends_on:
-      - mysql-rag
       - storage-rag
       - elasticsearch-rag
       - redis-rag
@@ -66,7 +50,6 @@ services:
     ports:
       - 9380:9380
       - 18082:80
-        #  - 443:443
     volumes:
       - ./nginx:/etc/nginx
       - ./deepdoc:/ragflow/rag/res/deepdoc
@@ -75,5 +58,5 @@ services:
     environment:
       - TZ=${TIMEZONE}
       - HF_ENDPOINT=https://huggingface.co
-      - MACOS=${MACOS}
+      # - MACOS=${MACOS}
     restart: always
