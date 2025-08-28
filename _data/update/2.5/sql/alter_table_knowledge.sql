@@ -1,0 +1,12 @@
+-- 安全智库新增定时任务表
+CREATE TABLE `KNOWLEDGE_BASE_SCHEDULED_CONFIG` (
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `ENABLED` tinyint DEFAULT NULL COMMENT '是否启用',
+  `LAST_TIME` datetime(6) DEFAULT NULL COMMENT '上一次执行时间',
+  `INTERVAL_SECONDS` bigint DEFAULT NULL COMMENT '间隔时间(秒)',
+  `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全智库-定时任务配置表';

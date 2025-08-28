@@ -1,0 +1,370 @@
+app:
+  description: 论文检索RagSearch
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 【安全论文检索】RagSearch-20250822
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1750672741748-source-1752221136719-target
+      selected: false
+      source: '1750672741748'
+      sourceHandle: source
+      target: '1752221136719'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: http-request
+      id: 1752221136719-source-1750672941801-target
+      source: '1752221136719'
+      sourceHandle: source
+      target: '1750672941801'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: end
+      id: 1750672941801-source-1750673067754-target
+      source: '1750672941801'
+      sourceHandle: source
+      target: '1750673067754'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: query
+          max_length: 256
+          options: []
+          required: true
+          type: text-input
+          variable: query
+        - label: top_k
+          max_length: 48
+          options: []
+          required: false
+          type: number
+          variable: top_k
+        - label: similarity_threshold
+          max_length: 48
+          options: []
+          required: false
+          type: number
+          variable: similarity_threshold
+        - label: vector_similarity_weight
+          max_length: 48
+          options: []
+          required: true
+          type: number
+          variable: vector_similarity_weight
+        - label: rerank_id
+          max_length: 48
+          options:
+          - 42d343a33d4249da9c0f060e6ba3e6d4
+          - c2cdb233e77545d3b26b4a07bf23451f
+          - 4dde1009db0841d5a0d78e76e21b4c5a
+          - 729a8bec7ced473180d16dc036c17431
+          required: false
+          type: select
+          variable: rerank_id
+        - label: page
+          max_length: 48
+          options: []
+          required: false
+          type: number
+          variable: page
+        - label: page_size
+          max_length: 48
+          options: []
+          required: false
+          type: number
+          variable: page_size
+        - label: batch_size
+          max_length: 48
+          options: []
+          required: false
+          type: number
+          variable: batch_size
+        - label: filters
+          max_length: 256
+          options: []
+          required: false
+          type: text-input
+          variable: filters
+      height: 297
+      id: '1750672741748'
+      position:
+        x: 30
+        y: 348.5
+      positionAbsolute:
+        x: 30
+        y: 348.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        authorization:
+          config:
+            api_key: 53833e564203427da636fdb8efbc2a75
+            header: X-API-Key
+            type: custom
+          type: api-key
+        body:
+          data:
+          - id: key-value-3934
+            key: ''
+            type: text
+            value: '{
+
+              "query":"{{#1750672741748.query#}}",
+
+              "dataset_ids":["98fa0a6d268346e09177ac7e4ad8f799"],
+
+              "top_k":{{#1752221136719.top_k#}},
+
+              "similarity_threshold":{{#1752221136719.similarity_threshold#}},
+
+              "vector_similarity_weight":{{#1752221136719.vector_similarity_weight#}},
+
+              "rerank_id":"{{#1750672741748.rerank_id#}}",
+
+              "page":{{#1752221136719.page#}},
+
+              "page_size":{{#1752221136719.page_size#}},
+
+              "batch_size":{{#1752221136719.batch_size#}},
+
+              "filters": [{{#1750672741748.filters#}}]
+
+              }'
+          type: json
+        desc: ''
+        headers: 'accept:application/json, text/plain, */*
+
+          accept-language:zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6,zh-TW;q=0.5,ja;q=0.4
+
+          authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTQ3MjM1MDcsInN1YiI6IjE5In0.wSWTtJE7sWtQP3TtzFngoKLFw8ZbDchZYGre4StGPCs
+
+          content-type:application/json
+
+          origin:https://rag.clouditera.com
+
+          priority:u=1, i
+
+          referer:https://rag.clouditera.com/search
+
+          sec-ch-ua:"Microsoft Edge";v="137", "Chromium";v="137", "Not/A)Brand";v="24"
+
+          sec-ch-ua-mobile:?0
+
+          sec-ch-ua-platform:"macOS"
+
+          sec-fetch-dest:empty
+
+          sec-fetch-mode:cors
+
+          sec-fetch-site:same-origin
+
+          user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+          (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: true
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 知识检索
+        type: http-request
+        url: https://rag.clouditera.com/api/v1/search
+        variables: []
+      height: 138
+      id: '1750672941801'
+      position:
+        x: 636
+        y: 348.5
+      positionAbsolute:
+        x: 636
+        y: 348.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1750672941801'
+          - body
+          variable: body
+        selected: false
+        title: 结束
+        type: end
+      height: 89
+      id: '1750673067754'
+      position:
+        x: 939
+        y: 348.5
+      positionAbsolute:
+        x: 939
+        y: 348.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def get_numeric_value(value, default):\n  \"\"\"If value is not None,\
+          \ return value, otherwise return default.\"\"\"\n  return value if value\
+          \ is not None else default\n\ndef get_value(value, default):\n  \"\"\"If\
+          \ value has content, return value, otherwise return default.\"\"\"\n  return\
+          \ value if value else default\n\ndef main(top_k, similarity_threshold, vector_similarity_weight,\
+          \ page, page_size, batch_size) -> dict:\n    \"\"\"\n    Processes input\
+          \ parameters, applying defaults for any None values,\n    and returns them\
+          \ in a dictionary.\n    \"\"\"\n    # All parameters are numeric, so we\
+          \ use get_numeric_value for all of them\n    # to correctly handle cases\
+          \ where the input is 0.\n    return {\n      \"top_k\": get_numeric_value(top_k,\
+          \ 100),\n      \"similarity_threshold\": get_numeric_value(similarity_threshold,\
+          \ 0.2),\n      \"vector_similarity_weight\": get_numeric_value(vector_similarity_weight,\
+          \ 0.7),\n      \"page\": get_numeric_value(page, 1),\n      \"page_size\"\
+          : get_numeric_value(page_size, 100),\n      \"batch_size\": get_numeric_value(batch_size,\
+          \ 0),\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          batch_size:
+            children: null
+            type: number
+          page:
+            children: null
+            type: number
+          page_size:
+            children: null
+            type: number
+          similarity_threshold:
+            children: null
+            type: number
+          top_k:
+            children: null
+            type: number
+          vector_similarity_weight:
+            children: null
+            type: number
+        selected: false
+        title: 处理输入参数
+        type: code
+        variables:
+        - value_selector:
+          - '1750672741748'
+          - top_k
+          variable: top_k
+        - value_selector:
+          - '1750672741748'
+          - similarity_threshold
+          variable: similarity_threshold
+        - value_selector:
+          - '1750672741748'
+          - vector_similarity_weight
+          variable: vector_similarity_weight
+        - value_selector:
+          - '1750672741748'
+          - page
+          variable: page
+        - value_selector:
+          - '1750672741748'
+          - page_size
+          variable: page_size
+        - value_selector:
+          - '1750672741748'
+          - batch_size
+          variable: batch_size
+      height: 53
+      id: '1752221136719'
+      position:
+        x: 333
+        y: 348.5
+      positionAbsolute:
+        x: 333
+        y: 348.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 303.65000000000003
+      y: 171.9000000000001
+      zoom: 0.7

@@ -1,0 +1,43 @@
+-- AGENT表新增安全论文检索智能体数据
+INSERT INTO `clouditera_aigc`.`AGENT` (`ID`, `AGENT_NAME`, `WORKFLOW_NAME`, `AGENT_TYPE`, `TAG`, `PROMPT`, `APP_ID`, `FLAG`, `SORT`, `SHORTCUT`, `KL_STATUS`, `KEY`, `CREATED_TIME`, `CREATED_BY`, `UPDATED_TIME`, `UPDATED_BY`, `MODE_TYPE`, `CONFIG`, `VERSION`, `STATUS`, `TYPE`, `COUNT_TOKENS`, `COMMON_HOME`, `COMMON_CONVERSATION`, `COMMON_QUESTION`, `PARENT_ID`, `AGENT_METADATA`) VALUES ('24', '安全论文检索', '安全论文检索', 'PAPER_RETRIEVE', 'PAPER_RETRIEVE', NULL, '1f9632fd-9985-492c-9df6-f05c47e85a16', 1, 24, 0, 0, 'app-GDHvUXtlaVSaFvfYK2sdebO0', NULL, NULL, '2025-08-26 17:01:51', '2d8c6945-a3b4-43c1-9dcc-d21a4e780d99', 'CHAT_WORKFLOW', '{\"database\":[],\"llm\":[]}', '1.0', 'AGENT_ALPHA', 'KNOWLEDGE', 1, 1, 1, 0, NULL, 'null');
+
+INSERT INTO `clouditera_aigc`.`DATASETS` (`ID`, `AGENT_ID`, `DATASETS_ID`, `NAME`, `STATUS`, `ALL`, `SHOW`, `CREATED_TIME`, `CREATED_BY`, `UPDATED_TIME`, `UPDATED_BY`) VALUES ('24', '24', NULL, '安全论文检索', 0, 0, 1, '2024-04-17 09:52:29', 'admin', '2024-04-17 09:52:29', 'admin');
+
+UPDATE AGENT SET FLAG = 0 where id = "11"
+
+-- AGENT表新增字段
+ALTER TABLE `clouditera_aigc`.`AGENT` 
+ADD COLUMN `AGENT_METADATA` text NULL COMMENT '智能体元数据配置' AFTER `PARENT_ID`;
+
+UPDATE AGENT SET AGENT_METADATA = '{"agentHasDes":1,"desOnLine":0}' WHERE ID IN ('3','13','4')
+
+
+-- 论文检索新增顶会表
+CREATE TABLE `PAPER_JOURNAL_TYPE` (
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
+  `JOURNAL_COUNT` int DEFAULT NULL COMMENT '顶会数量',
+  `SORT` int DEFAULT NULL COMMENT '排序',
+  `START_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '开始时间',
+  `END_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '结束时间',
+  `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-期刊类型';
+
+
+-- 论文检索新增定时任务表
+CREATE TABLE `PAPER_SCHEDULED_CONFIG` (
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `ENABLED` tinyint DEFAULT NULL COMMENT '是否启用',
+  `LAST_TIME` datetime(6) DEFAULT NULL COMMENT '上一次执行时间',
+  `INTERVAL_SECONDS` bigint DEFAULT NULL COMMENT '间隔时间(秒)',
+  `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-定时任务配置表';
+

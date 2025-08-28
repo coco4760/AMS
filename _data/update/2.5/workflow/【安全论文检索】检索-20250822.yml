@@ -1,0 +1,824 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 【安全论文检索】检索-20250822
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: langgenius/xinference:0.0.4@db625fbb6b2f235adb820dd7dc3d98090f536e888c20150a0ba76ea47f50b178
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: llm
+      id: 1752218466687-llm
+      selected: false
+      source: '1752218466687'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: parameter-extractor
+      id: llm-source-1752550168163-target
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: '1752550168163'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1752550407947-source-answer-target
+      source: '1752550407947'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1752218466687-source-1755246789657-target
+      selected: false
+      source: '1752218466687'
+      sourceHandle: source
+      target: '1755246789657'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: parameter-extractor
+        targetType: tool
+      id: 1752550168163-source-1755679797978-target
+      source: '1752550168163'
+      sourceHandle: source
+      target: '1755679797978'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1755246789657-source-1755679797978-target
+      source: '1755246789657'
+      sourceHandle: source
+      target: '1755679797978'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1755679797978-source-1752550407947-target
+      source: '1755679797978'
+      sourceHandle: source
+      target: '1752550407947'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: query_type
+          max_length: 48
+          options: []
+          required: true
+          type: number
+          variable: query_type
+      height: 89
+      id: '1752218466687'
+      position:
+        x: -136.3492525618197
+        y: 282
+      positionAbsolute:
+        x: -136.3492525618197
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 4d252fd5-380b-4d67-8a9c-3654df0d2bbf
+          role: system
+          text: '输入：用户输入的问题
+
+            输出：保留语义的翻译、改写
+
+            {
+
+            "原始查询"（original_query）: "",//中文或英文
+
+            "翻译后的查询（英文）"（translated_query）: ""//
+
+            }'
+        selected: false
+        title: 查询词重写
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: llm
+      position:
+        x: 351.5606202368216
+        y: 282
+      positionAbsolute:
+        x: 351.5606202368216
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1752550407947.response#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 104
+      id: answer
+      position:
+        x: 1564
+        y: 282
+      positionAbsolute:
+        x: 1564
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        instruction: "System Prompt:\n你是一个专门用于研究论文检索系统（RAG）的专家级 AI 助手。你的任务是将用户的自然语言输入解析为一个结构化的\
+          \ JSON 对象。你必须识别用户查询中的核心搜索主题，并提取所有指定的元数据过滤条件。请特别注意输出格式，尤其是 filters 字段的格式要求。\
+          \ User‘s input is: {{#llm.text#}}\n\n1. 核心任务\n\n分析用户输入，将其主要的检索主题与具体的过滤条件分离。\n\
+          将主要的查询主题提取为 query 字符串，它应该是查询中概念性的部分（例如：“adversarial attacks on large language\
+          \ models”）。\n提取所有过滤条件，并根据下列规则格式化为 filters 字符串。\n\n2. 字段定义与提取规则\n\n你必须提取以下字段。如果某字段未在用户输入中提及，不要在\
+          \ filters 中包含它。\n\n2.1 JOURNAL_SOURCE_ABBREVIATION（会议来源简称）\n\n键名：“JOURNAL_SOURCE_ABBREVIATION”\n\
+          值类型：String（如：CCS, NDSS, USENIX_Security, SP, AAAI 等）\n提取逻辑：\n缩写/全称兼容：识别用户输入中的会议全称或简称，并始终转换为统一的会议简称。例如：\n\
+          “USENIX Security Symposium” → USENIX_Security\n“IEEE Symposium on Security\
+          \ and Privacy” → SP\n“AAAI Conference on Artificial Intelligence” → AAAI\n\
+          拼写修复：修正常见的拼写错误（例如：“CCSS” → “CCS”）\n组合情况：如果用户输入中包含会议名和年份（如 “CCS 23”），则生成两个过滤条件：一个是\
+          \ JOURNAL_SOURCE_ABBREVIATION，一个是 PUBLISH_TIME\n操作符：==\n\n\n2.2 PUBLISH_TIME（发表年份）\n\
+          \n键名：“PUBLISH_TIME”\n值类型：Integer\n提取逻辑：\n具体年份：如“2023年”，生成 {\"key\":\"PUBLISH_TIME\"\
+          ,\"value\":2023,\"operator\":\"==\"}\n时间范围：如“2022年到2024年”，生成两个过滤条件：\n{\"\
+          key\":\"PUBLISH_TIME\",\"value\":2022,\"operator\":\">=\"}\n{\"key\":\"\
+          PUBLISH_TIME\",\"value\":2024,\"operator\":\"<=\"}\n相对时间（当前时间为 2025年8月）：\n\
+          \n“近一年”：指从 2024 年开始，生成 {\"key\":\"PUBLISH_TIME\",\"value\":2024,\"operator\"\
+          :\">=\"}\n“今年”：指 2025 年，生成 {\"key\":\"PUBLISH_TIME\",\"value\":2025,\"operator\"\
+          :\"==\"}\n“最近几年”：默认指最近 3 年，生成 {\"key\":\"PUBLISH_TIME\",\"value\":2022,\"\
+          operator\":\">=\"}\n操作符：具体年份使用 ==，时间范围使用 >=、<= 等\n\n\n2.3 AUTHOR（作者）\n\n\
+          键名：“AUTHOR”\n值类型：String\n提取逻辑：提取一个或多个作者姓名。可识别全名、部分姓名（如 “Smith”）或缩写（如 “A.\
+          \ Smith”）。如提到多个作者，将其用英文逗号连接为一个字符串（如 \"Alex Halderman, Nadia Heninger\"）。\n\
+          操作符：text_match_insensitive\n\n\n2.4 PAPER_TYPE（论文类型）  \n\n- 键名：\"PAPER_TYPE\"\
+          \  \n- 值类型：String（允许值为：'1'、'2'、'3'、'4'，分别代表 Survey、Theory、Application、Dataset_Benchmark）\
+          \  \n- 提取逻辑：  \n  - 识别用户输入中提及的论文类型（无论是中文、英文、缩写还是错拼），并映射为以下四类之一：  \n    -\
+          \ '1': Survey（综述类），关键词示例：综述、系统性研究、review、survey、overview  \n    - '2': Theory（理论研究），关键词示例：理论、推导、定理、证明、theory、theoretical、formal\
+          \  \n    - '3': Application（应用研究），关键词示例：实践、系统实现、工具、use case、application、implementation、实用性\
+          \  \n    - '4': Dataset_Benchmark（数据集/基准测试），关键词示例：数据集、基准、benchmark、dataset、corpus、evaluation\
+          \ set  \n  - 支持用户输入中使用中文、英文全称、缩写或常见拼写错误，如：\n    - \"survay\" → '1'  \n \
+          \   - \"appl.\" → '3'  \n    - \"bench mark\" → '4'  \n  - 如用户同时提及多个类型（例如“理论和应用结合”），优先提取第一个明确提及的类型。\n\
+          - 操作符：\"==\"\n- 输出示例：{\"key\": \"research_type\", \"value\": \"2\", \"operator\"\
+          : \"==\"}\n\n\n2.5 DOI（数字对象唯一标识符）\n\n键名：“DOI”\n值类型：String\n提取逻辑：提取符合 DOI\
+          \ 格式的字符串，通常以 \"10.\" 开头，且包含 \"/\"，例如 \"10.1145/3375635.3375807\"。\n操作符：“text_match_insensitive”\n\
+          \n\n3. 输出格式\n你必须输出一个 JSON 对象。filters 字段必须是一个字符串，由多个 JSON 格式的过滤条件对象组成，使用英文逗号\
+          \ , 分隔。不得使用 JSON 数组（即不可使用 [ ] 结构），也不要对引号进行转义。\n\n示例输出格式如下：\n\n{\n“query”:\
+          \ “用于检索的英文主题概念内容”,\n“filters”: “{\"key\":\"key_1\",\"value\":\"value_1\"\
+          ,\"operator\":\"op_1\"},{\"key\":\"key_2\",\"value\":123,\"operator\":\"\
+          op_2\"}”\n}\n\n4. 示例\n\n用户输入：2022年到2024年发表的关于0-day漏洞的论文\n你的输出应为：\n\n{\n\
+          “query”: “Papers on 0-day vulnerabilities published from 2022 to 2024”,\n\
+          “filters”: “{\"key\":\"publish_year\",\"value\":2022,\"operator\":\">=\"\
+          },{\"key\":\"publish_year\",\"value\":2024,\"operator\":\"<=\"}”\n}\n\n\
+          用户输入：Cheng Li 在CCS 2022发表的关于漏洞挖掘的论文，特别是使用.NET框架的方案\n你的输出应为：\n\n{\n“query”:\
+          \ “Cheng Li’s paper on vulnerability mining published in CCS 2022, especially\
+          \ solutions using the .NET framework”,\n“filters”: “{\"key\":\"author\"\
+          ,\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"},{\"key\"\
+          :\"venue\",\"value\":\"CCS\",\"operator\":\"==\"},{\"key\":\"publish_year\"\
+          ,\"value\":2022,\"operator\":\"==\"}”\n}\n\n用户输入：帮我查找Cheng Li 最近一年的论文\n\
+          你的输出应为：\n\n{\n“query”: “Help me find Cheng Li’s papers from the past year”,\n\
+          “filters”: “{\"key\":\"author\",\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"\
+          },{\"key\":\"publish_year\",\"value\":2024,\"operator\":\">=\"}”\n}\n\n\
+          用户输入：How does dynamically generating control-flow graphs enhance protection\
+          \ against control-flow hijacking attacks?\n你的输出应为：\n\n{\n“query”: “How does\
+          \ dynamically generating control-flow graphs enhance protection against\
+          \ control-flow hijacking attacks?”,\n“filters”: “”\n}\n\n用户输入：Find papers\
+          \ from the ACM Conference on Computer and Communications Security on software\
+          \ protection.\n你的输出应为：\n\n{\n“query”: “papers from the ACM Conference on\
+          \ Computer and Communications Security on software protection”,\n“filters”:\
+          \ “{\"key\":\"venue\",\"value\":\"CCS\",\"operator\":\"==\"}”\n}"
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        parameters:
+        - description: 用户输入的关键词
+          name: query
+          options: []
+          required: true
+          type: string
+        - description: metedata过滤条件
+          name: filters
+          options: []
+          required: false
+          type: string
+        query:
+        - llm
+        - text
+        reasoning_mode: prompt
+        selected: false
+        title: 参数提取器（Filter）
+        type: parameter-extractor
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1752550168163'
+      position:
+        x: 627.3197738232963
+        y: 282
+      positionAbsolute:
+        x: 627.3197738232963
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(query_input: str, filter_input: str, search_results: str)\
+          \ -> dict:\n    \"\"\"\n    Process RAG search results to produce a structured\
+          \ paper list.\n\n    Args:\n        query_input: The original query as a\
+          \ string\n        filter_input: The filters as a JSON string containing\
+          \ a list of filter objects\n        search_results: The raw search results\
+          \ as a JSON string\n\n    Returns:\n        A dictionary containing the\
+          \ structured results\n    \"\"\"\n    import json\n\n    # Initialize filters\n\
+          \    filters = {\"author\": None, \"conference\": None, \"time_range\":\
+          \ None, \"paper_type\": None}\n\n    # Parse filters\n    if filter_input:\n\
+          \        try:\n            if not filter_input.startswith('['):\n      \
+          \          filter_input = '[' + filter_input + ']'\n            filter_items\
+          \ = json.loads(filter_input)\n            filter_groups = {}\n         \
+          \   for item in filter_items:\n                key = item.get(\"key\")\n\
+          \                value = item.get(\"value\")\n                operator =\
+          \ item.get(\"operator\", \"==\")\n                if key not in filter_groups:\n\
+          \                    filter_groups[key] = []\n                filter_groups[key].append({\"\
+          value\": value, \"operator\": operator})\n\n            if \"JOURNAL_SOURCE_ABBREVIATION\"\
+          \ in filter_groups:\n                venues = filter_groups[\"JOURNAL_SOURCE_ABBREVIATION\"\
+          ]\n                filters[\"conference\"] = venues[0][\"value\"] if len(venues)\
+          \ == 1 else [f\"{v['operator']}:{v['value']}\" for v in venues]\n      \
+          \      if \"AUTHOR\" in filter_groups:\n                authors = filter_groups[\"\
+          AUTHOR\"]\n                filters[\"author\"] = [authors[0][\"value\"]]\
+          \ if len(authors) == 1 else [f\"{a['operator']}:{a['value']}\" for a in\
+          \ authors]\n            if \"PUBLISH_TIME\" in filter_groups or \"PUBLISH_TIME\"\
+          \ in filter_groups:\n                time_parts = []\n                if\
+          \ \"PUBLISH_TIME\" in filter_groups:\n                    years = [f\"{y['operator']}:{y['value']}\"\
+          \ for y in filter_groups[\"PUBLISH_TIME\"]]\n                    time_parts.append(f\"\
+          Year: {', '.join(years)}\")\n                filters[\"time_range\"] = \"\
+          ; \".join(time_parts)\n            if \"PAPER_TYPE\" in filter_groups:\n\
+          \                filters[\"PAPER_TYPE\"] = filter_groups[\"PAPER_TYPE\"\
+          ][0][\"value\"]\n\n        except Exception as e:\n            print(f\"\
+          Filter parsing error: {e}\")\n\n    # Parse search results\n    try:\n \
+          \       data = json.loads(search_results)\n        if \"text\" in data:\n\
+          \            data = json.loads(data[\"text\"])\n        if \"body\" in data:\n\
+          \            data = json.loads(data[\"body\"])\n        if \"data\" in data:\n\
+          \            data = data[\"data\"]\n    except:\n        data = []\n   \
+          \     for line in search_results.splitlines():\n            if line.strip():\n\
+          \                try:\n                    data.append(json.loads(line))\n\
+          \                except:\n                    continue\n\n    papers = {}\n\
+          \n    for chunk in data:\n        paper_id = chunk.get(\"doc_id\") or chunk.get(\"\
+          paper_id\")\n        if not paper_id:\n            continue\n\n        score\
+          \ = float(chunk.get(\"score\", 0)) if isinstance(chunk.get(\"score\"), (str,\
+          \ int, float)) else 0\n        metadata = chunk.get(\"metadata\", {})\n\n\
+          \        def get_field(field, default=\"\"):\n            return metadata.get(field,\
+          \ chunk.get(field, default))\n\n        def try_json(value):\n         \
+          \   try:\n                return json.loads(value) if isinstance(value,\
+          \ str) else value\n            except:\n                return []\n\n  \
+          \      # 解析字段（新格式字段名都是大写）\n        language = get_field(\"LANGUAGE\", \"\
+          \")\n        authors = try_json(get_field(\"AUTHOR\", \"[]\"))\n       \
+          \ abstract_en = get_field(\"ABSTRACT\", \"\")\n        abstract_zh = get_field(\"\
+          ABSTRACT_ZH\", \"\")\n        title_en = get_field(\"TITLE\", \"\")\n  \
+          \      title_zh = get_field(\"TITLE_ZH\", \"\")\n        ai_summary = get_field(\"\
+          AI_ABSTRACT\", \"\") or (abstract_en[:200] + \"...\" if abstract_en else\
+          \ \"\")\n        keywords = try_json(get_field(\"KEYWORDS\", \"[]\"))\n\
+          \        qa = try_json(get_field(\"RECOMMENDED_QA\", \"[]\"))\n        ai_notes\
+          \ = try_json(get_field(\"AI_NOTE\", \"[]\"))\n        quality_score = get_field(\"\
+          CONTENT_QUALITY_SCORE\", \"[]\")\n\n        if paper_id not in papers:\n\
+          \            papers[paper_id] = {\n                \"paper_id\": paper_id,\n\
+          \                \"language\": language,\n                \"title\": {\"\
+          zh\": title_zh, \"en\": title_en},\n                \"authors\": authors\
+          \ if isinstance(authors, list) else [authors],\n                \"ai_summary\"\
+          : ai_summary,\n                \"publication_info\": {\n               \
+          \     \"journal_source\": get_field(\"JOURNAL_SOURCE_ABBREVIATION\"),\n\
+          \                    # \"url\": get_field(\"SOURCE_URL\"),\n           \
+          \         \"paper_type\": get_field(\"PAPER_TYPE\"),\n                 \
+          \   \"publication_date\": get_field(\"PUBLISH_TIME\"),\n               \
+          \     \"doi\": get_field(\"DOI\") or \"-\",\n                    \"pdf_url\"\
+          : get_field(\"SOURCE_URL\"),\n                    \"code_url\": get_field(\"\
+          OPENSOURCE_CODE_URL\", \"\")\n                },\n                \"keywords\"\
+          : keywords,\n                \"qa\": qa,\n                \"abstract\":\
+          \ {\"en\": abstract_en, \"zh\": abstract_zh},\n                \"ai_notes\"\
+          : ai_notes,\n                \"content_quality_score\": quality_score,\n\
+          \                \"relevance_score\": score,\n                \"scores\"\
+          : [score]\n            }\n        else:\n            paper = papers[paper_id]\n\
+          \            paper[\"scores\"].append(score)\n\n    # Aggregate scores\n\
+          \    results = []\n    for paper in papers.values():\n        paper[\"relevance_score\"\
+          ] = sum(paper[\"scores\"]) / len(paper[\"scores\"])\n        del paper[\"\
+          scores\"]\n        results.append(paper)\n\n    results.sort(key=lambda\
+          \ x: x[\"relevance_score\"], reverse=True)\n\n    response = {\n       \
+          \ \"code\": 200,\n        \"message\": \"检索成功\",\n        \"data\": {\n\
+          \            \"query\": {\"original_query\": query_input, \"filters\": filters},\n\
+          \            \"results\": results\n        }\n    }\n\n    return {\"response\"\
+          : response}"
+        code_language: python3
+        desc: ''
+        outputs:
+          response:
+            children: null
+            type: object
+        selected: false
+        title: 结果归纳
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          variable: query_input
+        - value_selector:
+          - '1755679797978'
+          - text
+          variable: search_results
+        - value_selector:
+          - '1752550168163'
+          - filters
+          variable: filter_input
+      height: 53
+      id: '1752550407947'
+      position:
+        x: 1240.4095328860658
+        y: 282
+      positionAbsolute:
+        x: 1240.4095328860658
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(arg1: int) -> dict:\n    if arg1 == 0:\n        vec_sim_weight\
+          \ = 0\n    elif arg1 == 1:\n        vec_sim_weight = 0.7\n    else:\n  \
+          \      vec_sim_weight = -1  # 可选：处理非法值\n    return {\n        \"vec_sim_weight\"\
+          : vec_sim_weight\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          vec_sim_weight:
+            children: null
+            type: number
+        selected: false
+        title: 向量相似度权重转换
+        type: code
+        variables:
+        - value_selector:
+          - '1752218466687'
+          - query_type
+          variable: arg1
+      height: 53
+      id: '1755246789657'
+      position:
+        x: 387.92852034946293
+        y: 454.8865347600437
+      positionAbsolute:
+        x: 387.92852034946293
+        y: 454.8865347600437
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: query
+            ja_JP: query
+            pt_BR: query
+            zh_Hans: query
+          llm_description: ''
+          max: null
+          min: null
+          name: query
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: top_k
+            ja_JP: top_k
+            pt_BR: top_k
+            zh_Hans: top_k
+          llm_description: ''
+          max: null
+          min: null
+          name: top_k
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: similarity_threshold
+            ja_JP: similarity_threshold
+            pt_BR: similarity_threshold
+            zh_Hans: similarity_threshold
+          llm_description: ''
+          max: null
+          min: null
+          name: similarity_threshold
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: vector_similarity_weight
+            ja_JP: vector_similarity_weight
+            pt_BR: vector_similarity_weight
+            zh_Hans: vector_similarity_weight
+          llm_description: ''
+          max: null
+          min: null
+          name: vector_similarity_weight
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: rerank_id
+            ja_JP: rerank_id
+            pt_BR: rerank_id
+            zh_Hans: rerank_id
+          llm_description: ''
+          max: null
+          min: null
+          name: rerank_id
+          options:
+          - label:
+              en_US: 42d343a33d4249da9c0f060e6ba3e6d4
+              ja_JP: 42d343a33d4249da9c0f060e6ba3e6d4
+              pt_BR: 42d343a33d4249da9c0f060e6ba3e6d4
+              zh_Hans: 42d343a33d4249da9c0f060e6ba3e6d4
+            value: 42d343a33d4249da9c0f060e6ba3e6d4
+          - label:
+              en_US: c2cdb233e77545d3b26b4a07bf23451f
+              ja_JP: c2cdb233e77545d3b26b4a07bf23451f
+              pt_BR: c2cdb233e77545d3b26b4a07bf23451f
+              zh_Hans: c2cdb233e77545d3b26b4a07bf23451f
+            value: c2cdb233e77545d3b26b4a07bf23451f
+          - label:
+              en_US: 4dde1009db0841d5a0d78e76e21b4c5a
+              ja_JP: 4dde1009db0841d5a0d78e76e21b4c5a
+              pt_BR: 4dde1009db0841d5a0d78e76e21b4c5a
+              zh_Hans: 4dde1009db0841d5a0d78e76e21b4c5a
+            value: 4dde1009db0841d5a0d78e76e21b4c5a
+          - label:
+              en_US: 729a8bec7ced473180d16dc036c17431
+              ja_JP: 729a8bec7ced473180d16dc036c17431
+              pt_BR: 729a8bec7ced473180d16dc036c17431
+              zh_Hans: 729a8bec7ced473180d16dc036c17431
+            value: 729a8bec7ced473180d16dc036c17431
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: select
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: page
+            ja_JP: page
+            pt_BR: page
+            zh_Hans: page
+          llm_description: ''
+          max: null
+          min: null
+          name: page
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: page_size
+            ja_JP: page_size
+            pt_BR: page_size
+            zh_Hans: page_size
+          llm_description: ''
+          max: null
+          min: null
+          name: page_size
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: form
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: batch_size
+            ja_JP: batch_size
+            pt_BR: batch_size
+            zh_Hans: batch_size
+          llm_description: ''
+          max: null
+          min: null
+          name: batch_size
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: number
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: filters
+            ja_JP: filters
+            pt_BR: filters
+            zh_Hans: filters
+          llm_description: ''
+          max: null
+          min: null
+          name: filters
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          batch_size: ''
+          filters: ''
+          page: ''
+          page_size: ''
+          query: ''
+          rerank_id: ''
+          similarity_threshold: ''
+          top_k: ''
+          vector_similarity_weight: ''
+        provider_id: 62399ece-1fb8-40e4-9d9d-3b986a8f4954
+        provider_name: 【论文检索RagSearch】
+        provider_type: workflow
+        selected: true
+        title: 【论文检索RagSearch】
+        tool_configurations:
+          batch_size: 10
+          page: 1
+          page_size: 10
+          rerank_id: 4dde1009db0841d5a0d78e76e21b4c5a
+          similarity_threshold: null
+          top_k: 20
+        tool_description: 提供本地知识库检索服务
+        tool_label: 【论文检索RagSearch】
+        tool_name: search_kb
+        tool_parameters:
+          filters:
+            type: mixed
+            value: '{{#1752550168163.filters#}}'
+          query:
+            type: mixed
+            value: '{{#1752550168163.query#}}'
+          vector_similarity_weight:
+            type: variable
+            value:
+            - '1755246789657'
+            - vec_sim_weight
+        type: tool
+      height: 219
+      id: '1755679797978'
+      position:
+        x: 940.601564198542
+        y: 294.6963080561158
+      positionAbsolute:
+        x: 940.601564198542
+        y: 294.6963080561158
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: -75.06441721068222
+      y: 126.31060033238654
+      zoom: 0.5343010484786012
