@@ -1,0 +1,10 @@
+#!/app/storage/cwd/junjiem/mcp_sse-0.2.1@53cc613667fcf91dd7208dd5f6d2c8df3c7ff0af8b79e8f3c0a430f1b39bda4c/.venv/bin/python3
+# -*- coding: utf-8 -*-
+import sys
+from charset_normalizer.cli import cli_detect
+if __name__ == "__main__":
+    if sys.argv[0].endswith("-script.pyw"):
+        sys.argv[0] = sys.argv[0][:-11]
+    elif sys.argv[0].endswith(".exe"):
+        sys.argv[0] = sys.argv[0][:-4]
+    sys.exit(cli_detect())
