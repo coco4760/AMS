@@ -13,6 +13,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+ai_brain/plugin_daemon/cwd/langgenius/xinference*/
+
 ### STS ###
 .apt_generated
 .classpath
