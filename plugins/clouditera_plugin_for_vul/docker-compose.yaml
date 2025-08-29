@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   ai-plugin-for-vul:
-    image: ${PLUGIN_IMAGE}:${version}
+    image: rd.clouditera.com/aigc/ai-plugin-for-vul:v0.1.7
     restart: always
     env_file:
       - .env

@@ -1,6 +1,6 @@
 services:
   api:
-    image: rd.clouditera.com/aigc/ai-intelligence-api:${API_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-api:v6.3.1.post7
     restart: always
     env_file:
       - base.env
@@ -20,7 +20,7 @@ services:
       - "email-plugin:${EMAIL_PLUGIN}"
 
   worker:
-    image: rd.clouditera.com/aigc/ai-intelligence-api:${API_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-api:v6.3.1.post7
     restart: always
     deploy:
       replicas: 1
@@ -39,7 +39,7 @@ services:
 
   # Frontend web application.
   web:
-    image: rd.clouditera.com/aigc/ai-intelligence-web:${WEB_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-web:v6.3.1
     restart: always
     env_file:
       - base.env
@@ -47,7 +47,7 @@ services:
       PORT: 3000
 
   sandbox:
-    image: rd.clouditera.com/aigc/ai-intelligence-sandbox:${SANDBOX_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-sandbox:0.2.11
     restart: always
     cap_add:
       - SYS_ADMIN
@@ -59,7 +59,7 @@ services:
       - "18194:8194"
 
   plugin_daemon:
-    image: rd.clouditera.com/aigc/ai-intelligence-plugin-daemon:${PLUGIN_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-plugin-daemon:0.0.7
     restart: always
     env_file:
       - base.env

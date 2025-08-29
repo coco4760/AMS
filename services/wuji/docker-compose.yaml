@@ -1,11 +1,11 @@
 services:
   client-http:
-    image: rd.clouditera.com/aigc/client-http-api:${CLIENT_HTTP_VER}
+    image: rd.clouditera.com/aigc/client-http-api:v3.8.49
     restart: always
     environment:
       CONTEXT_PATH: /clientapi
       TZ: Asia/Shanghai
-      SWAGGER_UI: ${SWAGGER_UI}
+      SWAGGER_UI: false
     env_file:
       - .env
     volumes:

@@ -1,6 +1,6 @@
 services:
   unstructured:
-    image: ${UNSTRUCTURED_IMAGE}:${UNSTRUCTURED_VERSION}
+    image: rd.clouditera.com/aigc/ai-intelligence-unstructured:0.2.0-test-ocr
     restart: always
     ports:
       - "15002:5002"

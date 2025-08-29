@@ -4,7 +4,7 @@ server:
     context-path: ${CONTEXT_PATH}
 springdoc:
   swagger-ui:
-    enabled: ${SWAGGER_UI}
+    enabled: false
 spring:
   servlet:
     multipart:
@@ -56,7 +56,7 @@ clouditera:
   collabnet:
     host: ${COLLABNET_HOST}
   task:
-    image: rd.clouditera.com/sast/facade:${FACADE_IMAGE_VERSION}
+    image: rd.clouditera.com/sast/facade:v5.4.7
     url: ${CN_CERT_MYSQL_URL}
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_ROOT_PASSWORD}

@@ -1,6 +1,6 @@
 services:
   plugin-wireshrk:
-    image: ${PLUGIN_WIRESHARK_IMAGE}:${PLUGIN_WIRESHARK_VERSION}
+    image: rd.clouditera.com/aigc/plugin-wireshark:v0.3.12-stable
     restart: always
     env_file:
       - .env
