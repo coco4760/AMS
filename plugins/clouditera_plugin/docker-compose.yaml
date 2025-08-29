@@ -1,6 +1,6 @@
 services:
   ai-plugin:
-    image: ${PLUGIN_IMAGE}:${VERSION}
+    image: rd.clouditera.com/aigc/ai-plugin-projects:v0.7.8
     restart: always
     env_file:
       - .env

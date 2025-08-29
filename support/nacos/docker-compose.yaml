@@ -1,6 +1,6 @@
 services:
   nacos:
-    image: rd.clouditera.com/aigc/nacos-server:${NACOS_VERSION}
+    image: rd.clouditera.com/aigc/nacos-server:v2.4.3
     container_name: nacos-standalone-mysql
     env_file:
       - .env

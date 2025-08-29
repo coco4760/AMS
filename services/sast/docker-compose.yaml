@@ -1,6 +1,7 @@
 services:
   sast-http:
-    image: rd.clouditera.com/aigc/sast-http-api:${SAST_HTTP_VER}
+    profiles: ["default"]
+    image: rd.clouditera.com/aigc/sast-http-api:v5.2.34
     restart: always
     environment:
       CONTEXT_PATH: /sastapi
@@ -13,3 +14,9 @@ services:
       - ./config/application.yml:/app/application.yml
       - ${INSTALL_LOCAL}/wuji/res:/tmp/sast/res
       - ${INSTALL_LOCAL}/wuji/code:/tmp/sast/code
+
+  facade:
+    profiles: ["facade"]
+    image: rd.clouditera.com/sast/facade:v5.4.7
+    ports:
+      - "${SAST_HTTP_PORT}:80"

@@ -1,6 +1,29 @@
 services:
   client-web-html:
-    image: rd.clouditera.com/aigc/client-web:${CLIENT_WEB_HTML_VER}
+    profiles: ["default"]
+    image: rd.clouditera.com/aigc/client-web:v3.3.100
+    restart: always
+    ports:
+      - '80:80'
+    extra_hosts:
+      - "kong.host.com:${KONG_HOST}"
+      - "kong:${KONG_HOST}"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+  client-web-html-jibei:
+    profiles: ["jibei"]
+    image: rd.clouditera.com/aigc/client-web:v3.3.90
+    restart: always
+    ports:
+      - '80:80'
+    extra_hosts:
+      - "kong.host.com:${KONG_HOST}"
+      - "kong:${KONG_HOST}"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+  client-web-html-guowang:
+    profiles: ["guowang"]
+    image: rd.clouditera.com/aigc/client-web:v3.3.92
     restart: always
     ports:
       - '80:80'
