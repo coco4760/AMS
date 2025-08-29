@@ -1,6 +1,6 @@
 services:
   client-http:
-    image: rd.clouditera.com/aigc/client-http-api:v3.8.49
+    image: rd.clouditera.com/aigc/client-http-api:v3.9.18
     restart: always
     environment:
       CONTEXT_PATH: /clientapi

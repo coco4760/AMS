@@ -1,0 +1,15 @@
+services:
+  paper-app:
+    image: rd.clouditera.com/clouditera_knowledage/clouditera_knowledage_paper_api:1.0
+    env_file:
+      - .env
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    volumes:
+      - ./paper_storage:/app/paper_storage
+    command: >
+      sh -c "uvicorn main:app --host 0.0.0.0 --port 8000"
+    restart: unless-stopped
+    # 如果容器需要直接访问宿主网段(如 192.168.31.0/24)且有路由问题，可改用：
+    # network_mode: "host"
+    # 然后把上面的 ports 和 command 的 --port 改为 ${APP_PORT}
