@@ -1,9 +1,9 @@
 app:
-  description: 论文检索RagSearch
+  description: 对应RAG search的API接口
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: workflow
-  name: 【安全论文检索】RagSearch-20250822
+  name: 【安全论文检索】rag_search20250901
   use_icon_as_answer_icon: false
 dependencies: []
 kind: app
@@ -159,11 +159,11 @@ workflow:
       height: 297
       id: '1750672741748'
       position:
-        x: 30
-        y: 348.5
+        x: 79.83099967514374
+        y: 282
       positionAbsolute:
-        x: 30
-        y: 348.5
+        x: 79.83099967514374
+        y: 282
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -172,7 +172,7 @@ workflow:
     - data:
         authorization:
           config:
-            api_key: 53833e564203427da636fdb8efbc2a75
+            api_key: f03c5ea41a714aee97b8105f63a997fb
             header: X-API-Key
             type: custom
           type: api-key
@@ -185,7 +185,7 @@ workflow:
 
               "query":"{{#1750672741748.query#}}",
 
-              "dataset_ids":["98fa0a6d268346e09177ac7e4ad8f799"],
+              "dataset_ids":["82f7c450462843f18d0878f1f59879bc"],
 
               "top_k":{{#1752221136719.top_k#}},
 
@@ -240,7 +240,7 @@ workflow:
           max_retries: 3
           retry_enabled: true
           retry_interval: 100
-        selected: true
+        selected: false
         ssl_verify: true
         timeout:
           max_connect_timeout: 0
@@ -253,11 +253,11 @@ workflow:
       height: 138
       id: '1750672941801'
       position:
-        x: 636
-        y: 348.5
+        x: 787.9034244181164
+        y: 282
       positionAbsolute:
-        x: 636
-        y: 348.5
+        x: 787.9034244181164
+        y: 282
       selected: true
       sourcePosition: right
       targetPosition: left
@@ -276,11 +276,11 @@ workflow:
       height: 89
       id: '1750673067754'
       position:
-        x: 939
-        y: 348.5
+        x: 1152.3348651756685
+        y: 282
       positionAbsolute:
-        x: 939
-        y: 348.5
+        x: 1152.3348651756685
+        y: 282
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -354,17 +354,17 @@ workflow:
       height: 53
       id: '1752221136719'
       position:
-        x: 333
-        y: 348.5
+        x: 446.50361090851925
+        y: 282
       positionAbsolute:
-        x: 333
-        y: 348.5
+        x: 446.50361090851925
+        y: 282
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     viewport:
-      x: 303.65000000000003
-      y: 171.9000000000001
-      zoom: 0.7
+      x: 107.79799377900986
+      y: 182.17488777741028
+      zoom: 0.5095794620754094
