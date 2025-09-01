@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 【安全论文检索】检索-20250822
+  name: 【安全论文检索】检索20250901
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -61,16 +61,6 @@ workflow:
   graph:
     edges:
     - data:
-        sourceType: start
-        targetType: llm
-      id: 1752218466687-llm
-      selected: false
-      source: '1752218466687'
-      sourceHandle: source
-      target: llm
-      targetHandle: target
-      type: custom
-    - data:
         isInLoop: false
         sourceType: llm
         targetType: parameter-extractor
@@ -87,6 +77,7 @@ workflow:
         sourceType: code
         targetType: answer
       id: 1752550407947-source-answer-target
+      selected: false
       source: '1752550407947'
       sourceHandle: source
       target: answer
@@ -97,12 +88,84 @@ workflow:
         isInIteration: false
         isInLoop: false
         sourceType: start
-        targetType: code
-      id: 1752218466687-source-1755246789657-target
+        targetType: if-else
+      id: 1752218466687-source-1756359898489-target
       selected: false
       source: '1752218466687'
       sourceHandle: source
-      target: '1755246789657'
+      target: '1756359898489'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: http-request
+      id: 1756359898489-false-1756359935180-target
+      selected: false
+      source: '1756359898489'
+      sourceHandle: 'false'
+      target: '1756359935180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 17563670323310-source-17563671028130-target
+      selected: false
+      source: '17563670323310'
+      sourceHandle: source
+      target: '17563671028130'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: code
+      id: 1756359935180-source-1756362273757-target
+      source: '1756359935180'
+      sourceHandle: source
+      target: '1756362273757'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1756359898489-true-1756454660548-target
+      source: '1756359898489'
+      sourceHandle: 'true'
+      target: '1756454660548'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1756454660548-source-1756455269677-target
+      source: '1756454660548'
+      sourceHandle: source
+      target: '1756455269677'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1756455269677-source-llm-target
+      source: '1756455269677'
+      sourceHandle: source
+      target: llm
       targetHandle: target
       type: custom
       zIndex: 0
@@ -110,21 +173,10 @@ workflow:
         isInLoop: false
         sourceType: parameter-extractor
         targetType: tool
-      id: 1752550168163-source-1755679797978-target
+      id: 1752550168163-source-1756517030113-target
       source: '1752550168163'
       sourceHandle: source
-      target: '1755679797978'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: tool
-      id: 1755246789657-source-1755679797978-target
-      source: '1755246789657'
-      sourceHandle: source
-      target: '1755679797978'
+      target: '1756517030113'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -132,10 +184,32 @@ workflow:
         isInLoop: false
         sourceType: tool
         targetType: code
-      id: 1755679797978-source-1752550407947-target
-      source: '1755679797978'
+      id: 1756517030113-source-1752550407947-target
+      source: '1756517030113'
       sourceHandle: source
       target: '1752550407947'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: tool
+      id: 1756362273757-source-1756517010582-target
+      source: '1756362273757'
+      sourceHandle: source
+      target: '1756517010582'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: code
+      id: 1756517010582-source-17563670323310-target
+      source: '1756517010582'
+      sourceHandle: source
+      target: '17563670323310'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -155,11 +229,11 @@ workflow:
       height: 89
       id: '1752218466687'
       position:
-        x: -136.3492525618197
-        y: 282
+        x: -784.4438170336991
+        y: 239.1330589849108
       positionAbsolute:
-        x: -136.3492525618197
-        y: 282
+        x: -784.4438170336991
+        y: 239.1330589849108
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -206,11 +280,11 @@ workflow:
       height: 89
       id: llm
       position:
-        x: 351.5606202368216
-        y: 282
+        x: 345.9000207368764
+        y: -105.59413580246917
       positionAbsolute:
-        x: 351.5606202368216
-        y: 282
+        x: 345.9000207368764
+        y: -105.59413580246917
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -226,11 +300,11 @@ workflow:
       height: 104
       id: answer
       position:
-        x: 1564
-        y: 282
+        x: 1778.7170781893
+        y: -369.59413580246917
       positionAbsolute:
-        x: 1564
-        y: 282
+        x: 1778.7170781893
+        y: -369.59413580246917
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -241,8 +315,8 @@ workflow:
         instruction: "System Prompt:\n你是一个专门用于研究论文检索系统（RAG）的专家级 AI 助手。你的任务是将用户的自然语言输入解析为一个结构化的\
           \ JSON 对象。你必须识别用户查询中的核心搜索主题，并提取所有指定的元数据过滤条件。请特别注意输出格式，尤其是 filters 字段的格式要求。\
           \ User‘s input is: {{#llm.text#}}\n\n1. 核心任务\n\n分析用户输入，将其主要的检索主题与具体的过滤条件分离。\n\
-          将主要的查询主题提取为 query 字符串，它应该是查询中概念性的部分（例如：“adversarial attacks on large language\
-          \ models”）。\n提取所有过滤条件，并根据下列规则格式化为 filters 字符串。\n\n2. 字段定义与提取规则\n\n你必须提取以下字段。如果某字段未在用户输入中提及，不要在\
+          将主要的查询主题提取为 query 字符串，它应该是查询中**概念性的核心研究主题或关键词**（例如：“0-day vulnerabilities”），不要包含“论文”“帮我找”“发表于某年某会”等自然语言修饰或时间/作者/会议信息。\n\
+          提取所有过滤条件，并根据下列规则格式化为 filters 字符串。\n\n2. 字段定义与提取规则\n\n你必须提取以下字段。如果某字段未在用户输入中提及，不要在\
           \ filters 中包含它。\n\n2.1 JOURNAL_SOURCE_ABBREVIATION（会议来源简称）\n\n键名：“JOURNAL_SOURCE_ABBREVIATION”\n\
           值类型：String（如：CCS, NDSS, USENIX_Security, SP, AAAI 等）\n提取逻辑：\n缩写/全称兼容：识别用户输入中的会议全称或简称，并始终转换为统一的会议简称。例如：\n\
           “USENIX Security Symposium” → USENIX_Security\n“IEEE Symposium on Security\
@@ -275,26 +349,23 @@ workflow:
           \ “用于检索的英文主题概念内容”,\n“filters”: “{\"key\":\"key_1\",\"value\":\"value_1\"\
           ,\"operator\":\"op_1\"},{\"key\":\"key_2\",\"value\":123,\"operator\":\"\
           op_2\"}”\n}\n\n4. 示例\n\n用户输入：2022年到2024年发表的关于0-day漏洞的论文\n你的输出应为：\n\n{\n\
-          “query”: “Papers on 0-day vulnerabilities published from 2022 to 2024”,\n\
-          “filters”: “{\"key\":\"publish_year\",\"value\":2022,\"operator\":\">=\"\
-          },{\"key\":\"publish_year\",\"value\":2024,\"operator\":\"<=\"}”\n}\n\n\
-          用户输入：Cheng Li 在CCS 2022发表的关于漏洞挖掘的论文，特别是使用.NET框架的方案\n你的输出应为：\n\n{\n“query”:\
-          \ “Cheng Li’s paper on vulnerability mining published in CCS 2022, especially\
-          \ solutions using the .NET framework”,\n“filters”: “{\"key\":\"author\"\
-          ,\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"},{\"key\"\
-          :\"venue\",\"value\":\"CCS\",\"operator\":\"==\"},{\"key\":\"publish_year\"\
-          ,\"value\":2022,\"operator\":\"==\"}”\n}\n\n用户输入：帮我查找Cheng Li 最近一年的论文\n\
-          你的输出应为：\n\n{\n“query”: “Help me find Cheng Li’s papers from the past year”,\n\
-          “filters”: “{\"key\":\"author\",\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"\
-          },{\"key\":\"publish_year\",\"value\":2024,\"operator\":\">=\"}”\n}\n\n\
+          “query”: “0-day vulnerabilities”,\n“filters”: “{\"key\":\"publish_year\"\
+          ,\"value\":2022,\"operator\":\">=\"},{\"key\":\"publish_year\",\"value\"\
+          :2024,\"operator\":\"<=\"}”\n}\n\n\n用户输入：Cheng Li 在CCS 2022发表的关于漏洞挖掘的论文，特别是使用.NET框架的方案\n\
+          你的输出应为：\n{\n“query”: “vulnerability mining, .NET framework”,\n“filters”:\
+          \ “{\"key\":\"author\",\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"\
+          },{\"key\":\"venue\",\"value\":\"CCS\",\"operator\":\"==\"},{\"key\":\"\
+          publish_year\",\"value\":2022,\"operator\":\"==\"}”\n}\n\n用户输入：帮我查找Cheng\
+          \ Li 最近一年的论文\n你的输出应为：\n{\n“query”: “papers by Cheng Li”,\n“filters”: “{\"\
+          key\":\"author\",\"value\":\"Cheng Li\",\"operator\":\"text_match_insensitive\"\
+          },{\"key\":\"publish_year\",\"value\":2024,\"operator\":\">=\"}”\n}\n\n\n\
           用户输入：How does dynamically generating control-flow graphs enhance protection\
-          \ against control-flow hijacking attacks?\n你的输出应为：\n\n{\n“query”: “How does\
-          \ dynamically generating control-flow graphs enhance protection against\
-          \ control-flow hijacking attacks?”,\n“filters”: “”\n}\n\n用户输入：Find papers\
-          \ from the ACM Conference on Computer and Communications Security on software\
-          \ protection.\n你的输出应为：\n\n{\n“query”: “papers from the ACM Conference on\
-          \ Computer and Communications Security on software protection”,\n“filters”:\
-          \ “{\"key\":\"venue\",\"value\":\"CCS\",\"operator\":\"==\"}”\n}"
+          \ against control-flow hijacking attacks?\n你的输出应为：\n{\n“query”: “dynamically\
+          \ generating control-flow graphs, protection against control-flow hijacking\
+          \ attacks”,\n“filters”: “”\n}\n\n用户输入：Find papers from the ACM Conference\
+          \ on Computer and Communications Security on software protection.\n你的输出应为：\n\
+          {\n“query”: “software protection”,\n“filters”: “{\"key\":\"venue\",\"value\"\
+          :\"CCS\",\"operator\":\"==\"}”\n}"
         model:
           completion_params:
             temperature: 0.7
@@ -325,11 +396,11 @@ workflow:
       height: 89
       id: '1752550168163'
       position:
-        x: 627.3197738232963
-        y: 282
+        x: 345.9000207368764
+        y: 16.405864197530832
       positionAbsolute:
-        x: 627.3197738232963
-        y: 282
+        x: 345.9000207368764
+        y: 16.405864197530832
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -370,12 +441,12 @@ workflow:
           Filter parsing error: {e}\")\n\n    # Parse search results\n    try:\n \
           \       data = json.loads(search_results)\n        if \"text\" in data:\n\
           \            data = json.loads(data[\"text\"])\n        if \"body\" in data:\n\
-          \            data = json.loads(data[\"body\"])\n        if \"data\" in data:\n\
-          \            data = data[\"data\"]\n    except:\n        data = []\n   \
-          \     for line in search_results.splitlines():\n            if line.strip():\n\
-          \                try:\n                    data.append(json.loads(line))\n\
-          \                except:\n                    continue\n\n    papers = {}\n\
-          \n    for chunk in data:\n        paper_id = chunk.get(\"doc_id\") or chunk.get(\"\
+          \            data = json.loads(data[\"body\"])\n            data = data.get(\"\
+          data\")\n    except:\n        data = []\n        for line in search_results.splitlines():\n\
+          \            if line.strip():\n                try:\n                  \
+          \  data.append(json.loads(line))\n                except:\n            \
+          \        continue\n\n    papers = {}\n\n    for chunk in data:\n       \
+          \ print(\"cccccc\",chunk)\n        paper_id = chunk.get(\"doc_id\") or chunk.get(\"\
           paper_id\")\n        if not paper_id:\n            continue\n\n        score\
           \ = float(chunk.get(\"score\", 0)) if isinstance(chunk.get(\"score\"), (str,\
           \ int, float)) else 0\n        metadata = chunk.get(\"metadata\", {})\n\n\
@@ -434,7 +505,7 @@ workflow:
           - query
           variable: query_input
         - value_selector:
-          - '1755679797978'
+          - '1756517030113'
           - text
           variable: search_results
         - value_selector:
@@ -444,43 +515,324 @@ workflow:
       height: 53
       id: '1752550407947'
       position:
-        x: 1240.4095328860658
-        y: 282
+        x: 1283.1811378243374
+        y: -369.59413580246917
       positionAbsolute:
-        x: 1240.4095328860658
-        y: 282
+        x: 1283.1811378243374
+        y: -369.59413580246917
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     - data:
-        code: "def main(arg1: int) -> dict:\n    if arg1 == 0:\n        vec_sim_weight\
-          \ = 0\n    elif arg1 == 1:\n        vec_sim_weight = 0.7\n    else:\n  \
-          \      vec_sim_weight = -1  # 可选：处理非法值\n    return {\n        \"vec_sim_weight\"\
-          : vec_sim_weight\n    }"
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: '='
+            id: 0d380f6a-d5df-4e03-8b6e-a694fa8c9656
+            value: '1'
+            varType: number
+            variable_selector:
+            - '1752218466687'
+            - query_type
+          id: 'true'
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 125
+      id: '1756359898489'
+      position:
+        x: -335.76789110777315
+        y: 239.1330589849108
+      positionAbsolute:
+        x: -335.76789110777315
+        y: 239.1330589849108
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: ''
+        headers: ''
+        method: get
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 获取RAG_AINTE_DOC_ID
+        type: http-request
+        url: http://192.168.31.42:8080/api/search-parsed-content?q={{#sys.query#}}&limit=200
+        variables: []
+      height: 173
+      id: '1756359935180'
+      position:
+        x: 351.44796591583395
+        y: 558.8414780521264
+      positionAbsolute:
+        x: 351.44796591583395
+        y: 558.8414780521264
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(arg1: str) -> dict:\n    import json\n    d = json.loads(arg1)\
+          \ if isinstance(arg1, str) else arg1\n    ids = [x.get(\"rag_ainote_doc_id\"\
+          ) for x in d.get(\"data\", []) if x.get(\"rag_ainote_doc_id\")]\n    return\
+          \ {\"result\": \"&\".join(f\"doc_ids={i}\" for i in ids)}"
         code_language: python3
         desc: ''
         outputs:
-          vec_sim_weight:
+          result:
             children: null
-            type: number
+            type: string
         selected: false
-        title: 向量相似度权重转换
+        title: 参数拼接（doc_ids）
         type: code
         variables:
         - value_selector:
-          - '1752218466687'
-          - query_type
+          - '1756359935180'
+          - body
           variable: arg1
       height: 53
-      id: '1755246789657'
+      id: '1756362273757'
       position:
-        x: 387.92852034946293
-        y: 454.8865347600437
+        x: 825.3972466484379
+        y: 558.8414780521264
       positionAbsolute:
-        x: 387.92852034946293
-        y: 454.8865347600437
+        x: 825.3972466484379
+        y: 558.8414780521264
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(query_input: str, filter_input: str, search_results: str)\
+          \ -> dict:\n    \"\"\"\n    Process RAG search results to produce a structured\
+          \ paper list.\n\n    Args:\n        query_input: The original query as a\
+          \ string\n        filter_input: The filters as a JSON string containing\
+          \ a list of filter objects\n        search_results: The raw search results\
+          \ as a JSON string\n\n    Returns:\n        A dictionary containing the\
+          \ structured results\n    \"\"\"\n    import json\n\n    # Initialize filters\n\
+          \    filters = {\"author\": None, \"conference\": None, \"time_range\":\
+          \ None, \"paper_type\": None}\n\n    # Parse filters\n    if filter_input:\n\
+          \        try:\n            if not filter_input.startswith('['):\n      \
+          \          filter_input = '[' + filter_input + ']'\n            filter_items\
+          \ = json.loads(filter_input)\n            filter_groups = {}\n         \
+          \   for item in filter_items:\n                key = item.get(\"key\")\n\
+          \                value = item.get(\"value\")\n                operator =\
+          \ item.get(\"operator\", \"==\")\n                if key not in filter_groups:\n\
+          \                    filter_groups[key] = []\n                filter_groups[key].append({\"\
+          value\": value, \"operator\": operator})\n\n            if \"JOURNAL_SOURCE_ABBREVIATION\"\
+          \ in filter_groups:\n                venues = filter_groups[\"JOURNAL_SOURCE_ABBREVIATION\"\
+          ]\n                filters[\"conference\"] = venues[0][\"value\"] if len(venues)\
+          \ == 1 else [f\"{v['operator']}:{v['value']}\" for v in venues]\n      \
+          \      if \"AUTHOR\" in filter_groups:\n                authors = filter_groups[\"\
+          AUTHOR\"]\n                filters[\"author\"] = [authors[0][\"value\"]]\
+          \ if len(authors) == 1 else [f\"{a['operator']}:{a['value']}\" for a in\
+          \ authors]\n            if \"PUBLISH_TIME\" in filter_groups or \"PUBLISH_TIME\"\
+          \ in filter_groups:\n                time_parts = []\n                if\
+          \ \"PUBLISH_TIME\" in filter_groups:\n                    years = [f\"{y['operator']}:{y['value']}\"\
+          \ for y in filter_groups[\"PUBLISH_TIME\"]]\n                    time_parts.append(f\"\
+          Year: {', '.join(years)}\")\n                filters[\"time_range\"] = \"\
+          ; \".join(time_parts)\n            if \"PAPER_TYPE\" in filter_groups:\n\
+          \                filters[\"PAPER_TYPE\"] = filter_groups[\"PAPER_TYPE\"\
+          ][0][\"value\"]\n\n        except Exception as e:\n            print(f\"\
+          Filter parsing error: {e}\")\n\n    # Parse search results\n    try:\n \
+          \       data = json.loads(search_results)\n        if \"text\" in data:\n\
+          \            data = json.loads(data[\"text\"])\n        if \"body\" in data:\n\
+          \            data = json.loads(data[\"body\"])\n            data = data.get(\"\
+          data\")\n    except:\n        data = []\n        for line in search_results.splitlines():\n\
+          \            if line.strip():\n                try:\n                  \
+          \  data.append(json.loads(line))\n                except:\n            \
+          \        continue\n\n    papers = {}\n\n    for chunk in data:\n       \
+          \ print(\"cccccc\",chunk)\n        paper_id = chunk.get(\"doc_id\") or chunk.get(\"\
+          paper_id\")\n        if not paper_id:\n            continue\n\n        score\
+          \ = float(chunk.get(\"score\", 0)) if isinstance(chunk.get(\"score\"), (str,\
+          \ int, float)) else 0\n        metadata = chunk.get(\"metadata\", {})\n\n\
+          \        def get_field(field, default=\"\"):\n            return metadata.get(field,\
+          \ chunk.get(field, default))\n\n        def try_json(value):\n         \
+          \   try:\n                return json.loads(value) if isinstance(value,\
+          \ str) else value\n            except:\n                return []\n\n  \
+          \      # 解析字段（新格式字段名都是大写）\n        language = get_field(\"LANGUAGE\", \"\
+          \")\n        authors = try_json(get_field(\"AUTHOR\", \"[]\"))\n       \
+          \ abstract_en = get_field(\"ABSTRACT\", \"\")\n        abstract_zh = get_field(\"\
+          ABSTRACT_ZH\", \"\")\n        title_en = get_field(\"TITLE\", \"\")\n  \
+          \      title_zh = get_field(\"TITLE_ZH\", \"\")\n        ai_summary = get_field(\"\
+          AI_ABSTRACT\", \"\") or (abstract_en[:200] + \"...\" if abstract_en else\
+          \ \"\")\n        keywords = try_json(get_field(\"KEYWORDS\", \"[]\"))\n\
+          \        qa = try_json(get_field(\"RECOMMENDED_QA\", \"[]\"))\n        ai_notes\
+          \ = try_json(get_field(\"AI_NOTE\", \"[]\"))\n        quality_score = get_field(\"\
+          CONTENT_QUALITY_SCORE\", \"[]\")\n\n        if paper_id not in papers:\n\
+          \            papers[paper_id] = {\n                \"paper_id\": paper_id,\n\
+          \                \"language\": language,\n                \"title\": {\"\
+          zh\": title_zh, \"en\": title_en},\n                \"authors\": authors\
+          \ if isinstance(authors, list) else [authors],\n                \"ai_summary\"\
+          : ai_summary,\n                \"publication_info\": {\n               \
+          \     \"journal_source\": get_field(\"JOURNAL_SOURCE_ABBREVIATION\"),\n\
+          \                    # \"url\": get_field(\"SOURCE_URL\"),\n           \
+          \         \"paper_type\": get_field(\"PAPER_TYPE\"),\n                 \
+          \   \"publication_date\": get_field(\"PUBLISH_TIME\"),\n               \
+          \     \"doi\": get_field(\"DOI\") or \"-\",\n                    \"pdf_url\"\
+          : get_field(\"SOURCE_URL\"),\n                    \"code_url\": get_field(\"\
+          OPENSOURCE_CODE_URL\", \"\")\n                },\n                \"keywords\"\
+          : keywords,\n                \"qa\": qa,\n                \"abstract\":\
+          \ {\"en\": abstract_en, \"zh\": abstract_zh},\n                \"ai_notes\"\
+          : ai_notes,\n                \"content_quality_score\": quality_score,\n\
+          \                \"relevance_score\": score,\n                \"scores\"\
+          : [score]\n            }\n        else:\n            paper = papers[paper_id]\n\
+          \            paper[\"scores\"].append(score)\n\n    # Aggregate scores\n\
+          \    results = []\n    for paper in papers.values():\n        paper[\"relevance_score\"\
+          ] = sum(paper[\"scores\"]) / len(paper[\"scores\"])\n        del paper[\"\
+          scores\"]\n        results.append(paper)\n\n    results.sort(key=lambda\
+          \ x: x[\"relevance_score\"], reverse=True)\n\n    response = {\n       \
+          \ \"code\": 200,\n        \"message\": \"检索成功\",\n        \"data\": {\n\
+          \            \"query\": {\"original_query\": query_input, \"filters\": filters},\n\
+          \            \"results\": results\n        }\n    }\n\n    return {\"response\"\
+          : response}"
+        code_language: python3
+        desc: ''
+        outputs:
+          response:
+            children: null
+            type: object
+        selected: false
+        title: '结果归纳 '
+        type: code
+        variables:
+        - value_selector:
+          - sys
+          - query
+          variable: query_input
+        - value_selector:
+          - '1756517010582'
+          - text
+          variable: search_results
+        - value_selector:
+          - '1752550168163'
+          - filters
+          variable: filter_input
+      height: 53
+      id: '17563670323310'
+      position:
+        x: 1509.1811378243374
+        y: 558.8414780521264
+      positionAbsolute:
+        x: 1509.1811378243374
+        y: 558.8414780521264
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#17563670323310.response#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 (1)
+        type: answer
+        variables: []
+      height: 104
+      id: '17563671028130'
+      position:
+        x: 1879.6147119341558
+        y: 558.8414780521264
+      positionAbsolute:
+        x: 1879.6147119341558
+        y: 558.8414780521264
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 29235ad0-a4bb-4188-a82d-c32a54646539
+          role: system
+          text: "System Prompt:\n你是一个专门用于研究论文检索系统的智能助手。你的任务是从用户输入的自然语言中提取 **pagesize**（即需要返回的论文数量）。\n\
+            \n规则：\n1. 如果用户明确说“找3篇”“top 5 papers”“返回10条”“limit=20”等，则提取数字作为 pagesize。\n\
+            2. 数字后面可能跟“篇、条、papers、articles、results”等词。\n3. 如果没有提到数量，则默认 pagesize =\
+            \ 50。\n4. 仅输出一个 JSON 对象，格式如下：\n   {\n     \"pagesize\": 数字\n   }\n\n示例：\n\
+            \n用户输入：“帮我找3篇 2022年关于fuzz的论文”  \n输出：  \n{\n  \"pagesize\": 3\n}\n\n用户输入：“Find\
+            \ top 5 CCS papers on adversarial examples in 2023”  \n输出：  \n{\n  \"\
+            pagesize\": 5\n}\n\n用户输入：“有哪些方法可以防御对抗样本攻击？”  \n输出：  \n{\n  \"pagesize\"\
+            : 10\n}"
+        - id: 592c9cef-548c-4d57-8a17-256df40e26d0
+          role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output_enabled: false
+        title: 获取自然语言pagesize
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1756454660548'
+      position:
+        x: 351.44796591583395
+        y: -369.59413580246917
+      positionAbsolute:
+        x: 351.44796591583395
+        y: -369.59413580246917
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "\ndef main(arg1: str) -> dict:\n    return {\n        \"result\": json.loads(arg1).get(\"\
+          pagesize\")\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: number
+        selected: false
+        title: 获取int pagesize
+        type: code
+        variables:
+        - value_selector:
+          - '1756454660548'
+          - text
+          variable: arg1
+      height: 53
+      id: '1756455269677'
+      position:
+        x: 345.9000207368764
+        y: -225.59413580246917
+      positionAbsolute:
+        x: 345.9000207368764
+        y: -225.59413580246917
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -500,11 +852,105 @@ workflow:
             pt_BR: ''
             zh_Hans: ''
           label:
+            en_US: kb_id
+            ja_JP: kb_id
+            pt_BR: kb_id
+            zh_Hans: kb_id
+          llm_description: ''
+          max: null
+          min: null
+          name: kb_id
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          label:
+            en_US: doc_ids
+            ja_JP: doc_ids
+            pt_BR: doc_ids
+            zh_Hans: doc_ids
+          llm_description: ''
+          max: null
+          min: null
+          name: doc_ids
+          options: []
+          placeholder:
+            en_US: ''
+            ja_JP: ''
+            pt_BR: ''
+            zh_Hans: ''
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        params:
+          doc_ids: ''
+          kb_id: ''
+        provider_id: 030ae926-e191-4faf-b092-1755f3a894e6
+        provider_name: 【安全论文检索】论文元数据获取
+        provider_type: workflow
+        selected: false
+        title: 【安全论文检索】论文元数据获取
+        tool_configurations: {}
+        tool_description: 对应RAG search的API接口
+        tool_label: 【安全论文检索】论文元数据获取
+        tool_name: documents_metadata
+        tool_parameters:
+          doc_ids:
+            type: mixed
+            value: '{{#1756362273757.result#}}'
+          kb_id:
+            type: mixed
+            value: 82f7c450462843f18d0878f1f59879bc
+        type: tool
+      height: 53
+      id: '1756517010582'
+      position:
+        x: 1159.227553835502
+        y: 563.2484129502195
+      positionAbsolute:
+        x: 1159.227553835502
+        y: 563.2484129502195
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: 用户输入的关键词
+            ja_JP: 用户输入的关键词
+            pt_BR: 用户输入的关键词
+            zh_Hans: 用户输入的关键词
+          label:
             en_US: query
             ja_JP: query
             pt_BR: query
             zh_Hans: query
-          llm_description: ''
+          llm_description: 用户输入的关键词
           max: null
           min: null
           name: query
@@ -523,16 +969,16 @@ workflow:
           default: null
           form: form
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 检索范围，默认100，无输入不配置
+            ja_JP: 检索范围，默认100，无输入不配置
+            pt_BR: 检索范围，默认100，无输入不配置
+            zh_Hans: 检索范围，默认100，无输入不配置
           label:
             en_US: top_k
             ja_JP: top_k
             pt_BR: top_k
             zh_Hans: top_k
-          llm_description: ''
+          llm_description: 检索范围，默认100，无输入不配置
           max: null
           min: null
           name: top_k
@@ -551,16 +997,16 @@ workflow:
           default: null
           form: form
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 相似度阈值，默认0.2
+            ja_JP: 相似度阈值，默认0.2
+            pt_BR: 相似度阈值，默认0.2
+            zh_Hans: 相似度阈值，默认0.2
           label:
             en_US: similarity_threshold
             ja_JP: similarity_threshold
             pt_BR: similarity_threshold
             zh_Hans: similarity_threshold
-          llm_description: ''
+          llm_description: 相似度阈值，默认0.2
           max: null
           min: null
           name: similarity_threshold
@@ -579,16 +1025,16 @@ workflow:
           default: null
           form: llm
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 向量相似度权重，默认0.7
+            ja_JP: 向量相似度权重，默认0.7
+            pt_BR: 向量相似度权重，默认0.7
+            zh_Hans: 向量相似度权重，默认0.7
           label:
             en_US: vector_similarity_weight
             ja_JP: vector_similarity_weight
             pt_BR: vector_similarity_weight
             zh_Hans: vector_similarity_weight
-          llm_description: ''
+          llm_description: 向量相似度权重，默认0.7
           max: null
           min: null
           name: vector_similarity_weight
@@ -607,16 +1053,16 @@ workflow:
           default: null
           form: form
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 重排模型
+            ja_JP: 重排模型
+            pt_BR: 重排模型
+            zh_Hans: 重排模型
           label:
             en_US: rerank_id
             ja_JP: rerank_id
             pt_BR: rerank_id
             zh_Hans: rerank_id
-          llm_description: ''
+          llm_description: 重排模型
           max: null
           min: null
           name: rerank_id
@@ -659,16 +1105,16 @@ workflow:
           default: null
           form: form
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 页面标号，默认1
+            ja_JP: 页面标号，默认1
+            pt_BR: 页面标号，默认1
+            zh_Hans: 页面标号，默认1
           label:
             en_US: page
             ja_JP: page
             pt_BR: page
             zh_Hans: page
-          llm_description: ''
+          llm_description: 页面标号，默认1
           max: null
           min: null
           name: page
@@ -685,18 +1131,18 @@ workflow:
           type: number
         - auto_generate: null
           default: null
-          form: form
+          form: llm
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 返回结果数量，默认50
+            ja_JP: 返回结果数量，默认50
+            pt_BR: 返回结果数量，默认50
+            zh_Hans: 返回结果数量，默认50
           label:
             en_US: page_size
             ja_JP: page_size
             pt_BR: page_size
             zh_Hans: page_size
-          llm_description: ''
+          llm_description: 返回结果数量，默认50
           max: null
           min: null
           name: page_size
@@ -715,16 +1161,16 @@ workflow:
           default: null
           form: form
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: 批处理大小，默认0
+            ja_JP: 批处理大小，默认0
+            pt_BR: 批处理大小，默认0
+            zh_Hans: 批处理大小，默认0
           label:
             en_US: batch_size
             ja_JP: batch_size
             pt_BR: batch_size
             zh_Hans: batch_size
-          llm_description: ''
+          llm_description: 批处理大小，默认0
           max: null
           min: null
           name: batch_size
@@ -743,16 +1189,16 @@ workflow:
           default: null
           form: llm
           human_description:
-            en_US: ''
-            ja_JP: ''
-            pt_BR: ''
-            zh_Hans: ''
+            en_US: metedata过滤条件
+            ja_JP: metedata过滤条件
+            pt_BR: metedata过滤条件
+            zh_Hans: metedata过滤条件
           label:
             en_US: filters
             ja_JP: filters
             pt_BR: filters
             zh_Hans: filters
-          llm_description: ''
+          llm_description: metedata过滤条件
           max: null
           min: null
           name: filters
@@ -777,48 +1223,50 @@ workflow:
           similarity_threshold: ''
           top_k: ''
           vector_similarity_weight: ''
-        provider_id: 62399ece-1fb8-40e4-9d9d-3b986a8f4954
-        provider_name: 【论文检索RagSearch】
+        provider_id: 1a131a6d-8abe-4f2a-8ff0-d2215adbfd6e
+        provider_name: 【安全论文检索】rag_search
         provider_type: workflow
-        selected: true
-        title: 【论文检索RagSearch】
+        selected: false
+        title: 【安全论文检索】rag_search
         tool_configurations:
           batch_size: 10
           page: 1
-          page_size: 10
           rerank_id: 4dde1009db0841d5a0d78e76e21b4c5a
-          similarity_threshold: null
+          similarity_threshold: 0.2
           top_k: 20
-        tool_description: 提供本地知识库检索服务
-        tool_label: 【论文检索RagSearch】
+        tool_description: 对应RAG search的API接口
+        tool_label: 【安全论文检索】rag_search
         tool_name: search_kb
         tool_parameters:
           filters:
             type: mixed
             value: '{{#1752550168163.filters#}}'
+          page_size:
+            type: variable
+            value:
+            - '1756455269677'
+            - result
           query:
             type: mixed
             value: '{{#1752550168163.query#}}'
           vector_similarity_weight:
-            type: variable
-            value:
-            - '1755246789657'
-            - vec_sim_weight
+            type: constant
+            value: 0.7
         type: tool
-      height: 219
-      id: '1755679797978'
+      height: 193
+      id: '1756517030113'
       position:
-        x: 940.601564198542
-        y: 294.6963080561158
+        x: 833.3972466484379
+        y: -369.59413580246917
       positionAbsolute:
-        x: 940.601564198542
-        y: 294.6963080561158
-      selected: true
+        x: 833.3972466484379
+        y: -369.59413580246917
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     viewport:
-      x: -75.06441721068222
-      y: 126.31060033238654
-      zoom: 0.5343010484786012
+      x: -41.64777954104841
+      y: 165.18323149501978
+      zoom: 0.5931679030140585
