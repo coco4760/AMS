@@ -1,6 +1,6 @@
 services:
   client-web-html:
-    image: rd.clouditera.com/aigc/client-web:v3.4.11
+    image: rd.clouditera.com/aigc/client-web:v3.4.12
     restart: always
     ports:
       - '80:80'
