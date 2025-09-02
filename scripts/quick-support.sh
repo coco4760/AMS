@@ -28,6 +28,16 @@ get_docker_compose_cmd() {
     fi
 }
 
+# 发现 support 目录下所有包含 docker-compose 的服务目录（按名称排序）
+discover_services() {
+    local dir
+    while IFS= read -r dir; do
+        if [ -f "$dir/docker-compose.yml" ] || [ -f "$dir/docker-compose.yaml" ]; then
+            basename "$dir"
+        fi
+    done < <(find "$SUPPORT_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
+}
+
 # 检查Docker环境
 check_docker_environment() {
     if ! docker info >/dev/null 2>&1; then
@@ -169,18 +179,8 @@ start_all_services() {
     local compose_cmd="$1"
     echo -e "${GREEN}🔍 扫描support目录...${NC}"
     
-    # 按依赖顺序启动服务
-    services=(
-        "nacos"
-        "rabbitmq" 
-        "kong"
-        "iam"
-        "filems"
-        "collabnet"
-        "mineru"
-        "node_manager"
-        "rag-server"
-    )
+    # 自动扫描 support 下的所有服务目录（仅包含 docker-compose 的目录）
+    mapfile -t services < <(discover_services)
     
     # 统计变量
     success_count=0
@@ -247,18 +247,8 @@ stop_all_services() {
     local compose_cmd="$1"
     echo -e "${YELLOW}🔍 扫描support目录...${NC}"
     
-    # 按相反顺序停止服务
-    services=(
-        "rag-server"
-        "node_manager"
-        "mineru"
-        "collabnet"
-        "filems"
-        "iam"
-        "kong"
-        "rabbitmq"
-        "nacos"
-    )
+    # 自动扫描 support 下的所有服务目录，并按相反顺序停止
+    mapfile -t services < <(discover_services | tac)
     
     # 统计变量
     success_count=0
@@ -318,17 +308,8 @@ show_services_status() {
     echo -e "${GREEN}🔍 检查support服务状态...${NC}"
     echo ""
     
-    services=(
-        "nacos"
-        "rabbitmq" 
-        "kong"
-        "iam"
-        "filems"
-        "collabnet"
-        "mineru"
-        "node_manager"
-        "rag-server"
-    )
+    # 自动扫描 support 下的所有服务目录（仅包含 docker-compose 的目录）
+    mapfile -t services < <(discover_services)
     
     for service in "${services[@]}"; do
         service_path="$SUPPORT_DIR/$service"
