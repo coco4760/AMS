@@ -119,9 +119,29 @@ start_service() {
             
             # 对于有健康检查的服务，等待健康检查通过
             if [ "$service_name" = "kong" ]; then
+                print_info "等待 Kong 迁移服务完成..."
+                
+                # 等待迁移服务完成
+                local migration_wait_attempts=0
+                local max_migration_attempts=20
+                
+                while [ $migration_wait_attempts -lt $max_migration_attempts ]; do
+                    if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "kong-migrations.*Exited.*0"; then
+                        print_success "Kong 迁移服务已完成"
+                        break
+                    fi
+                    print_info "等待 Kong 迁移服务... (尝试 $((migration_wait_attempts + 1))/$max_migration_attempts)"
+                    sleep 5
+                    migration_wait_attempts=$((migration_wait_attempts + 1))
+                done
+                
+                if [ $migration_wait_attempts -eq $max_migration_attempts ]; then
+                    print_warning "Kong 迁移服务等待超时，继续检查主服务"
+                fi
+                
                 print_info "等待 Kong 健康检查通过..."
                 local health_check_attempts=0
-                local max_attempts=10
+                local max_attempts=20
                 
                 while [ $health_check_attempts -lt $max_attempts ]; do
                     if docker ps --format "table {{.Names}}\t{{.Status}}" | grep -q "kong.*healthy"; then
@@ -129,7 +149,7 @@ start_service() {
                         break
                     fi
                     print_info "等待 Kong 健康检查... (尝试 $((health_check_attempts + 1))/$max_attempts)"
-                    sleep 3
+                    sleep 5
                     health_check_attempts=$((health_check_attempts + 1))
                 done
                 

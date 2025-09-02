@@ -213,11 +213,3 @@ CREATE TABLE `permissions` (
     `action` varchar(8) NOT NULL COMMENT 'action',
     UNIQUE INDEX `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
 );
-
-INSERT INTO nacos.users
-(username, password, enabled)
-VALUES('nacos', '$2a$10$ljWomTYz4hK7mZZq02kJsOdAE2tAkDh7KLeN6vpDr5Qua1cD4TNze', 1);
-
-INSERT INTO nacos.roles
-(username, `role`)
-VALUES('nacos', 'ROLE_ADMIN');
