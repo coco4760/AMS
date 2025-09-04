@@ -17,7 +17,7 @@ workflow:
     selector:
     - env
     - KB_ID
-    value: 82f7c450462843f18d0878f1f59879bc
+    value: 9c1c73fe7bf548d8abf8ee5000b8e08a
     value_type: string
   - description: ''
     id: 7bc015c2-237e-4dc9-804b-7b8b85e72e23
@@ -25,7 +25,7 @@ workflow:
     selector:
     - env
     - RAG_SERVICE_HOST
-    value: http://rag.clouditera.com
+    value: http://192.168.31.26:38082
     value_type: string
   - description: ''
     id: 27c087cc-cd75-46da-9cb1-8d0811adee50
@@ -33,7 +33,7 @@ workflow:
     selector:
     - env
     - API_KEY
-    value: f03c5ea41a714aee97b8105f63a997fb
+    value: 9b112177f46b466191bbb0471e4367a2
     value_type: string
   features:
     file_upload:
@@ -211,7 +211,7 @@ workflow:
         type: http-request
         url: '{{#env.RAG_SERVICE_HOST#}}/api/v1/documents/{{#env.KB_ID#}}/{{#1755766802773.docId#}}/detail'
         variables: []
-      height: 197
+      height: 199
       id: '1755766853232'
       position:
         x: 380
@@ -278,24 +278,27 @@ workflow:
         selected: false
         template: "# {{ data.TITLE }}\r\n\r\n## \U0001F4CC 基本信息\r\n{% if data.TITLE_ZH\
           \ and data.TITLE_ZH != data.TITLE %}\r\n- 标题翻译：{{ data.TITLE_ZH }}\r\n{%\
-          \ endif %}\r\n- 作者：{{ data.AUTHOR | join(', ') }}\r\n- 收录会议：{{ data.JOURNAL_SOURCE_ABBREVIATION\
-          \ }} ({{ data.JOURNAL_SOURCE_ABBREVIATION }})\r\n- 发表时间：{{ data.PUBLISH_TIME\
-          \ }}\r\n- 开源项目：{{ data.OPENSOURCE_CODE_URL | join(', ') }}\r\n\r\n## \U0001F4C4\
-          \ 原文摘要（Abstract）\r\n\r\n{{ data.ABSTRACT_CONTENT }}\r\n\r\n## \U0001F4D8\
-          \ 摘要翻译\r\n\r\n{{ data.ABSTRACT_ZH }}\r\n\r\n## \U0001F9EA 内容质量评分\r\n\r\n\
-          {% for score_info in data.CONTENT_QUALITY_SCORE %}\r\n- 总体评分：{{ score_info.content_quality_score\
+          \ endif %}\r\n- 作者：{% if data.AUTHOR and data.AUTHOR|length > 0 %}{{ data.AUTHOR\
+          \ | join(', ') }}{% else %}—{% endif %}\r\n- 收录会议：{% if data.JOURNAL_SOURCE_ABBREVIATION\
+          \ %}{{ data.JOURNAL_SOURCE_ABBREVIATION }}{% else %}—{% endif %}\r\n- 发表时间：{%\
+          \ if data.PUBLISH_TIME %}{{ data.PUBLISH_TIME }}{% else %}—{% endif %}\r\
+          \n- 开源项目：{% if data.OPENSOURCE_CODE_URL and data.OPENSOURCE_CODE_URL|length\
+          \ > 0 %}{{ data.OPENSOURCE_CODE_URL | join(', ') }}{% else %}—{% endif %}\r\
+          \n\r\n## \U0001F4C4 原文摘要（Abstract）\r\n\r\n{{ data.ABSTRACT }}\r\n\r\n##\
+          \ \U0001F4D8 摘要翻译\r\n\r\n{{ data.ABSTRACT_ZH }}\r\n\r\n## \U0001F9EA 内容质量评分\r\
+          \n\r\n{% for score_info in data.CONTENT_QUALITY_SCORE %}\r\n- 总体评分：{{ score_info.content_quality_score\
           \ }}\r\n{% for dimension, info in score_info.dimension_scores.items() %}\r\
           \n- {{ dimension }}：{{ info.score }}，{{ info.reason }}\r\n{% endfor %}\r\
           \n{% endfor %}\r\n\r\n## \U0001F50D 研究主题关键词\r\n\r\n{% for keyword in data.KEYWORDS\
           \ %}\r\n- 关键词{{ loop.index }}：{{ keyword.word }}\r\n  {{ keyword.explanation\
-          \ }}\r\n{% endfor %}\r\n\r\n## \U0001F4D2 AI 笔记\r\n\r\n{% set ai_notes =\
-          \ data.AI_NOTE %}\r\n{% for note in ai_notes %}\r\n###  {{ note.title }}\r\
-          \n\r\n{{ note.note }}\r\n{% endfor %}\r\n\r\n## \U0001F4A1 最值得了解的问题？\r\n\
-          \r\n{% set qa_data = data.RECOMMENDED_QA %}\r\n{% for qa in qa_data %}\r\
+          \ }}\r\n{% endfor %}\r\n\r\n\r\n## \U0001F4D2 AI 笔记\r\n\r\n{% set ai_notes\
+          \ = data.AI_NOTE %}\r\n{% for note in ai_notes %}\r\n###  {{ note.title\
+          \ }}\r\n\r\n{{ note.note }}\r\n{% endfor %}\r\n\r\n## \U0001F4A1 最值得了解的问题？\r\
+          \n\r\n{% set qa_data = data.RECOMMENDED_QA %}\r\n{% for qa in qa_data %}\r\
           \n### Q{{ loop.index }}.{{ qa.q }}\r\n\r\n{{ qa.a }}\r\n{% endfor %}\r\n\
           \r\n## \U0001F6E1️ 免责声明\r\n\r\n- 本平台所展示的论文摘要总结内容，仅基于公开可访问的渠道内容由 AI 总结生成，旨在为用户提供免费的信息聚合与辅助参考服务。\r\
           \n- 本平台不代表任何官方机构立场，AI 生成的内容如摘要、标签、内容总结等，仅为辅助性内容，不构成权威建议或安全结论。\r\n- 如涉及版权内容或需要授权的信息展示，我们将严格遵守相关法律法规，尊重内容所有权，并接受权利人反馈处理。\r\
-          \n- 如您认为平台展示内容存在侵权或不当使用，欢迎通过反馈通道联系我们，我们将及时处理.\r\n"
+          \n- 如您认为平台展示内容存在侵权或不当使用，欢迎通过反馈通道联系我们，我们将及时处理。\r\n"
         title: 模板转换
         type: template-transform
         variables:
@@ -306,12 +309,12 @@ workflow:
       height: 53
       id: '1755767808833'
       position:
-        x: 1287
+        x: 1286
         y: 138
       positionAbsolute:
-        x: 1287
+        x: 1286
         y: 138
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -334,31 +337,27 @@ workflow:
       positionAbsolute:
         x: 1585
         y: 138
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     - data:
-        code: "import json\n\ndef parse_nested_json(data: str) -> dict:\n    \"\"\"\
-          Helper function to parse nested JSON strings within fields.\"\"\"\n    try:\n\
-          \        # 尝试解析数据为 JSON 格式\n        return json.loads(data)\n    except\
-          \ json.JSONDecodeError:\n        # 如果解析失败，返回原始数据\n        return data\n\n\
-          def main(response_body: str) -> dict:\n    try:\n        # 解析 response_body\
-          \ 字符串为 Python 字典\n        parsed_data = json.loads(response_body)\n    \
-          \    \n        result_data = parsed_data['data']['metadata']\n        result_data['CONTENT_QUALITY_SCORE']\
-          \ = parse_nested_json(result_data['CONTENT_QUALITY_SCORE'])\n        result_data['AUTHOR']\
-          \ = parse_nested_json(result_data['AUTHOR'])\n        result_data['OPENSOURCE_CODE_URL']\
-          \ = parse_nested_json(result_data['OPENSOURCE_CODE_URL'])\n            \n\
-          \        # 解析 RECOMMENDED_QA 字段\n        if 'RECOMMENDED_QA' in result_data:\n\
-          \            result_data['RECOMMENDED_QA'] = parse_nested_json(result_data['RECOMMENDED_QA'])\n\
-          \        \n        \n        # 如果需要，可以处理其他字段的嵌套 JSON 解析\n        if 'AI_NOTE'\
-          \ in result_data:\n            result_data['AI_NOTE'] = parse_nested_json(result_data['AI_NOTE'])\n\
-          \            \n            # 可以继续其他嵌套 JSON 字段的处理\n            \n       \
-          \ return {\n            \"result\": result_data\n        }\n\n    except\
-          \ json.JSONDecodeError:\n        # 如果解析失败，返回错误消息\n        return {\n   \
-          \         \"error\": \"Invalid JSON format in response_body.\"\n       \
-          \ }"
+        code: "import json\n\ndef parse_nested_json(data):\n    \"\"\"Helper function\
+          \ to parse nested JSON strings within fields.\"\"\"\n    if isinstance(data,\
+          \ (list, dict)):  \n        # 已经是 Python 对象，直接返回\n        return data\n\
+          \    if isinstance(data, str):\n        try:\n            return json.loads(data)\n\
+          \        except json.JSONDecodeError:\n            return data\n    return\
+          \ data\n\ndef main(response_body: str) -> dict:\n    try:\n        parsed_data\
+          \ = json.loads(response_body)\n        result_data = parsed_data['data']['metadata']\n\
+          \n        # 需要统一解析的字段\n        nested_fields = [\n            \"CONTENT_QUALITY_SCORE\"\
+          , \"AUTHOR\", \"OPENSOURCE_CODE_URL\",\n            \"RECOMMENDED_QA\",\
+          \ \"KEYWORDS\", \"AI_NOTE\"\n        ]\n\n        for field in nested_fields:\n\
+          \            if field in result_data:\n                result_data[field]\
+          \ = parse_nested_json(result_data[field])\n\n        return {\n        \
+          \    \"result\": result_data\n        }\n\n    except json.JSONDecodeError:\n\
+          \        return {\n            \"error\": \"Invalid JSON format in response_body.\"\
+          \n        }\n"
         code_language: python3
         desc: ''
         outputs:
@@ -376,10 +375,10 @@ workflow:
       height: 53
       id: '1755775991911'
       position:
-        x: 990
+        x: 991.5157165665105
         y: 168
       positionAbsolute:
-        x: 990
+        x: 991.5157165665105
         y: 168
       selected: false
       sourcePosition: right
@@ -387,6 +386,6 @@ workflow:
       type: custom
       width: 243
     viewport:
-      x: -758.5
-      y: 90
-      zoom: 1
+      x: 2.129875133028122
+      y: 235.59490314197342
+      zoom: 0.6597539553864471
