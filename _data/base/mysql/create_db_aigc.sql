@@ -77,7 +77,7 @@ CREATE TABLE `AGENT_SHORTCUT` (
 
 CREATE TABLE `AGENT_SPECIFICATION_LINK` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键',
-  `AGENT_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '智能体id',
+  `AGENT_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '智能体id',
   `LINK_ADDRESS` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '飞书链接',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
@@ -116,19 +116,19 @@ CREATE TABLE `ASSET_JUDGMENT_TAG_REL` (
 -- clouditera_aigc.ASSET_JUDGMENT_TARGET definition
 
 CREATE TABLE `ASSET_JUDGMENT_TARGET` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `TASK_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务ID',
-  `ADDRESS` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '研判地址',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `TASK_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务ID',
+  `ADDRESS` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '研判地址',
   `CORRELATION` tinyint DEFAULT NULL COMMENT '相关性',
-  `SUMMARY` varchar(256) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '概述',
+  `SUMMARY` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '概述',
   `CONFIDENCE_DEGREE` double DEFAULT NULL COMMENT '置信度',
-  `ACCORDING` text COLLATE utf8mb4_unicode_ci COMMENT '依据',
+  `ACCORDING` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '依据',
   `ANALYZE_CONTENT` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '研判全文',
   `ERROR_MESSAGE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '错误信息',
   `CREATED_TIME` timestamp(6) NULL DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp(6) NULL DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='资产研判目标';
 
@@ -136,21 +136,21 @@ CREATE TABLE `ASSET_JUDGMENT_TARGET` (
 -- clouditera_aigc.ASSET_JUDGMENT_TASK definition
 
 CREATE TABLE `ASSET_JUDGMENT_TASK` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `NAME` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务名称',
-  `INPUT_TYPE` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '输入类型： 文本、文件',
-  `STATUS` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务状态',
-  `REPORT_NAME` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '报告名称',
-  `REPORT_STATUS` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '报告生成状态',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `NAME` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务名称',
+  `INPUT_TYPE` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '输入类型： 文本、文件',
+  `STATUS` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务状态',
+  `REPORT_NAME` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '报告名称',
+  `REPORT_STATUS` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '报告生成状态',
   `REPORT_UPDATED_TIME` timestamp(6) NULL DEFAULT NULL COMMENT '报告创建时间',
   `FILE_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文件ID',
-  `ERROR_MESSAGE` text COLLATE utf8mb4_unicode_ci COMMENT '任务失败原因',
-  `REPORT_ERROR_MESSAGE` text COLLATE utf8mb4_unicode_ci COMMENT '报告生成失败原因',
-  `WORKFLOW_TASK_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工作流任务ID',
+  `ERROR_MESSAGE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '任务失败原因',
+  `REPORT_ERROR_MESSAGE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '报告生成失败原因',
+  `WORKFLOW_TASK_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '工作流任务ID',
   `CREATED_TIME` timestamp(6) NULL DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp(6) NULL DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='资产研判任务表';
 
@@ -312,10 +312,10 @@ CREATE TABLE `DEFECT_ANALYSIS_CLASSIFY` (
   `TASK_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务id',
   `DEFECT_TYPE` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缺陷类型',
   `SEVERITY` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '缺陷等级',
-  `DETAIL_INFO` text COLLATE utf8mb4_unicode_ci COMMENT '详细信息',
+  `DETAIL_INFO` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '详细信息',
   `FIX_SUGGEST` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '修复建议',
   `DEFECT_DESCRIBE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '缺陷描述',
-  `CAUSE_ANALYSIS` text COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
+  `CAUSE_ANALYSIS` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
@@ -328,7 +328,7 @@ CREATE TABLE `DEFECT_ANALYSIS_CLASSIFY` (
 
 CREATE TABLE `DEFECT_ANALYSIS_CONCURRENCY` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `GROUP_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组id',
+  `GROUP_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组id',
   `CONCURRENCY` int DEFAULT NULL COMMENT '并发数',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
@@ -343,14 +343,14 @@ CREATE TABLE `DEFECT_ANALYSIS_CONCURRENCY` (
 CREATE TABLE `DEFECT_ANALYSIS_INFO` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ID',
   `CLASSIFY_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分类id',
-  `AI_SAST_TASK_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'sast任务id',
+  `AI_SAST_TASK_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'sast任务id',
   `CODE_PATH` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '代码文件路径',
   `BURST_ROW_NUMBER` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '爆发行号',
   `BURST_ROW_CODE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '爆发行代码',
   `TRACK_PATH` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '跟踪路径',
   `JUDGE_RESULT` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '研判结果',
-  `CAUSE_ANALYSIS` text COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
-  `FIX_SUGGEST` text COLLATE utf8mb4_unicode_ci COMMENT '修复建议',
+  `CAUSE_ANALYSIS` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
+  `FIX_SUGGEST` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '修复建议',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
@@ -369,8 +369,8 @@ CREATE TABLE `DEFECT_ANALYSIS_TASK` (
   `TASK_STATUS` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '任务状态',
   `FAILURE_REASON` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '失败原因',
   `AUDIT_FILE_STATUS` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '审计报告状态',
-  `PROJECT_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'AiSast项目id',
-  `MANUFACTURER` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '厂商',
+  `PROJECT_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'AiSast项目id',
+  `MANUFACTURER` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '厂商',
   `UPLOAD_TIME` timestamp NULL DEFAULT NULL COMMENT '上传时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
@@ -407,22 +407,22 @@ CREATE TABLE `DOCUMENT_JOB` (
 
 CREATE TABLE `DOCUMENT_METADATA` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `file_name` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '原始文件名',
-  `file_ext` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件后缀',
+  `file_name` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '原始文件名',
+  `file_ext` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件后缀',
   `file_size` bigint NOT NULL COMMENT '文件大小',
-  `file_md5` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件MD5值',
+  `file_md5` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件MD5值',
   `file_created_time` datetime NOT NULL COMMENT '文件创建时间，stat命令能看到',
   `file_modified_time` datetime NOT NULL COMMENT '文件修改时间，stat命令能看到',
-  `source_type` enum('local','web','api','upload') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local' COMMENT '文档来源',
-  `source_url` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文档来源链接',
-  `storage_path` varchar(1000) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件存储位置',
+  `source_type` enum('local','web','api','upload') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'local' COMMENT '文档来源',
+  `source_url` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文档来源链接',
+  `storage_path` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '文件存储位置',
   `parse_time` datetime NOT NULL COMMENT '文档收录时间，就是开始解析的时间',
-  `parsed_content` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '解析后的文件内容',
-  `original_title` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文档标题',
-  `summary_content` text COLLATE utf8mb4_unicode_ci COMMENT '文档摘要',
+  `parsed_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '解析后的文件内容',
+  `original_title` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '文档标题',
+  `summary_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '文档摘要',
   `keywords` json DEFAULT NULL COMMENT '关键词',
-  `ai_notes` longtext COLLATE utf8mb4_unicode_ci COMMENT 'AI生成的文档笔记',
-  `ai_toc` text COLLATE utf8mb4_unicode_ci COMMENT 'AI提取的文档目录',
+  `ai_notes` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT 'AI生成的文档笔记',
+  `ai_toc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT 'AI提取的文档目录',
   `ai_recommended_qa` json DEFAULT NULL COMMENT 'AI推荐的问答对',
   `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录创建时间',
   `updated_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录更新时间',
@@ -597,7 +597,7 @@ CREATE TABLE `KNOWLEDGE_BASE` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
   `AGENT_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'AgentId',
   `NAME` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '知识库名称',
-  `DESCRIPTION` text COLLATE utf8mb4_unicode_ci COMMENT '描述',
+  `DESCRIPTION` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '描述',
   `DOCUMENT_COUNT` int DEFAULT NULL COMMENT '文档数量',
   `TYPE` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型：PERSON，GROUP，SYSTEM',
   `STATUS` tinyint DEFAULT NULL COMMENT '0-未公开，1-公开',
@@ -621,7 +621,7 @@ CREATE TABLE `KNOWLEDGE_BASE_HISTORY` (
   `CONVERSATION_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '对话ID',
   `KNOWLEDGE_BASE_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '知识库ID',
   `TYPE` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型：PERSON，GROUP，SYSTEM',
-  `NAME` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
+  `NAME` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
@@ -649,7 +649,7 @@ CREATE TABLE `KNOWLEDGE_BASE_SCHEDULED_CONFIG` (
 
 CREATE TABLE `KNOWLEDGE_BASE_TYPE` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `NAME` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `SORT` int DEFAULT NULL COMMENT '排序',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
@@ -663,9 +663,9 @@ CREATE TABLE `KNOWLEDGE_BASE_TYPE` (
 
 CREATE TABLE `KNOWLEDGE_BASE_USER_REL` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `USER_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID',
+  `USER_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID',
   `KNOWLEDGE_BASE_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '知识库ID',
-  `TYPE` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型：PERSON，GROUP，SYSTEM',
+  `TYPE` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '类型：PERSON，GROUP，SYSTEM',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
@@ -767,18 +767,18 @@ CREATE TABLE `NUCLEI_ASSET` (
 
 CREATE TABLE `OPERATION_LOG` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键',
-  `USER_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID',
-  `WE_CHART_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '微信ID',
-  `EMAIL` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `IP_ADDRESS` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP地址',
+  `USER_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户ID',
+  `WE_CHART_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '微信ID',
+  `EMAIL` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+  `IP_ADDRESS` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'IP地址',
   `REQUEST_URI` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请求URI',
-  `REQUEST_TYPE` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请求类型',
+  `REQUEST_TYPE` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请求类型',
   `REQUEST_PARAMS` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '请求参数',
-  `RESPONSE` text COLLATE utf8mb4_unicode_ci COMMENT '响应',
+  `RESPONSE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '响应',
   `MODULE` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '操作模块',
   `DESCRIPTION` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '描述',
   `STATUS` tinyint DEFAULT NULL COMMENT '状态-0-失败，1-成功',
-  `ERROR_MESSAGE` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '失败原因',
+  `ERROR_MESSAGE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '失败原因',
   `EXECUTION_TIME` bigint DEFAULT NULL COMMENT '执行时间(毫秒)',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
@@ -786,6 +786,7 @@ CREATE TABLE `OPERATION_LOG` (
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志表';
+
 
 -- clouditera_aigc.PAPER_ANALYSIS_INFO definition
 
@@ -845,8 +846,8 @@ CREATE TABLE `PAPER_JOURNAL_TYPE` (
   `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `JOURNAL_COUNT` int DEFAULT NULL COMMENT '顶会数量',
   `SORT` int DEFAULT NULL COMMENT '排序',
-  `START_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '开始时间',
-  `END_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '结束时间',
+  `START_TIME` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '开始时间',
+  `END_TIME` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '结束时间',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
@@ -887,6 +888,7 @@ CREATE TABLE `PAPER_SCHEDULED_CONFIG` (
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-定时任务配置表';
+
 
 -- clouditera_aigc.PENETRATION_STRATEGY_TOOL definition
 
@@ -1050,26 +1052,26 @@ CREATE TABLE `REPO_INFO` (
 -- clouditera_aigc.SAFETY_INFORMATION definition
 
 CREATE TABLE `SAFETY_INFORMATION` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   `ORIGINAL_CONTENT` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '资讯原文',
-  `SUMMARY_CONTENT` text COLLATE utf8mb4_unicode_ci COMMENT '总结内容',
-  `ORIGINAL_TITLE` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '原文标题',
-  `SUMMARY_TITLE` varchar(512) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '总结标题',
-  `ORIGINAL_URL` text COLLATE utf8mb4_unicode_ci COMMENT '原文链接',
+  `SUMMARY_CONTENT` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '总结内容',
+  `ORIGINAL_TITLE` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '原文标题',
+  `SUMMARY_TITLE` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '总结标题',
+  `ORIGINAL_URL` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '原文链接',
   `RELEASE_TIME` datetime(6) DEFAULT NULL COMMENT '发布时间',
   `SOURCE_ID` bigint DEFAULT NULL COMMENT '来源ID',
-  `PIC` text COLLATE utf8mb4_unicode_ci COMMENT '图片地址',
-  `SUMMARY_STATUS` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '总结状态',
+  `PIC` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '图片地址',
+  `SUMMARY_STATUS` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '总结状态',
   `SUMMARY_COUNT` int DEFAULT NULL COMMENT '总结次数',
   `SCORE` float DEFAULT NULL COMMENT 'AI 评分',
   `ORIGINAL_CONTENT_LENGTH` int DEFAULT NULL COMMENT '原文长度',
-  `SUMMARY_ONE_LINE` text COLLATE utf8mb4_unicode_ci COMMENT '一句话总结',
-  `SUMMARY_EXCERPT` text COLLATE utf8mb4_unicode_ci COMMENT '总结摘要',
-  `CRAWLER_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '爬虫ID',
+  `SUMMARY_ONE_LINE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '一句话总结',
+  `SUMMARY_EXCERPT` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '总结摘要',
+  `CRAWLER_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '爬虫ID',
   PRIMARY KEY (`ID`),
   KEY `SAFETY_INFORMATION_SOURCE_ID_IDX` (`SOURCE_ID`) USING BTREE,
   KEY `SAFETY_INFORMATION_RELEASE_TIME_IDX` (`RELEASE_TIME`) USING BTREE
@@ -1095,12 +1097,12 @@ CREATE TABLE `SAFETY_INFORMATION_SCHEDULED_CONFIG` (
 
 CREATE TABLE `SAFETY_INFORMATION_SOURCE` (
   `ID` bigint NOT NULL COMMENT '主键ID',
-  `NAME` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `SORT` int DEFAULT NULL COMMENT '排序',
   `CREATED_TIME` datetime(6) DEFAULT NULL,
-  `CREATED_BY` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `CREATED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `UPDATED_TIME` datetime(6) DEFAULT NULL,
-  `UPDATED_BY` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `UPDATED_BY` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全资讯来源';
 
@@ -1108,13 +1110,13 @@ CREATE TABLE `SAFETY_INFORMATION_SOURCE` (
 -- clouditera_aigc.SAFETY_INFORMATION_SOURCE_TYPE definition
 
 CREATE TABLE `SAFETY_INFORMATION_SOURCE_TYPE` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `NAME` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `SORT` int DEFAULT NULL COMMENT '排序',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1122,13 +1124,13 @@ CREATE TABLE `SAFETY_INFORMATION_SOURCE_TYPE` (
 -- clouditera_aigc.SAFETY_INFORMATION_SOURCE_TYPE_REL definition
 
 CREATE TABLE `SAFETY_INFORMATION_SOURCE_TYPE_REL` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
   `SOURCE_ID` bigint DEFAULT NULL COMMENT '资讯源ID',
-  `SOURCE_TYPE_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '资讯源类型ID',
+  `SOURCE_TYPE_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '资讯源类型ID',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(65) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全资讯源与类型关联表';
 
@@ -1137,11 +1139,11 @@ CREATE TABLE `SAFETY_INFORMATION_SOURCE_TYPE_REL` (
 
 CREATE TABLE `SAFETY_INFORMATION_TAG` (
   `ID` bigint NOT NULL COMMENT '主键ID',
-  `NAME` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标签名称',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标签名称',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全资讯标签表';
 
@@ -1149,13 +1151,13 @@ CREATE TABLE `SAFETY_INFORMATION_TAG` (
 -- clouditera_aigc.SAFETY_INFORMATION_TAG_REL definition
 
 CREATE TABLE `SAFETY_INFORMATION_TAG_REL` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '主键ID',
-  `SAFETY_INFORMATION_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '安全资讯ID',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '主键ID',
+  `SAFETY_INFORMATION_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '安全资讯ID',
   `SAFETY_INFORMATION_TAG_ID` bigint DEFAULT NULL COMMENT '安全资讯标签ID',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人'
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全资讯标签关联表';
 
 
@@ -1163,12 +1165,12 @@ CREATE TABLE `SAFETY_INFORMATION_TAG_REL` (
 
 CREATE TABLE `SAFETY_INFORMATION_TOPIC` (
   `ID` bigint NOT NULL COMMENT '主键ID',
-  `NAME` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '专题名称',
+  `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '专题名称',
   `SORT` int DEFAULT NULL COMMENT '排序',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全资讯专题分类表';
 
@@ -1176,13 +1178,13 @@ CREATE TABLE `SAFETY_INFORMATION_TOPIC` (
 -- clouditera_aigc.SAFETY_INFORMATION_TOPIC_REL definition
 
 CREATE TABLE `SAFETY_INFORMATION_TOPIC_REL` (
-  `ID` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
-  `SAFETY_INFORMATION_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '资讯ID',
+  `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '主键ID',
+  `SAFETY_INFORMATION_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '资讯ID',
   `SAFETY_INFORMATION_TOPIC_ID` bigint DEFAULT NULL COMMENT '专题ID',
   `CREATED_TIME` datetime(6) DEFAULT NULL COMMENT '创建时间',
-  `CREATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` datetime(6) DEFAULT NULL COMMENT '更新时间',
-  `UPDATED_BY` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新时间',
+  `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='资讯专题关联表';
 
