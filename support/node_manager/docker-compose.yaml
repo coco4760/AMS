@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   node_manager:
     image: rd.clouditera.com/infra/collabnet:v2.7-node_manager-x86_64-test-8
