@@ -13,7 +13,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
   
@@ -33,7 +32,6 @@ services:
     environment:
       - C_FORCE_ROOT=true
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
        
@@ -53,7 +51,6 @@ services:
     environment:
       - C_FORCE_ROOT=true
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
   
@@ -73,7 +70,6 @@ services:
     environment:
       - C_FORCE_ROOT=true
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
 
@@ -93,7 +89,6 @@ services:
     environment:
       - C_FORCE_ROOT=true
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
 
@@ -108,7 +103,6 @@ services:
     environment:
       - C_FORCE_ROOT=true
     depends_on:
-      - rag_service_postgres
       - rag_service_redis
     restart: always
   
@@ -124,22 +118,6 @@ services:
         max-file: "3"
     depends_on:
       - rag_service_backend
-
-  # 数据库服务
-  rag_service_postgres:
-    image: rd.clouditera.com/library/pgvector:pg17
-    ports:
-      - "35432:5432"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    env_file:
-      - .env
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    restart: always
 
   rag_service_redis:
     image: rd.clouditera.com/library/redis:latest

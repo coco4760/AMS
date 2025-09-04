@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   crawler:
     image: rd.clouditera.com/plugin/crawl4ai:v4.1

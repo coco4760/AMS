@@ -1,4 +1,3 @@
-version: '3.1'
 services:
   ai-plugin-for-vul:
     image: rd.clouditera.com/aigc/ai-plugin-for-vul:v0.1.7
