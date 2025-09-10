@@ -9,4 +9,4 @@ INSERT INTO public.api_keys (id,api_key,name,remark,owner_id,created_at,expired_
 	 ('3325c9a0f83d4bbcb206ec3d9450e188','02988ca9d78640f7989cd64e1a34df15','安全智库','',1,'2025-09-03 06:53:40.485569',NULL),
 	 ('da0101d82ded4096869d5d78dc5dff6d','2dd13f7a99d9451db8ae751a7b069fd2','论文','',2,'2025-09-03 06:54:37.263461',NULL);
 
-INSERT INTO public.knowledge_bases (id, "name", description, owner_id, created_at, updated_at, doc_updated_at, embedding_model_id, embedding_model_dimension, chunk_size, chunk_lines_overlap) VALUES('1', 'paper_ainote', NULL, 2, '2025-09-03 06:52:18.682', '2025-09-03 06:52:18.682', NULL, NULL, NULL, 1024, 100);
+INSERT INTO public.knowledge_bases (id, "name", description, owner_id, created_at, updated_at, doc_updated_at, embedding_model_id, embedding_model_dimension, chunk_size, chunk_lines_overlap) VALUES('1', 'paper_ainote', NULL, 2, '2025-09-03 06:52:18.682', '2025-09-03 06:52:18.682', NULL, NULL, 1024, 16384, 100);
