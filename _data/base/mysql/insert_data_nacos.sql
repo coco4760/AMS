@@ -40,7 +40,7 @@ token: AXkL9pwkf46vgD6kSI5u6ZCHQMXRMtxr
 summaryThreadNum: 1','5d0f6f6f4be12c97f48cdb3764c0bc25','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
 	 ('secpaper','aigc','host: http://192.168.31.92:18082','a1a4a86787c1dcc431c5cf5bea232561','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,'');
 INSERT INTO nacos.config_info (data_id,group_id,content,md5,gmt_create,gmt_modified,src_user,src_ip,app_name,tenant_id,c_desc,c_use,effect,`type`,c_schema,encrypted_data_key) VALUES
-	 ('rag','aigc','base-url=http://192.168.31.26:38082
+	 ('rag','aigc','base-url=http://192.168.31.92:38082
 api-key=02988ca9d78640f7989cd64e1a34df15
 paper-api-key=2dd13f7a99d9451db8ae751a7b069fd2','fdac4f63832158a26ff9746211220377','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
 	 ('sast','aigc','host: http://192.168.31.92:8031','ca2b3454903beeea2344ea7ed469f3a4','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),

@@ -12,8 +12,6 @@ services:
         max-file: "3"
     env_file:
       - .env
-    depends_on:
-      - rag_service_redis
     restart: always
   
   slow_parse_worker:
@@ -31,8 +29,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-    depends_on:
-      - rag_service_redis
     restart: always
        
   parse_worker:
@@ -50,8 +46,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-    depends_on:
-      - rag_service_redis
     restart: always
   
   vectorize_worker:
@@ -69,8 +63,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-    depends_on:
-      - rag_service_redis
     restart: always
 
   system_worker:
@@ -88,8 +80,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-    depends_on:
-      - rag_service_redis
     restart: always
 
   rag_service_flower:
@@ -102,8 +92,6 @@ services:
       - .env
     environment:
       - C_FORCE_ROOT=true
-    depends_on:
-      - rag_service_redis
     restart: always
   
   rag_service_frontend:
@@ -118,17 +106,6 @@ services:
         max-file: "3"
     depends_on:
       - rag_service_backend
-
-  rag_service_redis:
-    image: rd.clouditera.com/library/redis:latest
-    ports:
-      - "36379:6379"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    restart: always
 
 # 移除外部网络依赖，让Docker Compose自动创建网络
 # networks:

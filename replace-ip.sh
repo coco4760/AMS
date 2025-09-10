@@ -51,6 +51,7 @@ SEARCH_PATTERNS=(
     "*.txt"
     "*.cfg"
     "*.ini"
+    "*.sql"
 )
 
 # 构建搜索命令
