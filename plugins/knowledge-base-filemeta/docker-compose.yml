@@ -1,0 +1,9 @@
+services:
+  clouditera-knowledge:
+    image: rd.clouditera.com/aigc/plugins/zhiku:v1.2.0-tool
+    ports:
+      - "38001:8000"
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+      - STORE_TO_DATABASE=false
