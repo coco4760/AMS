@@ -1,0 +1,429 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 【论文研读】文件元数据提取 20250917
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: langgenius/xinference:0.0.4@db625fbb6b2f235adb820dd7dc3d98090f536e888c20150a0ba76ea47f50b178
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1753943469636-source-1758091952223-target
+      source: '1753943469636'
+      sourceHandle: source
+      target: '1758091952223'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1758091952223-source-1758091986783-target
+      source: '1758091952223'
+      sourceHandle: source
+      target: '1758091986783'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758091986783'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758091986783start-source-1758091994631-target
+      source: 1758091986783start
+      sourceHandle: source
+      target: '1758091994631'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1758092807300-source-1758092034024-target
+      source: '1758092807300'
+      sourceHandle: source
+      target: '1758092034024'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758091986783-source-1758092807300-target
+      source: '1758091986783'
+      sourceHandle: source
+      target: '1758092807300'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: md_content
+          max_length: 500000
+          options: []
+          required: true
+          type: paragraph
+          variable: md_content
+      height: 90
+      id: '1753943469636'
+      position:
+        x: -314.8143999999999
+        y: 75.82240000000002
+      positionAbsolute:
+        x: -314.8143999999999
+        y: 75.82240000000002
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import re, random\n\nAPPROX_TOKEN = re.compile(r'\\w+|[^\\w\\s]', flags=re.U)\n\
+          WINDOW_TOK   = 10000\nSTEP_TOK     = WINDOW_TOK // 2\n\ndef main(arg1: str)\
+          \ -> dict:          # 把 text 改为 arg1，和调用方保持一致\n    tokens = APPROX_TOKEN.findall(arg1)\n\
+          \    if len(tokens) <= WINDOW_TOK:\n        return {\"result\": [{\"text\"\
+          : arg1}]}\n\n    slices = [''.join(tokens[i:i+WINDOW_TOK])\n           \
+          \   for i in range(0, len(tokens)-WINDOW_TOK+1, STEP_TOK)]\n\n    selected\
+          \ = random.sample(slices, min(10, len(slices)))\n    return {\"result\"\
+          : [{\"text\": s} for s in selected]}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 论文切片
+        type: code
+        variables:
+        - value_selector:
+          - '1753943469636'
+          - md_content
+          variable: arg1
+      height: 54
+      id: '1758091952223'
+      position:
+        x: 54.45507215744556
+        y: 75.82240000000002
+      positionAbsolute:
+        x: 54.45507215744556
+        y: 75.82240000000002
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1758091952223'
+        - result
+        output_selector:
+        - '1758091994631'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758091986783start
+        title: 迭代
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758091986783'
+      position:
+        x: 393.8534721574455
+        y: 75.82240000000002
+      positionAbsolute:
+        x: 393.8534721574455
+        y: 75.82240000000002
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758091986783start
+      parentId: '1758091986783'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 417.8534721574455
+        y: 143.82240000000002
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1758091986783'
+          - item
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758091986783'
+        model:
+          completion_params:
+            max_tokens: 32768
+          mode: chat
+          name: SecGPT-WJ
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 0a3da6f4-239c-46ce-b571-bf1d6fc9f677
+          role: system
+          text: "你的任务是基于输入的论文切片，一次性提取所需信息并严格输出标准化 JSON。  \n请严格按照字段要求提取内容，不要输出任何多余文字、提示或解释。\
+            \  \n必须有 严格的标点符号（如冒号、逗号、引号、括号、句号等都必须符合标准）。\n若字段信息无法获取，请返回空字符串 \"\" 或空数组\
+            \ []。  \n\n=========================\n输出 JSON 格式如下：\n{\n  \"language\"\
+            : \"论文语言，只能是 zh 、 en、other\",\n  \"title\": \"从论文原文标题\",\n  \"author\"\
+            : [\"作者1\", \"作者2\", \"作者N\"]\n  \"abstract\": \"论文摘要原文（必须优先严格从论文的 Abstract\
+            \ 区域一字不差的获取，如果当前切片不包含 Abstract 区域，则返回空字符串 \\\"\\\"）\",\n  \"title_zh\"\
+            : \"论文标题翻译成中文\",\n  \"abstract_zh\": \"论文摘要翻译成中文（若当前切片没有摘要则返回空字符串 \\\"\
+            \\\"）\",\n  \"opensource_code_url\": [\n    \"论文中明确提到的所有开源代码仓库或项目的完整 URL，按出现顺序返回\"\
+            ,\n    \"若无则返回空数组 []\"\n  ],\n  \"paper_type\": \"论文类型，只能返回数字 1/2/3/4，分别对应：1-Survey，2-Theory，3-Application，4-Dataset_Benchmark\"\
+            ,\n  \"ai_abstract\": \"生成50字左右的中文极短摘要，需高度学术化、概括论文核心要点+技术+结论，能快速理解论文整体脉络，字数必须严格控制在40-50字之间\"\
+            ,\n  \"ai_note\": \"针对当前切片中的章节内容，逐个章节生成 AI 笔记。每个章节笔记需≥100字，必须结合章节核心内容进行深入总结，涵盖背景、主要观点或方法、关键数据或结果，并补充适当分析与上下文联系。若章节有明确标题，则直接使用原文标题；若章节内容较多但无标题，则根据内容自动生成一个专业、学术的中文标题；若内容很少且不足以形成完整笔记，则跳过不输出。若当前切片完全没有章节信息，则输出空数组\
+            \ []。语言需专业、学术、完整。输出为一个数组，每个元素对应章节的标题和生成的笔记，顺序与论文段落一致，格式为 {“title”: “中文章节标题”,\
+            \ “note”: “生成的中文笔记”}。\"\n  \"content_scores\": [根据学术评价维度打分，输出整数 0-10，请基于下方定义的评分标准，从六个维度进行内容质量评价，给出维度打分与最终得分（0-10），并说明理由。],\n\
+            \  \"recommended_qa\": [\n    {\"q\": \"用户最值得了解的问题1（核心创新或关键方法）\", \"a\"\
+            : \"详细、完整、专业的答案，不少于150字\"},\n    {\"q\": \"用户最值得了解的问题2（核心实验或结果意义）\", \"\
+            a\": \"详细、完整、专业的答案，不少于150字\"},\n    {\"q\": \"用户最值得了解的问题3（价值、应用或未来方向）\"\
+            , \"a\": \"详细、完整、专业的答案，不少于150字\"}\n  ],\n  \"keywords\": [\n    {\"word\"\
+            : \"关键词1\", \"explanation\": \"对应的中文解释\"},\n    {\"word\": \"关键词2\", \"\
+            explanation\": \"对应的中文解释\"},\n    {\"word\": \"关键词3\", \"explanation\"\
+            : \"对应的中文解释\"},\n    {\"word\": \"关键词4\", \"explanation\": \"对应的中文解释\"\
+            },\n    {\"word\": \"关键词5\", \"explanation\": \"对应的中文解释\"}\n  ]\n}\n\n\
+            =========================\n字段提取要求：\n1. **language**：根据全文语言判断，只能输出 \"zh\"\
+            \ 、 \"en\"、\"other\"。\n2. **title**：从论文中提取，直接使用论文原文标题。\n3. **author**:\
+            \ \"从论文原文提取作者，只从论文第一个切片的开头约200字内提取作者姓名，多名作者输出为列表，忽略机构和邮箱信息，如果不存在作者信息，输出为[]。\"\
+            \n4. **abstract**：\n   - 必须严格从论文原文中 Abstract 区域严格一字不差的获取完整摘要。\n   - 如果当前切片不包含\
+            \ Abstract 区域，则返回空字符串 \"\"。\n   - 仅在切片中确实存在 Abstract 区域时，才提取一字不差的摘要。\n\
+            5. **title_zh**：将论文标题翻译成中文，要求专业、学术、无误。\n6. **abstract_zh**：将 Abstract\
+            \ 翻译成中文；若没有摘要则翻译模型总结的摘要。\n7. **opensource_code_url**：提取论文中明确提到的所有开源代码仓库或项目\
+            \ URL，保持原文顺序输出数组，若无则返回空数组 []。\n8. **paper_type**：根据论文核心内容判断类别，只能返回数字 1/2/3/4：\n\
+            \   - 1 = Survey（综述）\n   - 2 = Theory（理论）\n   - 3 = Application（应用）\n\
+            \   - 4 = Dataset_Benchmark（数据集或基准）\n9. **ai_abstract**（AI极短摘要）：\n   -\
+            \ 必须基于论文标题、关键词和摘要来生成。\n   - 严格40-50个中文字符，1句话概括论文核心要点+技术+结论。\n   - 内容必须完整、学术化、概括论文整体脉络，能快速帮助理解论文。\n\
+            10. **ai_note**（AI笔记）：\n   - 针对当前切片中的章节内容，逐个章节生成 AI 笔记。\n   - 每个章节生成的笔记需≥100字，必须结合章节核心内容进行深入总结。\n\
+            \   - 内容需涵盖该章节的背景、主要观点或方法、关键数据或结果，并补充适当分析与上下文联系。\n   - 如果章节有明确标题，则直接使用原文标题。\n\
+            \   - 如果章节内容较多但没有明确标题，则模型需根据内容自动生成一个专业、学术的中文标题。\n   - 如果章节内容很少且无法形成完整笔记，则跳过，不输出该章节。\n\
+            \   - 语言需专业、学术、完整。\n   - 输出为一个数组，每个元素对应章节的标题和一段笔记，顺序与论文段落一致。\n   - 格式为\
+            \ {“title”: “中文章节标题”, “note”: “生成的中文笔记”}\n11. **content_quality_score**：\n\
+            \    - 根据学术评价维度打分，输出整数 0-10，必须遵循如下标准：\n      - 10 分：内容极高质量，研究意义重大，创新性极强，符合顶级期刊水准。\n\
+            \      - 6 分：内容较高质量，有一定学术价值，创新性中等，方法合理，属于中上水平。\n      - 2 分：内容较低质量，研究意义或创新性较弱，方法或数据不足。\n\
+            \    - 打分需参考以下五个维度，每个维度都需单独评分（0、2、6、10）并说明评分理由：\n    1. 社会价值：论文成果在学术界或产业界的实际贡献与影响力。是否解决关键问题、是否被广泛引用或落地应用。\n\
+            \    2. 原创性与创新性：是否提出新理论、新方法、或对现有成果有重大改进。\n    3. 结构与逻辑性：文章结构是否完整、层次清晰，内容推理链条是否严密，结论是否有充分支撑。\n\
+            \    4. 内容撰写质量：语言是否流畅、专业术语使用是否准确，摘要标题是否精准，图表是否清晰易读。\n    5. 背景时效性：所研究问题是否具备现实意义，是否紧贴当前技术或产业热点。\n\
+            \n    - 最终评分计算方式：\n    - 将五个维度的分数严格相加；\n    - 把总和除以 5，得到一个精确平均值，如果有小数\
+            \ 结果保留一位小数；\n    - 然后向下取整，作为最终的 content_quality_score 分值。\n    - 注意：必须逐步展示计算过程（总分\
+            \ → 平均值 → 保留小数 → 向下取整），不得跳过任何步骤，否则判为错误。\n    - 输出格式参考如下（JSON）：\n     \
+            \ \"content_scores\": [\n        {\n          \"dimension_scores\": {\n\
+            \            \"社会价值\": {\"score\": 整数 (0/2/6/10), \"reason\": \"说明论文在学术界或产业界的实际贡献与影响力\"\
+            },\n            \"原创性与创新性\": {\"score\": 整数 (0/2/6/10), \"reason\": \"\
+            说明论文在新理论、新方法或改进方面的创新程度\"},\n            \"结构与逻辑性\": {\"score\": 整数 (0/2/6/10),\
+            \ \"reason\": \"说明文章结构、逻辑严密性和结论支撑情况\"},\n            \"内容撰写质量\": {\"score\"\
+            : 整数 (0/2/6/10), \"reason\": \"说明语言是否流畅、术语准确、图表清晰度等\"},\n            \"\
+            背景时效性\": {\"score\": 整数 (0/2/6/10), \"reason\": \"说明研究问题是否紧贴当前技术热点和现实意义\"\
+            }\n          },\n          \"content_quality_score\": 整数 (0-10，取五个维度分数的平均值向下取整)\n\
+            \        }\n      ]\n    -  请根据所给论文段落内容，严格依据上述规则评估并输出对应结果。\n\n12. **recommended_qa**：\n\
+            \    - 生成 3 个用户最值得了解的问题和对应高质量答案。\n    - 问题需围绕论文核心创新点、关键方法、实验或价值展开。\n \
+            \   - 答案必须完整、专业、严谨，且每个答案字数不少于150字。\n13. **keywords**：\n    - 从论文原文中提取\
+            \ 5 个最能代表论文主题的关键词。\n    - 每个关键词都需提供对应的中文解释（在原文语境下解释，不是直译）。\n    - 严格输出\
+            \ 5 个，若找不到足够数量，需根据全文主题补足。\n\n=========================\n输入：\n- paper_content:\
+            \  {{#1758091986783.item#}}"
+        selected: false
+        title: LLM 2
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1758091994631'
+      parentId: '1758091986783'
+      position:
+        x: 126.96320000000003
+        y: 68
+      positionAbsolute:
+        x: 520.8166721574455
+        y: 143.82240000000002
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      zIndex: 1002
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1758092807300'
+          - text
+          variable: text
+        selected: false
+        title: 结束 2
+        type: end
+      height: 90
+      id: '1758092034024'
+      position:
+        x: 1264.1958721574454
+        y: 75.82240000000002
+      positionAbsolute:
+        x: 1264.1958721574454
+        y: 75.82240000000002
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            max_tokens: 32768
+          mode: chat
+          name: SecGPT-WJ
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: df332418-b618-4ea6-bb45-dbbff9129b4b
+          role: system
+          text: "输入JSON列表：{{#1758091986783.output#}}\n你的任务是基于输入的多个切片元数据提取结果 JSON列表，进行汇总并生成一份完整的论文标准化\
+            \ JSON。\n请严格按照字段要求合并内容，不要输出任何多余文字、提示或解释。\n必须有 严格的标点符号（如冒号、逗号、引号、括号、句号等都必须符合标准）。\n\
+            若字段信息无法获取，请返回空字符串 “” 或空数组 []。\n\n合并规则：\n  1.  language：若所有切片一致则直接输出；若不一致则以出现频率最高的值为准。\n\
+            \  2.  title：从包含标题的切片中提取，若多个切片重复，去重保留一份。\n  3   author: [\"作者1\", \"作者2\"\
+            , \"作者N\"]\n  4.  abstract：只保留在第一个包含 Abstract 的切片中提取的完整摘要，其他切片摘要忽略。\n\
+            \  5.  title_zh：直接取标题翻译结果（如有多个，以第一个非空为准）。\n  6.  abstract_zh：对应 abstract\
+            \ 的翻译，只取一次。\n  7.  opensource_code_url：合并所有切片中的 URL，保持顺序并去重。\n  8.  paper_type：根据整体内容，若切片间结果不一致，则选择多数出现的类别。\n\
+            \  9.  ai_abstract：只生成一次（基于最终汇总后的 title、abstract、keywords）。\n  10. ai_note：合并所有切片的章节笔记，保持顺序输出；\n\
+            \  • 若章节重复（标题相同），则合并为一条；\n  • 若不同，则依顺序追加。\n  11. content_scores：仅保留一份完整评分（若多个切片都有，选择信息最完整的一份）。\n\
+            \  12. recommended_qa：合并所有切片的问题，去重后选取 3 条最核心、最完整的。\n  13. keywords：合并所有切片关键词，去重后输出\
+            \ 5 个最能代表全文主题的关键词。\n\n最终输出 JSON 格式如下：（注意：最终输出的最外层字段名（key）必须全部使用大写；其中 RECOMMENDED_QA\
+            \ 与 KEYWORDS 的内部子字段 q、a、word、explanation 保持小写。）\n{\n  \"LANGUAGE\": \"\
+            论文语言，只能是 zh 、 en、other\",\n  \"TITLE\": \"从论文原文标题\",\n  \"AUTHOR\": \"\
+            从论文原文提取作者，只从论文第一个切片的开头约200字内提取作者姓名，多名作者输出为列表，忽略机构和邮箱信息，如果不存在作者信息，输出为[]。\"\
+            ,\n  \"ABSTRACT\": \"论文摘要原文（必须优先严格从论文的 Abstract 区域一字不差的获取，如果当前切片不包含 Abstract\
+            \ 区域，则返回空字符串 \\\"\\\"）\",\n  \"TITLE_ZH\": \"论文标题翻译成中文\",\n  \"ABSTRACT_ZH\"\
+            : \"论文摘要翻译成中文（若当前切片没有摘要则返回空字符串 \\\"\\\"）\",\n  \"OPENSOURCE_CODE_URL\"\
+            : [\n    \"论文中明确提到的所有开源代码仓库或项目的完整 URL，按出现顺序返回\",\n    \"若无则返回空数组 []\"\n\
+            \  ],\n  \"PAPER_TYPE\": \"论文类型，只能返回数字 1/2/3/4，分别对应：1-Survey，2-Theory，3-Application，4-Dataset_Benchmark\"\
+            ,\n  \"AI_ABSTRACT\": \"生成50字左右的中文极短摘要，需高度学术化、概括论文核心要点+技术+结论，能快速理解论文整体脉络，字数必须严格控制在40-50字之间\"\
+            ,\n  \"AI_NOTE\": \"针对当前切片中的章节内容，逐个章节生成 AI 笔记。每个章节笔记需≥100字，必须结合章节核心内容进行深入总结，涵盖背景、主要观点或方法、关键数据或结果，并补充适当分析与上下文联系。若章节有明确标题，则直接使用原文标题；若章节内容较多但无标题，则根据内容自动生成一个专业、学术的中文标题；若内容很少且不足以形成完整笔记，则跳过不输出。若当前切片完全没有章节信息，则输出空数组\
+            \ []。语言需专业、学术、完整。输出为一个数组，每个元素对应章节的标题和生成的笔记，顺序与论文段落一致，格式为 {“title”: “中文章节标题”,\
+            \ “note”: “生成的中文笔记”}。\",\n  \"CONTENT_QUALITY_SCORE\": [\n    \"根据学术评价维度打分，输出整数\
+            \ 0-10，请基于下方定义的评分标准，从六个维度进行内容质量评价，给出维度打分与最终得分（0-10），并说明理由。\"\n  ],\n \
+            \ \"RECOMMENDED_QA\": [\n    {\"q\": \"用户最值得了解的问题1（核心创新或关键方法）\", \"a\"\
+            : \"详细、完整、专业的答案，不少于150字\"},\n    {\"q\": \"用户最值得了解的问题2（核心实验或结果意义）\", \"\
+            a\": \"详细、完整、专业的答案，不少于150字\"},\n    {\"q\": \"用户最值得了解的问题3（价值、应用或未来方向）\"\
+            , \"a\": \"详细、完整、专业的答案，不少于150字\"}\n  ],\n  \"KEYWORDS\": [\n    {\"word\"\
+            : \"关键词1\", \"explanation\": \"对应的中文解释\"},\n    {\"word\": \"关键词2\", \"\
+            explanation\": \"对应的中文解释\"},\n    {\"word\": \"关键词3\", \"explanation\"\
+            : \"对应的中文解释\"},\n    {\"word\": \"关键词4\", \"explanation\": \"对应的中文解释\"\
+            },\n    {\"word\": \"关键词5\", \"explanation\": \"对应的中文解释\"}\n  ]\n}"
+        selected: true
+        title: 元数据汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 90
+      id: '1758092807300'
+      position:
+        x: 865.6998721574457
+        y: 75.82240000000002
+      positionAbsolute:
+        x: 865.6998721574457
+        y: 75.82240000000002
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 304.7137752586973
+      y: 352.24455139206816
+      zoom: 0.5364850728960496

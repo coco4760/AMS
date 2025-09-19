@@ -18,3 +18,21 @@ DELETE FROM `clouditera_aigc`.`AGENT_SHORTCUT` WHERE AGENT_ID = "11";
 
 -- 安全智库智能体添加prompt
 UPDATE `clouditera_aigc`.`AGENT` SET PROMPT = "kb_ids" WHERE ID = "21";
+
+
+-- 20250919提测内容-start--------------------------------
+
+-- 缺陷研判新增开始时间，结束时间
+ALTER TABLE `clouditera_aigc`.`DEFECT_ANALYSIS_INFO` 
+ADD COLUMN `START_TIME` datetime NULL COMMENT '开始时间' AFTER `FIX_SUGGEST`,
+ADD COLUMN `END_TIME` datetime NULL COMMENT '结束时间' AFTER `START_TIME`;
+
+-- 论文研读智能体修改prompt，mode_type
+UPDATE AGENT SET PROMPT ="kb_id,doc_id",MODE_TYPE = "CHAT_WORKFLOW" WHERE ID = "2";
+
+-- AGENT表新增论文研读摘要总结
+INSERT INTO `clouditera_aigc`.`AGENT` (`ID`, `AGENT_NAME`, `WORKFLOW_NAME`, `AGENT_TYPE`, `TAG`, `PROMPT`, `APP_ID`, `FLAG`, `SORT`, `SHORTCUT`, `KL_STATUS`, `KEY`, `CREATED_TIME`, `CREATED_BY`, `UPDATED_TIME`, `UPDATED_BY`, `MODE_TYPE`, `CONFIG`, `VERSION`, `STATUS`, `TYPE`, `COUNT_TOKENS`, `COMMON_HOME`, `COMMON_CONVERSATION`, `COMMON_QUESTION`, `PARENT_ID`, `AGENT_METADATA`) VALUES ('119', '论文研读', '摘要总结', 'PAPER_ANALYSIS', 'PAPER_ANALYSIS', NULL, '28984c0f-2cca-4266-a581-fe00a423079a', 0, 119, 0, 0, 'app-bUXwZ1m2vY9od4tdXatv11dA', NULL, NULL, NULL, NULL, 'CHAT_WORKFLOW', NULL, '1.3', 'AGENT_ALPHA', 'KNOWLEDGE', 1, 0, 0, 0, NULL, NULL);
+
+
+
+-- 20250919提测内容-end----------------------------------
