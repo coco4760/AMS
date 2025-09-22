@@ -1,0 +1,2948 @@
+app:
+  description: 上传md文档，提取目录结构，生成AI笔记，生成推荐问题
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 【安全智库】文件元数据提取 20250921
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: langgenius/xinference:0.0.4@db625fbb6b2f235adb820dd7dc3d98090f536e888c20150a0ba76ea47f50b178
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1753943001799-source-1753943880732-target
+      selected: false
+      source: '1753943001799'
+      sourceHandle: source
+      target: '1753943880732'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: code
+      id: 1753943880732-source-1754899208639-target
+      source: '1753943880732'
+      sourceHandle: source
+      target: '1754899208639'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1754899264959-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1754899264959'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1754899264959'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1754899264959start-source-1754899285039-target
+      source: 1754899264959start
+      sourceHandle: source
+      target: '1754899285039'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1754899264959-source-1754899381231-target
+      source: '1754899264959'
+      sourceHandle: source
+      target: '1754899381231'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1754899381231-source-1754899920822-target
+      source: '1754899381231'
+      sourceHandle: source
+      target: '1754899920822'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1755513235894-source-1755513241373-target
+      source: '1755513235894'
+      sourceHandle: source
+      target: '1755513241373'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1755513241373-source-1755513247661-target
+      source: '1755513241373'
+      sourceHandle: source
+      target: '1755513247661'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1755513247661-source-1755592668658-target
+      source: '1755513247661'
+      sourceHandle: source
+      target: '1755592668658'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1755513247661-source-1755592739194-target
+      source: '1755513247661'
+      sourceHandle: source
+      target: '1755592739194'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1755592739194-source-1755592771370-target
+      source: '1755592739194'
+      sourceHandle: source
+      target: '1755592771370'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: variable-aggregator
+      id: 1755592668658-source-1755592771370-target
+      source: '1755592668658'
+      sourceHandle: source
+      target: '1755592771370'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: variable-aggregator
+      id: 1755592469505-source-1755592771370-target
+      source: '1755592469505'
+      sourceHandle: source
+      target: '1755592771370'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: iteration
+      id: 1755592771370-source-1755592914842-target
+      source: '1755592771370'
+      sourceHandle: source
+      target: '1755592914842'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1755592914842'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1755592914842start-source-1755593011387-target
+      source: 1755592914842start
+      sourceHandle: source
+      target: '1755593011387'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: code
+      id: 1755592914842-source-1755593116724-target
+      source: '1755592914842'
+      sourceHandle: source
+      target: '1755593116724'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: template-transform
+      id: 1755593116724-source-1755593160467-target
+      source: '1755593116724'
+      sourceHandle: source
+      target: '1755593160467'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1755513247661-source-1755592469505-target
+      source: '1755513247661'
+      sourceHandle: source
+      target: '1755592469505'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1754899208639-source-1755513235894-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1755513235894'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1754899208639-source-1758422469250-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758422469250'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1758422469250-source-1758422536971-target
+      source: '1758422469250'
+      sourceHandle: source
+      target: '1758422536971'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1758422469250-source-1758422543971-target
+      source: '1758422469250'
+      sourceHandle: source
+      target: '1758422543971'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: template-transform
+      id: 1758422536971-source-1758422624302-target
+      source: '1758422536971'
+      sourceHandle: source
+      target: '1758422624302'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: template-transform
+      id: 1758422543971-source-1758422624302-target
+      source: '1758422543971'
+      sourceHandle: source
+      target: '1758422624302'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758422897244-target
+      selected: false
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758422897244'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758422897244'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758422897244start-source-1758422910060-target
+      source: 1758422897244start
+      sourceHandle: source
+      target: '1758422910060'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758422897244-source-1758422967750-target
+      source: '1758422897244'
+      sourceHandle: source
+      target: '1758422967750'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423205164'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758423205164start-source-1758423208556-target
+      source: 1758423205164start
+      sourceHandle: source
+      target: '1758423208556'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758423205164-source-1758423214692-target
+      source: '1758423205164'
+      sourceHandle: source
+      target: '1758423214692'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758423205164-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758423205164'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423602175'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758423602175start-source-1758423608902-target
+      source: 1758423602175start
+      sourceHandle: source
+      target: '1758423608902'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758423602175-source-1758423611757-target
+      source: '1758423602175'
+      sourceHandle: source
+      target: '1758423611757'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758423602175-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758423602175'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423970479'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758423970479start-source-1758423974895-target
+      source: 1758423970479start
+      sourceHandle: source
+      target: '1758423974895'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758423970479-source-1758423978087-target
+      source: '1758423970479'
+      sourceHandle: source
+      target: '1758423978087'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758423970479-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758423970479'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758424394362'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758424394362start-source-1758424397993-target
+      source: 1758424394362start
+      sourceHandle: source
+      target: '1758424397993'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758424394362-source-1758424403649-target
+      source: '1758424394362'
+      sourceHandle: source
+      target: '1758424403649'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758424394362-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758424394362'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758424761332'
+        sourceType: iteration-start
+        targetType: llm
+      id: 1758424761332start-source-1758425061329-target
+      source: 1758424761332start
+      sourceHandle: source
+      target: '1758425061329'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: iteration
+        targetType: llm
+      id: 1758424761332-source-1758425064250-target
+      source: '1758424761332'
+      sourceHandle: source
+      target: '1758425064250'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: iteration
+      id: 1754899208639-source-1758424761332-target
+      source: '1754899208639'
+      sourceHandle: source
+      target: '1758424761332'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: code
+      id: 1755593160467-source-1758434683410-target
+      source: '1755593160467'
+      sourceHandle: source
+      target: '1758434683410'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1754899920822-source-17584347711920-target
+      source: '1754899920822'
+      sourceHandle: source
+      target: '17584347711920'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758424403649-source-17584348291280-target
+      source: '1758424403649'
+      sourceHandle: source
+      target: '17584348291280'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1758434683410-source-1758437787767-target
+      source: '1758434683410'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 17584347711920-source-1758437787767-target
+      source: '17584347711920'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: answer
+      id: 1758437787767-source-1758437445510-target
+      source: '1758437787767'
+      sourceHandle: source
+      target: '1758437445510'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758422967750-source-1758437787767-target
+      source: '1758422967750'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758423214692-source-1758437787767-target
+      source: '1758423214692'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758423611757-source-1758437787767-target
+      source: '1758423611757'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758423978087-source-1758437787767-target
+      source: '1758423978087'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 17584348291280-source-1758437787767-target
+      source: '17584348291280'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1758425064250-source-1758437787767-target
+      source: '1758425064250'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: template-transform
+        targetType: code
+      id: 1758422624302-source-1758437787767-target
+      source: '1758422624302'
+      sourceHandle: source
+      target: '1758437787767'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: mdFile
+          max_length: 48
+          options: []
+          required: true
+          type: file
+          variable: mdFile
+        - label: date
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: date
+      height: 115
+      id: '1753943001799'
+      position:
+        x: -341.793572792764
+        y: 220.99999999999994
+      positionAbsolute:
+        x: -341.793572792764
+        y: 220.99999999999994
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_array_file: false
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1753943001799'
+        - mdFile
+      height: 91
+      id: '1753943880732'
+      position:
+        x: -44.93119093092139
+        y: 220.99999999999994
+      positionAbsolute:
+        x: -44.93119093092139
+        y: 220.99999999999994
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import re, random\n\nAPPROX_TOKEN = re.compile(r'\\w+|[^\\w\\s]', flags=re.U)\n\
+          WINDOW_TOK   = 2048\nSTEP_TOK     = WINDOW_TOK // 2\n\ndef main(arg1: str)\
+          \ -> dict:          # 把 text 改为 arg1，和调用方保持一致\n    tokens = APPROX_TOKEN.findall(arg1)\n\
+          \    if len(tokens) <= WINDOW_TOK:\n        return {\"result\": [{\"text\"\
+          : arg1}]}\n\n    slices = [''.join(tokens[i:i+WINDOW_TOK])\n           \
+          \   for i in range(0, len(tokens)-WINDOW_TOK+1, STEP_TOK)]\n\n    selected\
+          \ = random.sample(slices, min(5, len(slices)))\n    return {\"result\":\
+          \ [{\"text\": s} for s in selected]}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 文章切片
+        type: code
+        variables:
+        - value_selector:
+          - '1753943880732'
+          - text
+          variable: arg1
+      height: 53
+      id: '1754899208639'
+      position:
+        x: -44.93119093092139
+        y: 346.1394751909003
+      positionAbsolute:
+        x: -44.93119093092139
+        y: 346.1394751909003
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 206
+        is_parallel: true
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1754899285039'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1754899264959start
+        title: 迭代 3
+        type: iteration
+        width: 387
+      height: 206
+      id: '1754899264959'
+      position:
+        x: 694.1268356879305
+        y: 384.00462722778315
+      positionAbsolute:
+        x: 694.1268356879305
+        y: 384.00462722778315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 387
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1754899264959start
+      parentId: '1754899264959'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 718.1268356879305
+        y: 452.00462722778315
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1754899264959'
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: a75c54c2-42d2-40ce-8369-21ee31eebf75
+          role: system
+          text: "你是「领域首席科学家」，负责把任何文档萃取成 **3 个最具洞见的高阶问题** + **深度专业回答**。\n\n输入  \n{{#1754899264959.item#}}\n\
+            \n任务  \n1. 先通读全文，提炼 3 个 **直击本质、可引发进一步研究** 的问题。  \n2. 每个问题用一句 ≤20 字的疑问句，并以贴切\
+            \ Emoji 开头。  \n3. 回答须 **200–260 字**，保留原文英文术语（括号标注），并：  \n   • 给出机理、边界条件、前沿争议；\
+            \  \n   • 引用公式或关键实验（用 LaTeX `$...$`）；  \n4. 输出 **唯一合法 JSON**，结构如下：  \n\
+            \n```json\n[\n  {\n    \"question\": \"问题？\",\n    \"answer\": \"深度回答…\"\
+            \n  },\n  {\n    \"question\": \" 问题？\",\n    \"answer\": \"深度回答…\"\n\
+            \  },\n  {\n    \"question\": \"⚙️ 问题？\",\n    \"answer\": \"深度回答…\"\n\
+            \  }\n]\n示例（以《Attention Is All You Need》为例）\n[\n  {\n    \"question\"\
+            : \"为什么 Scaled Dot-Product Attention 需要缩放因子 $\\\\sqrt{d_k}$？\",\n    \"\
+            answer\": \"当 $d_k$ 较大时点积方差随维度线性增长，导致 Softmax 进入饱和区、梯度消失。通过缩放 $\\\\frac{QK^\\\
+            \\top}{\\\\sqrt{d_k}}$，将方差稳定到 1，保持梯度在反向传播时尺度一致，避免极端概率分布。实验显示，在 $d_k=64$\
+            \ 时未缩放的 BLEU 下降 1.9，验证了这一设计的必要性。\U0001F4CF\"\n  },\n  {\n    \"question\"\
+            : \"Multi-Head Attention 的 head 数 $h$ 如何影响表达能力与计算效率？\",\n    \"answer\"\
+            : \"$h$ 决定了子空间的粒度。理论上，$h$ 增大可降低每头维度 $d_k=d_{model}/h$，从而并行捕捉不同频率的语义关系；但通信开销随\
+            \ $h$ 线性增加，且多头冗余度上升。论文在 WMT14 En-De 上实验 $h=8\\\\,16$ 发现 BLEU 差异 <0.2，而\
+            \ FLOPs 增加 15%，因此 $h=8$ 是效率与性能的最佳折中。\"\n  },\n  {\n    \"question\": \"\
+            Transformer 的 Positional Encoding 为何选用正弦-余弦而非可学习参数？\",\n    \"answer\"\
+            : \"可学习位置嵌入存在长序列外推困难、参数量随最大长度线性增长的问题。正弦-余弦函数 $PE_{(pos,2i)} = \\\\sin(pos/10000^{2i/d_{model}})$\
+            \ 显式编码相对位置，满足 $f(pos+k)$ 可表示为 $f(pos)$ 的线性组合，使模型对未见长度具有良好泛化。后续研究（ALiBi、RoPE）均在此基础上改进，证明其前瞻性。\"\
+            \n  }\n]"
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: LLM 3【推荐问题答案生成】
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 118
+      id: '1754899285039'
+      parentId: '1754899264959'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 822.1268356879305
+        y: 452.00462722778315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 156a07f0-68d3-46c3-a6a0-f53749802ed6
+          role: system
+          text: "候选问答对：\n{{#1754899264959.output#}}\n综合上述多个候选问答对，给出一个符合要求的候选。\n任务\
+            \  \n1. 先通读全文，提炼 3 个 **直击本质、可引发进一步研究** 的问题。  \n2. 每个问题用一句 ≤20 字的疑问句，并以贴切\
+            \ Emoji 开头。  \n3. 回答须 **200–260 字**，保留原文英文术语（括号标注），并：  \n   • 给出机理、边界条件、前沿争议；\
+            \  \n   • 引用公式或关键实验（用 LaTeX `$...$`）；  \n4. 输出 **唯一合法 JSON**，结构如下：  \n\
+            \n```json\n[\n  {\n    \"question\": \"问题？\",\n    \"answer\": \"深度回答…\"\
+            \n  },\n  {\n    \"question\": \" 问题？\",\n    \"answer\": \"深度回答…\"\n\
+            \  },\n  {\n    \"question\": \"⚙️ 问题？\",\n    \"answer\": \"深度回答…\"\n\
+            \  }\n]\n示例（以《Attention Is All You Need》为例）\n[\n  {\n    \"question\"\
+            : \"为什么 Scaled Dot-Product Attention 需要缩放因子 $\\\\sqrt{d_k}$？\",\n    \"\
+            answer\": \"当 $d_k$ 较大时点积方差随维度线性增长，导致 Softmax 进入饱和区、梯度消失。通过缩放 $\\\\frac{QK^\\\
+            \\top}{\\\\sqrt{d_k}}$，将方差稳定到 1，保持梯度在反向传播时尺度一致，避免极端概率分布。实验显示，在 $d_k=64$\
+            \ 时未缩放的 BLEU 下降 1.9，验证了这一设计的必要性。\U0001F4CF\"\n  },\n  {\n    \"question\"\
+            : \"Multi-Head Attention 的 head 数 $h$ 如何影响表达能力与计算效率？\",\n    \"answer\"\
+            : \"$h$ 决定了子空间的粒度。理论上，$h$ 增大可降低每头维度 $d_k=d_{model}/h$，从而并行捕捉不同频率的语义关系；但通信开销随\
+            \ $h$ 线性增加，且多头冗余度上升。论文在 WMT14 En-De 上实验 $h=8\\\\,16$ 发现 BLEU 差异 <0.2，而\
+            \ FLOPs 增加 15%，因此 $h=8$ 是效率与性能的最佳折中。\"\n  },\n  {\n    \"question\": \"\
+            Transformer 的 Positional Encoding 为何选用正弦-余弦而非可学习参数？\",\n    \"answer\"\
+            : \"可学习位置嵌入存在长序列外推困难、参数量随最大长度线性增长的问题。正弦-余弦函数 $PE_{(pos,2i)} = \\\\sin(pos/10000^{2i/d_{model}})$\
+            \ 显式编码相对位置，满足 $f(pos+k)$ 可表示为 $f(pos)$ 的线性组合，使模型对未见长度具有良好泛化。后续研究（ALiBi、RoPE）均在此基础上改进，证明其前瞻性。\"\
+            \n  }\n]"
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: 汇总3
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 118
+      id: '1754899381231'
+      position:
+        x: 1271.5271381543785
+        y: 384.00462722778315
+      positionAbsolute:
+        x: 1271.5271381543785
+        y: 384.00462722778315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import json\nimport re\nfrom typing import Dict, List, Any\n\ndef main(arg1:\
+          \ str) -> Dict[str, Any]:\n    try:\n        # 1. 去掉 ```json ... ``` 外壳\n\
+          \        cleaned = re.sub(r'^```json\\s*|\\s*```$', '', arg1.strip(), flags=re.M)\n\
+          \n        # 2. 把所有反斜杠先全部双写，避免任何转义问题\n        cleaned = cleaned.replace('\\\
+          \\', '\\\\\\\\')\n\n        # 3. 解析\n        qa_list: List[Dict[str, str]]\
+          \ = json.loads(cleaned)\n\n        # 4. 基础校验\n        if not isinstance(qa_list,\
+          \ list):\n            raise ValueError(\"顶层必须是数组\")\n        for idx, item\
+          \ in enumerate(qa_list):\n            if not isinstance(item, dict):\n \
+          \               raise ValueError(f\"第 {idx} 项不是对象\")\n            if \"\
+          question\" not in item or \"answer\" not in item:\n                raise\
+          \ ValueError(f\"第 {idx} 项缺少 question 或 answer 字段\")\n\n        return {\"\
+          result\": qa_list}\n\n    except Exception as e:\n        return {\"error\"\
+          : str(e)}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 代码执行 2
+        type: code
+        variables:
+        - value_selector:
+          - '1754899381231'
+          - text
+          variable: arg1
+      height: 53
+      id: '1754899920822'
+      position:
+        x: 1559.4119580196655
+        y: 384.00462722778315
+      positionAbsolute:
+        x: 1559.4119580196655
+        y: 384.00462722778315
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import re\nfrom typing import Dict\n\ndef main(arg1: str) -> Dict[str,\
+          \ str]:\n    \"\"\"\n    从 Markdown 文本中提取 1 级标题和 2 级标题，保持原有格式并以换行符分隔的字符串返回。\n\
+          \n    参数:\n        arg1 (str): Markdown 文件的内容。\n\n    返回:\n        Dict[str,\
+          \ str]: 键为 \"result\"，值为所有提取到的标题组成的字符串（每行一个标题）。\n    \"\"\"\n    if not\
+          \ isinstance(arg1, str):\n        arg1 = str(arg1)\n\n    titles = []\n\n\
+          \    # 1) 匹配 ATX 风格：# 标题 或 ## 标题\n    atx_pattern = re.compile(r'^(#{1,2})\\\
+          s+(.+)$', re.MULTILINE)\n    titles.extend(match.group(0) for match in atx_pattern.finditer(arg1))\n\
+          \n    # 2) 匹配 Setext 风格\n    setext_pattern = re.compile(r'^(.*)\\n([=-]{3,})$',\
+          \ re.MULTILINE)\n    for match in setext_pattern.finditer(arg1):\n     \
+          \   underline = match.group(2)\n        if underline.startswith('='):\n\
+          \            titles.append(match.group(1).strip())\n        elif underline.startswith('-'):\n\
+          \            titles.append(match.group(1).strip())\n\n    return {\"result\"\
+          : \"\\n\".join(titles)}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 提取1级2级标题
+        type: code
+        variables:
+        - value_selector:
+          - '1753943880732'
+          - text
+          variable: arg1
+      height: 53
+      id: '1755513235894'
+      position:
+        x: 412.15367878880767
+        y: -241.28762978480447
+      positionAbsolute:
+        x: 412.15367878880767
+        y: -241.28762978480447
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 62f067a0-7ace-4892-9fb0-470eb6295c1c
+          role: system
+          text: 'markdown文件提取信息：
+
+            {{#1755513235894.result#}}
+
+            如果抽取信息开头中包含目录，直接忽略抽取信息开头的目录
+
+            根据上述文档提取信息，即一级标题和二级标题进行处理，采用markdown标题格式输出，一级标题使用#，二级标题使用##，三级标题使用###，根据这部分信息编写文档的目录
+
+            需要翻译为中文，专业名词可以不做翻译
+
+            目录格式需符合文档目录编制规范，可以进行一定程度的润色，从而保证输出内容的高可读性
+
+            目录包含一级标题，二级标题，三级标题（即只可以包含n.或者n.n.或者n.n.n,再细分的子标题是禁止的）。不要再为一级二级三级标题前面进行编号。
+
+            提取信息可能包含一些非必要字段
+
+            必须忽略抽取信息中的图/列表/附录/参考
+
+            目录中肯定不可以有图名/表名
+
+            注意只概括一级二级三级级标题，不要输出更详细标题，且保证为中文目录（自动翻译英文），同时不要有遗落一级二级三级标题，且不要输出四级及更详细的标题
+
+            输出目录：'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: 提取目录
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 118
+      id: '1755513241373'
+      position:
+        x: 412.15367878880767
+        y: -167.69367893173418
+      positionAbsolute:
+        x: 412.15367878880767
+        y: -167.69367893173418
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import json\ndef main(arg1: str) -> dict:\n    # 先构造一个真正的 JSON 字符串\n\
+          \    json_str = json.dumps({\"result\": arg1}, ensure_ascii=False, indent=2)\n\
+          \    # 再套 ```json 代码块\n    return {\n        \"result\": f\"```json\\n{json_str}\\\
+          n```\",\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 代码执行 4
+        type: code
+        variables:
+        - value_selector:
+          - '1755513241373'
+          - text
+          variable: arg1
+      height: 53
+      id: '1755513247661'
+      position:
+        x: 412.15367878880767
+        y: -21.696850039862355
+      positionAbsolute:
+        x: 412.15367878880767
+        y: -21.696850039862355
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import re\n\nAPPROX_TOKEN = re.compile(r'\\w+|[^\\w\\s]', flags=re.U)\n\
+          WINDOW_TOK   = 4096\nSTEP_TOK     = WINDOW_TOK // 2\n\ndef main(arg1: str)\
+          \ -> dict:\n    tokens = APPROX_TOKEN.findall(arg1)\n    if len(tokens)\
+          \ <= WINDOW_TOK:\n        return {\"result\": [{\"text\": arg1}]}\n\n  \
+          \  # 顺序保留所有切片\n    slices = [''.join(tokens[i:i+WINDOW_TOK])\n         \
+          \     for i in range(0, len(tokens) - WINDOW_TOK + 1, STEP_TOK)]\n\n   \
+          \ return {\"result\": [{\"text\": s} for s in slices]}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 文章切片（保证切片丢失）
+        type: code
+        variables:
+        - value_selector:
+          - '1753943880732'
+          - text
+          variable: arg1
+      height: 53
+      id: '1755592469505'
+      position:
+        x: 737.0184046973609
+        y: -13.869474867612482
+      positionAbsolute:
+        x: 737.0184046973609
+        y: -13.869474867612482
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        selected: false
+        template: "{%- set lines = arg1.splitlines() %}\r\n[\r\n{%- for line in lines\
+          \ %}\r\n  {%- set stripped = line.lstrip() %}\r\n  {%- if stripped.startswith('#')\
+          \ %}\r\n    {%- set level = stripped.find(' ') %}          {# 第一个空格前就是连续的#\
+          \ -> level #}\r\n    {%- set title = stripped[level+1:].strip() %}\r\n \
+          \   {%- set id = loop.index0 + 1 %}\r\n  {\"id\": {{ id }}, \"level\": {{\
+          \ level }}, \"title\": \"{{ title }}\"}{{ ',' if not loop.last else '' }}\r\
+          \n  {%- endif %}\r\n{%- endfor %}\r\n]"
+        title: 转为ID,LEVEL,TITLE
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1755513241373'
+          - text
+          variable: arg1
+      height: 53
+      id: '1755592668658'
+      position:
+        x: 737.0184046973609
+        y: -84.30939925555123
+      positionAbsolute:
+        x: 737.0184046973609
+        y: -84.30939925555123
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "from typing import List, Dict\n\ndef main(catalog: str) -> dict:\n\
+          \    \"\"\"\n    将 Markdown 目录字符串解析成结构化列表\n    :param catalog: 形如\n    \
+          \    # 一级标题\n        ## 二级标题\n        ### 三级标题\n    :return: {\"result\"\
+          : [...]}\n    \"\"\"\n    items: List[Dict[str, object]] = []\n    for line_no,\
+          \ line in enumerate(catalog.splitlines(), start=1):\n        stripped =\
+          \ line.lstrip()\n        if stripped.startswith(\"#\"):\n            space_pos\
+          \ = stripped.find(\" \")\n            level = space_pos                \
+          \       # 连续 # 的个数\n            title = stripped[level + 1:].strip()\n \
+          \           items.append({\"id\": line_no, \"level\": level, \"title\":\
+          \ title})\n\n    return {\"result\": items}\n\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 返回元素
+        type: code
+        variables:
+        - value_selector:
+          - '1755513241373'
+          - text
+          variable: catalog
+      height: 53
+      id: '1755592739194'
+      position:
+        x: 737.0184046973609
+        y: -167.69367893173418
+      positionAbsolute:
+        x: 737.0184046973609
+        y: -167.69367893173418
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        advanced_settings:
+          group_enabled: true
+          groups:
+          - groupId: 79943950-6deb-46ed-bcdf-7670f66a33de
+            group_name: Group1
+            output_type: array[object]
+            variables:
+            - - '1755592739194'
+              - result
+          - groupId: 7239c406-cba5-40e4-9b9e-b2173b7eea4a
+            group_name: Group2
+            output_type: string
+            variables:
+            - - '1755592668658'
+              - output
+          - groupId: d1b4d877-0d45-4935-b80e-f027005c80ca
+            group_name: Group3
+            output_type: array[object]
+            variables:
+            - - '1755592469505'
+              - result
+        desc: ''
+        output_type: any
+        selected: false
+        title: 变量聚合器
+        type: variable-aggregator
+        variables: []
+      height: 211
+      id: '1755592771370'
+      position:
+        x: 1054.1764512097313
+        y: -140.43339481172586
+      positionAbsolute:
+        x: 1054.1764512097313
+        y: -140.43339481172586
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 206
+        is_parallel: true
+        iterator_selector:
+        - '1755592771370'
+        - Group3
+        - output
+        output_selector:
+        - '1755593011387'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1755592914842start
+        title: 迭代 2
+        type: iteration
+        width: 387
+      height: 206
+      id: '1755592914842'
+      position:
+        x: 1041.5305397971276
+        y: 145.77493625964937
+      positionAbsolute:
+        x: 1041.5305397971276
+        y: 145.77493625964937
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 387
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1755592914842start
+      parentId: '1755592914842'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 1065.5305397971276
+        y: 213.77493625964937
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1755592914842'
+        model:
+          completion_params: {}
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: a67e610c-eebd-4ce0-aca4-0420181a84f6
+          role: system
+          text: '切片内容：
+
+            {{#1755592914842.item#}}
+
+            整体目录：
+
+            {{#1755592771370.Group2.output#}}
+
+            必须参考目录中的title,对切片中包含的title进行总结，summary中应该对内容进行提炼，文中亮点信息要进行保留，默认情况每个summary应在200字左右，如果title对应内容包含信息量很大，则summary应在800字左右，且不要以“本文”为开头，不要重复titel中的内容，自然进行过渡形成一个独立的语句段，输出格式为：
+
+            {"id": xx, "summary": "xxxxxx"},
+
+            {"id": xx, "summary": "xxxxxx"},'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        title: LLM 4
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 118
+      id: '1755593011387'
+      parentId: '1755592914842'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 1169.5305397971276
+        y: 213.77493625964937
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        code: "import json\nimport re\nfrom typing import List, Dict, Any\n\ndef _parse_one(raw:\
+          \ str) -> List[Dict[str, Any]]:\n    \"\"\"把单个字符串里的所有 JSON 对象全部解析出来\"\"\"\
+          \n    objs = []\n    pat = re.compile(r'\\{.*?}', re.S)          # 非贪婪匹配最外层\
+          \ {}\n    for ln in raw.strip().splitlines():\n        for m in pat.findall(ln):\n\
+          \            try:\n                objs.append(json.loads(m))\n        \
+          \    except json.JSONDecodeError:\n                continue\n    return\
+          \ objs\n\n\ndef main(arg1: List[str]) -> Dict[str, List[Dict[str, Any]]]:\n\
+          \    objs = []\n    for raw in arg1:          # 逐个处理后续元素\n        objs.extend(_parse_one(raw))\n\
+          \    return {\"result\": objs}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 代码执行 7
+        type: code
+        variables:
+        - value_selector:
+          - '1755592914842'
+          - output
+          variable: arg1
+      height: 53
+      id: '1755593116724'
+      position:
+        x: 1495.8899348824348
+        y: 94.25917066250014
+      positionAbsolute:
+        x: 1495.8899348824348
+        y: 94.25917066250014
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        selected: false
+        template: "{#-- 1. 构造 id -> summary 的映射 --#}\r\n{%- set summary_map = {} %}\r\
+          \n{%- for s in summarys %}\r\n  {%- set _ = summary_map.update({s.id: s.summary})\
+          \ %}\r\n{%- endfor %}\r\n\r\n{#-- 2. 收集所有“有摘要”的节点 id --#}\r\n{%- set has_summary_ids\
+          \ = summary_map.keys() | list %}\r\n\r\n{#-- 3. 递归宏：只有当前节点或子孙有摘要时才输出 --#}\r\
+          \n{%- macro render_catelog(nodes) %}\r\n  {%- for c in nodes %}\r\n    {%-\
+          \ set has_content = (c.id in has_summary_ids) or\r\n                   \
+          \      (c.children | selectattr('id', 'in', has_summary_ids) | list) %}\r\
+          \n    {%- if has_content %}\r\n{{ '#' * c.level }} {{ c.title }}\r\n   \
+          \   {%- if c.id in has_summary_ids %}\r\n\r\n{{ summary_map[c.id] }}\r\n\
+          \      {%- endif %}\r\n      {%- if c.children %}\r\n        {{- render_catelog(c.children)\
+          \ }}\r\n      {%- endif %}\r\n    {%- endif %}\r\n  {%- endfor %}\r\n{%-\
+          \ endmacro %}\r\n\r\n# \U0001F4CB 摘要报告\r\n{{- render_catelog(catelog) }}"
+        title: 模板转换 2
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1755593116724'
+          - result
+          variable: summarys
+        - value_selector:
+          - '1755592771370'
+          - Group1
+          - output
+          variable: catelog
+      height: 53
+      id: '1755593160467'
+      position:
+        x: 1502.411447160066
+        y: 194.13667539166698
+      positionAbsolute:
+        x: 1502.411447160066
+        y: 194.13667539166698
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 691
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"目录+摘要","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 1510
+      height: 691
+      id: '1758422396239'
+      position:
+        x: 279.12122439773043
+        y: -346.58380351386944
+      positionAbsolute:
+        x: 279.12122439773043
+        y: -346.58380351386944
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1510
+    - data:
+        author: admin
+        desc: ''
+        height: 247
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"推荐问题","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: cyan
+        title: ''
+        type: ''
+        width: 1539
+      height: 247
+      id: '1758422418487'
+      position:
+        x: 289.4780808336404
+        y: 365.45007645493894
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 365.45007645493894
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1539
+    - data:
+        code: "def main(arg1) -> dict:\n    return {\n        \"top\": str(arg1[0]),\n\
+          \        \"bottom\": str(arg1[-1]),\n    }\n\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          bottom:
+            children: null
+            type: string
+          top:
+            children: null
+            type: string
+        selected: false
+        title: 获取第一个块和最后一个块
+        type: code
+        variables:
+        - value_selector:
+          - '1754899208639'
+          - result
+          variable: arg1
+      height: 53
+      id: '1758422469250'
+      position:
+        x: 339.96775595870145
+        y: 721.4670164393431
+      positionAbsolute:
+        x: 339.96775595870145
+        y: 721.4670164393431
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 09f49ea2-636c-4467-afd2-8b103c1e6002
+          role: system
+          text: '文章开头：
+
+            {{#1758422469250.top#}}
+
+            文章结尾：
+
+            {{#1758422469250.bottom#}}
+
+            参考文章开头和文章结尾检查是否包含作者名字。输出作者名字，如果没有输出None。'
+        selected: false
+        title: 抽取作者信息
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758422536971'
+      position:
+        x: 643.9677559587014
+        y: 721.4670164393431
+      positionAbsolute:
+        x: 643.9677559587014
+        y: 721.4670164393431
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 3b968b60-8589-4f9f-b317-3c96742a2a77
+          role: system
+          text: '文章开头：
+
+            {{#1758422469250.top#}}
+
+            文章结尾：
+
+            {{#1758422469250.bottom#}}
+
+            参考文章开头和文章结尾检查是否文章发表日期。输出文章发表日期，如果没有输出None。'
+        selected: false
+        title: 抽取发表日期
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758422543971'
+      position:
+        x: 643.9677559587014
+        y: 850.4670164393431
+      positionAbsolute:
+        x: 643.9677559587014
+        y: 850.4670164393431
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        selected: false
+        template: "```json\r\n{{ {\"author\": arg1, \"date\": arg2} | tojson }}\r\n\
+          ```"
+        title: 作者+发表日期
+        type: template-transform
+        variables:
+        - value_selector:
+          - '1758422536971'
+          - text
+          variable: arg1
+        - value_selector:
+          - '1758422543971'
+          - text
+          variable: arg2
+      height: 53
+      id: '1758422624302'
+      position:
+        x: 1515.389574322973
+        y: 721.4670164393431
+      positionAbsolute:
+        x: 1515.389574322973
+        y: 721.4670164393431
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 326
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"补充信息（作者+发表日期）","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: green
+        title: ''
+        type: ''
+        width: 1535
+      height: 326
+      id: '1758422839954'
+      position:
+        x: 293.3619019971065
+        y: 635.1660944071763
+      positionAbsolute:
+        x: 293.3619019971065
+        y: 635.1660944071763
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1535
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758422910060'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758422897244start
+        title: 迭代 3
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758422897244'
+      position:
+        x: 325.7270783593249
+        y: 1048.1457447890855
+      positionAbsolute:
+        x: 325.7270783593249
+        y: 1048.1457447890855
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758422897244start
+      parentId: '1758422897244'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 349.7270783593249
+        y: 1116.1457447890855
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758422897244'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 4f484ca9-916a-4242-8dfb-d3f3e7c67f06
+          role: system
+          text: "待处理文档内容：\n{{#1758422897244.item#}}\n基于文档内容，提炼5个关键知识点标签和解释，能反映文章的核心主题或关键内容\n\
+            格式要求：每个标签需是简洁、专业的短语（每个标签最好不超过6个词），标签可以是文中出现的专业词汇，也可以是根据内容总结出的词汇。\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象。\n正确JSON格式:\n```json\n[\n  {\n    \"tag\": \"知识点标签1\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签2\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签3\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签4\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签5\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  }\n```\n]\n"
+        selected: false
+        title: LLM 7
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758422910060'
+      parentId: '1758422897244'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 453.7270783593249
+        y: 1116.1457447890855
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 6db9e3ea-e346-4b8a-8fa8-bdc917ef126d
+          role: system
+          text: "候选标签：\n{{#1758422897244.output#}}\n根据上述候选标签，选择最适合的后选标签。\n基于文档内容，提炼5个关键知识点标签和解释，能反映文章的核心主题或关键内容\n\
+            格式要求：每个标签需是简洁、专业的短语（每个标签最好不超过6个词），标签可以是文中出现的专业词汇，也可以是根据内容总结出的词汇。\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象。\n正确JSON格式:\n```json\n[\n  {\n    \"tag\": \"知识点标签1\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签2\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签3\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签4\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  },\n  {\n    \"tag\": \"知识点标签5\"\
+            ,\n    \"explanation\": \"对应的解释\"\n  }\n```\n]\n"
+        selected: false
+        title: 文章标签汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758422967750'
+      position:
+        x: 1543.952316633232
+        y: 1048.1457447890855
+      positionAbsolute:
+        x: 1543.952316633232
+        y: 1048.1457447890855
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 251
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"文章标签","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: yellow
+        title: ''
+        type: ''
+        width: 1533
+      height: 251
+      id: '1758423048192'
+      position:
+        x: 293.3619019971065
+        y: 1005.1647905800589
+      positionAbsolute:
+        x: 293.3619019971065
+        y: 1005.1647905800589
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1533
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758423208556'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758423205164start
+        title: 迭代 4
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758423205164'
+      position:
+        x: 330.9055065772807
+        y: 1330.8078332862096
+      positionAbsolute:
+        x: 330.9055065772807
+        y: 1330.8078332862096
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758423205164start
+      parentId: '1758423205164'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 354.9055065772807
+        y: 1398.8078332862096
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423205164'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 19b8eb5d-5c20-4a7f-ba4a-babda7865d4f
+          role: system
+          text: "待分类文档内容：\n{{#1758423205164.item#}}\n分类文档的类型，如报告、技术白皮书、通报、论文、其他，便于后续内容分发与检索\n\
+            具体分类名称及定义:\n报告：由安全厂商、标准组织、研究机构或政府定期发布的内容，聚焦某一领域的威胁现状、发展趋势、典型问题分析和应对建议。\n\
+            技术白皮书：由企业、研究团队或个人专家撰写，深入讲解某项安全技术、产品或方法论，通常包括技术原理、部署设计与实施建议，可能服务于宣传推广、教育培训或方案推荐。\n\
+            通报：由 CERT、安全厂商、漏洞平台等针对具体漏洞或安全事件及时发布的公告。通常涉及 CVE 编号、利用方式、修复建议。\n学术论文：发表于学术期刊或会议的论文原文或论文解读，包含明确的结构：引言、相关工作、方法、实验、结论、引用文献。\n\
+            调查报告/行业白皮书：研究机构、行业联盟、咨询公司发布的面向行业、市场、法规或技术采纳情况的分析报告，以宏观行业趋势、法规标准、厂商对比为主。\n\
+            技术博客文章：由安全从业者、研究人员、公众号发布的非正式文章，聚焦技术实操、漏洞分析、攻击技巧、工具使用教程、或案例分享。\n\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n\n正确JSON格式:\n```json\n{\n    \"doc_category\"\
+            : \"分类名称\"\n}\n```"
+        selected: false
+        title: LLM 9
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423208556'
+      parentId: '1758423205164'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 458.9055065772807
+        y: 1398.8078332862096
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 7365c51e-b0bc-4a18-81e1-abcf858441b2
+          role: system
+          text: "候选分类：\n{{#1758423205164.output#}}\n综合上述分类，选择候选分类\n分类文档的类型，如报告、技术白皮书、通报、论文、其他，便于后续内容分发与检索\n\
+            具体分类名称及定义:\n报告：由安全厂商、标准组织、研究机构或政府定期发布的内容，聚焦某一领域的威胁现状、发展趋势、典型问题分析和应对建议。\n\
+            技术白皮书：由企业、研究团队或个人专家撰写，深入讲解某项安全技术、产品或方法论，通常包括技术原理、部署设计与实施建议，可能服务于宣传推广、教育培训或方案推荐。\n\
+            通报：由 CERT、安全厂商、漏洞平台等针对具体漏洞或安全事件及时发布的公告。通常涉及 CVE 编号、利用方式、修复建议。\n学术论文：发表于学术期刊或会议的论文原文或论文解读，包含明确的结构：引言、相关工作、方法、实验、结论、引用文献。\n\
+            调查报告/行业白皮书：研究机构、行业联盟、咨询公司发布的面向行业、市场、法规或技术采纳情况的分析报告，以宏观行业趋势、法规标准、厂商对比为主。\n\
+            技术博客文章：由安全从业者、研究人员、公众号发布的非正式文章，聚焦技术实操、漏洞分析、攻击技巧、工具使用教程、或案例分享。\n\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n\n正确JSON格式:\n```json\n{\n    \"doc_category\"\
+            : \"分类名称\"\n}\n```\n"
+        selected: false
+        title: 文档类型汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423214692'
+      position:
+        x: 1559.4119580196655
+        y: 1330.8078332862096
+      positionAbsolute:
+        x: 1559.4119580196655
+        y: 1330.8078332862096
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 240
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"文档类型汇总","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: pink
+        title: ''
+        type: ''
+        width: 1537
+      height: 240
+      id: '1758423334895'
+      position:
+        x: 289.4780808336404
+        y: 1296.8508538515932
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 1296.8508538515932
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1537
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758423608902'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758423602175start
+        title: 迭代 5
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758423602175'
+      position:
+        x: 330.9055065772807
+        y: 1622.733647465105
+      positionAbsolute:
+        x: 330.9055065772807
+        y: 1622.733647465105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758423602175start
+      parentId: '1758423602175'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 354.9055065772807
+        y: 1690.733647465105
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423602175'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 0b4e52a0-aeb8-4813-a58d-de81646bbd11
+          role: system
+          text: "处理内容：\n{{#1758423602175.item#}}\n你是一名专业文本摘要专家，你的任务是：\n摘要：用一句话精准概括全文主旨，不超过30字；\n\
+            核心要点：用300–400字提炼关键信息，涵盖背景、问题、解决方案及结果，语言简洁、逻辑清晰，避免冗余。注意如果有重要的数值信息记得进行复述。必须使用中文回复，只有特殊术语可以使用英文。\n\
+            输出格式要求:\n你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n正确JSON格式:\n```json\n{\n\
+            \    \"summary\": \"一句话精确概括\",\n    \"keyPoints\": \"300-400字的核心要点分析\"\
+            \n}\n```\n"
+        selected: false
+        title: LLM 11
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423608902'
+      parentId: '1758423602175'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 458.9055065772807
+        y: 1690.733647465105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 34719a65-cb5c-410b-be61-0a8ff827a9ed
+          role: system
+          text: "候选摘要为：\n{{#1758423602175.output#}}\n综合上述候选摘要，给出选择的摘要\n摘要：用一句话精准概括全文主旨，不超过30字；\n\
+            核心要点：用300–400字提炼关键信息，涵盖背景、问题、解决方案及结果，语言简洁、逻辑清晰，避免冗余。注意如果有重要的数值信息记得进行复述。必须使用中文回复，只有特殊术语可以使用英文。\n\
+            输出格式要求:\n你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n正确JSON格式:\n```json\n{\n\
+            \    \"summary\": \"一句话精确概括\",\n    \"keyPoints\": \"300-400字的核心要点分析\"\
+            \n}\n```"
+        selected: false
+        title: 摘要/核心要点汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423611757'
+      position:
+        x: 1559.4119580196655
+        y: 1622.733647465105
+      positionAbsolute:
+        x: 1559.4119580196655
+        y: 1622.733647465105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 261
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"摘要/核心要点","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: violet
+        title: ''
+        type: ''
+        width: 1536
+      height: 261
+      id: '1758423740296'
+      position:
+        x: 289.4780808336404
+        y: 1568.305311889874
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 1568.305311889874
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1536
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758423974895'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758423970479start
+        title: 迭代 6
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758423970479'
+      position:
+        x: 311.9912768420561
+        y: 1899.1699512886742
+      positionAbsolute:
+        x: 311.9912768420561
+        y: 1899.1699512886742
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758423970479start
+      parentId: '1758423970479'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 335.9912768420561
+        y: 1967.1699512886742
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758423970479'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 7397c561-898d-46bc-8cd1-99234f98cd9e
+          role: system
+          text: "待评估文档：\n{{#1758423970479.item#}}\n你是一个内容质量评估专家，你的任务是对给定文档或文本进行全面质量评估，并依据以下评分机制与评估维度输出结构化评分结果：\n\
+            评分机制\n必须遵守细分维度评分区间：0-10\n高：10\n中：6\n低：2\n总分：算术平均值法，区间：0-10\n先对 6 个评估维度（逻辑连贯性、结构完整性、内容准确性、表达清晰度、实用性与价值、时效性）进行打分\n\
+            评估维度\n逻辑连贯性：文档叙述逻辑是否清晰，段落间是否存在合理衔接，观点或信息是否按逻辑顺序展开（如时间顺序、因果顺序、总分顺序等），是否存在逻辑断层或矛盾。\n\
+            高（逻辑严密，衔接自然）\n中（逻辑基本通顺，偶有衔接不足）\n低（逻辑混乱，多处矛盾或断层）\n结构完整性：结构层级是否清晰（如标题层级、章节划分是否合理）。\n\
+            高（要素齐全，层级分明）\n中（核心要素完整，次要要素略有不足）\n低（核心要素缺失，结构混乱）\n内容准确性：文档中的事实数据、概念定义、流程描述等是否真实可靠，是否存在错误信息（如数据错误、概念混淆、逻辑谬误）\n\
+            高（无错误信息，数据来源可靠）\n中（存在轻微表述不严谨，无核心错误）\n低（核心信息错误或多处事实偏差）\n表达清晰度：语言是否简洁明了，无歧义、啰嗦或病句；术语使用是否规范一致，是否对专业术语进行必要解释，句子结构是否合理\n\
+            高（语言精炼，无歧义，阅读流畅）\n中（基本清晰，存在少量表述问题）\n低（表述混乱，歧义较多，影响理解）\n实用性与价值：文档是否提供有价值的信息、方法或解决方案，是否能满足阅读者的实际需求（如指导实践、解答疑问、提供决策参考）\n\
+            高（实用性强，提供关键价值）\n中（有一定价值，存在少量冗余）\n低（无实际价值，内容空洞）。\n时效性：文档（如报告、指南、政策解读），内容是否反映最新信息、数据或行业动态，是否会存在因信息过时导致的失效问题。\n\
+            高（信息最新，符合当前需求）\n中（核心信息有效，局部需更新）\n低（信息严重过时，失去实用价值）\n你必须进行内容质量的评估\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n正确JSON格式:\n```json\n{\n    \" logicCoherence\"\
+            : \"逻辑连贯性分数\",\n    \"structureComplete\": \"结构完整性分数\"，\n    \"contentAccuracy\"\
+            : \"内容准确性分数\"，\n    \"clarity\": \"表达清晰度分数\"，\n    \"usefulness\": \"\
+            实用性与价值分数\"，\n    \"timeliness\": \"时效性分数\"，\n}\n```"
+        selected: false
+        title: LLM 13
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423974895'
+      parentId: '1758423970479'
+      position:
+        x: 126.03774264039009
+        y: 67.99999999999977
+      positionAbsolute:
+        x: 438.0290194824462
+        y: 1967.169951288674
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: ed6b80ef-bc66-4e72-ac28-beecee49fbf0
+          role: system
+          text: "候选评分为：\n{{#1758423970479.output#}}\n根据上述候选评分，选择较高的评分作为候选评分。\n你的任务是对给定文档或文本进行全面质量评估，并依据以下评分机制与评估维度输出结构化评分结果：\n\
+            评分机制\n必须遵守细分维度评分区间：0-10\n高：10\n中：6\n低：2\n总分：算术平均值法，区间：0-10\n先对 6 个评估维度（逻辑连贯性、结构完整性、内容准确性、表达清晰度、实用性与价值、时效性）进行打分\n\
+            评估维度\n逻辑连贯性：文档叙述逻辑是否清晰，段落间是否存在合理衔接，观点或信息是否按逻辑顺序展开（如时间顺序、因果顺序、总分顺序等），是否存在逻辑断层或矛盾。\n\
+            高（逻辑严密，衔接自然）\n中（逻辑基本通顺，偶有衔接不足）\n低（逻辑混乱，多处矛盾或断层）\n结构完整性：结构层级是否清晰（如标题层级、章节划分是否合理）。\n\
+            高（要素齐全，层级分明）\n中（核心要素完整，次要要素略有不足）\n低（核心要素缺失，结构混乱）\n内容准确性：文档中的事实数据、概念定义、流程描述等是否真实可靠，是否存在错误信息（如数据错误、概念混淆、逻辑谬误）\n\
+            高（无错误信息，数据来源可靠）\n中（存在轻微表述不严谨，无核心错误）\n低（核心信息错误或多处事实偏差）\n表达清晰度：语言是否简洁明了，无歧义、啰嗦或病句；术语使用是否规范一致，是否对专业术语进行必要解释，句子结构是否合理\n\
+            高（语言精炼，无歧义，阅读流畅）\n中（基本清晰，存在少量表述问题）\n低（表述混乱，歧义较多，影响理解）\n实用性与价值：文档是否提供有价值的信息、方法或解决方案，是否能满足阅读者的实际需求（如指导实践、解答疑问、提供决策参考）\n\
+            高（实用性强，提供关键价值）\n中（有一定价值，存在少量冗余）\n低（无实际价值，内容空洞）。\n时效性：文档（如报告、指南、政策解读），内容是否反映最新信息、数据或行业动态，是否会存在因信息过时导致的失效问题。\n\
+            高（信息最新，符合当前需求）\n中（核心信息有效，局部需更新）\n低（信息严重过时，失去实用价值）\n你必须进行内容质量的评估\n输出格式要求:\n\
+            你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n正确JSON格式:\n```json\n{\n    \" logicCoherence\"\
+            : \"逻辑连贯性分数\",\n    \"structureComplete\": \"结构完整性分数\"，\n    \"contentAccuracy\"\
+            : \"内容准确性分数\"，\n    \"clarity\": \"表达清晰度分数\"，\n    \"usefulness\": \"\
+            实用性与价值分数\"，\n    \"timeliness\": \"时效性分数\"，\n}\n```"
+        selected: false
+        title: 内容质量评估汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758423978087'
+      position:
+        x: 1569.2232448177149
+        y: 1899.1699512886742
+      positionAbsolute:
+        x: 1569.2232448177149
+        y: 1899.1699512886742
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 265
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"内容质量评估","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: blue
+        title: ''
+        type: ''
+        width: 1546
+      height: 265
+      id: '1758424091985'
+      position:
+        x: 289.4780808336404
+        y: 1850.2293827678895
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 1850.2293827678895
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1546
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758424397993'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758424394362start
+        title: 迭代 7
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758424394362'
+      position:
+        x: 311.9912768420561
+        y: 2184.273242305542
+      positionAbsolute:
+        x: 311.9912768420561
+        y: 2184.273242305542
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758424394362start
+      parentId: '1758424394362'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 335.9912768420561
+        y: 2252.273242305542
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758424394362'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 44d531d9-0ace-4b30-952f-7ff81739ad76
+          role: system
+          text: '【任务】
+
+            请根据输入的文档内容，生成一条符合以下规则的总结标题：
+
+            格式：【知识主题】+ 内容标题 + “-” + 文档修改时间
+
+            字数：知识主题 4-5 字、内容标题 10-15 字
+
+            示例：
+
+            【网络安全防护】网络攻击识别与防御策略的关键技术及实践应用-250101
+
+            【渗透测试技术】CVE-2020-1472漏洞内网渗透实战全流程解析-250101
+
+            【要求】
+
+            先通读输入内容，提炼最核心的知识主题（4-5 字）。
+
+            用 10-15 字高度概括正文关键信息，形成内容标题。
+
+            日期统一用 6 位数字：YYMMDD，取当前日期 250806。
+
+            输出内容必须遵循‘格式’，且包含知识主题、内容标题、文档修改时间
+
+            最终仅输出一行标题，不要多余解释。
+
+            【输入】
+
+            输入文档内容：
+
+            {{#1758424394362.item#}}
+
+            文档修改日期：
+
+            {{#1753943001799.date#}}
+
+            【输出】'
+        selected: false
+        title: LLM 15
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758424397993'
+      parentId: '1758424394362'
+      position:
+        x: 128
+        y: 68
+      positionAbsolute:
+        x: 439.9912768420561
+        y: 2252.273242305542
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: f672ed84-1f36-40e8-9d2a-a870600b0183
+          role: system
+          text: '这篇文章有多个候选标题：
+
+            {{#1758424394362.output#}}
+
+            忽略未分类，综合上述多个标题，给出一个多数的符合要求的标题。
+
+            请根据输入的文档内容，生成一条符合以下规则的总结标题：
+
+            格式：【知识主题】+ 内容标题 + “-” + 文档修改时间
+
+            字数：知识主题 4-5 字、内容标题 10-15 字
+
+            示例：
+
+            【网络安全防护】网络攻击识别与防御策略的关键技术及实践应用-250101
+
+            【渗透测试技术】CVE-2020-1472漏洞内网渗透实战全流程解析-250101
+
+            【要求】
+
+            先通读输入内容，提炼最核心的知识主题（4-5 字）。
+
+            用 10-15 字高度概括正文关键信息，形成内容标题。
+
+            日期统一用 6 位数字：YYMMDD，取当前日期 250806。
+
+            输出内容必须遵循‘格式’，且包含知识主题、内容标题、文档修改时间
+
+            最终仅输出一行标题，不要多余解释。'
+        selected: false
+        title: 生成标题汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758424403649'
+      position:
+        x: 1569.2232448177149
+        y: 2184.273242305542
+      positionAbsolute:
+        x: 1569.2232448177149
+        y: 2184.273242305542
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 232
+        selected: false
+        showAuthor: true
+        text: ''
+        theme: cyan
+        title: ''
+        type: ''
+        width: 1540
+      height: 232
+      id: '1758424569197'
+      position:
+        x: 289.4780808336404
+        y: 2146.9903524729557
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 2146.9903524729557
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1540
+    - data:
+        desc: ''
+        error_handle_mode: terminated
+        height: 178
+        is_parallel: false
+        iterator_selector:
+        - '1754899208639'
+        - result
+        output_selector:
+        - '1758425061329'
+        - text
+        output_type: array[string]
+        parallel_nums: 10
+        selected: false
+        start_node_id: 1758424761332start
+        title: 迭代 8
+        type: iteration
+        width: 388
+      height: 178
+      id: '1758424761332'
+      position:
+        x: 289.4780808336404
+        y: 2452.4898054706964
+      positionAbsolute:
+        x: 289.4780808336404
+        y: 2452.4898054706964
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 388
+      zIndex: 1
+    - data:
+        desc: ''
+        isInIteration: true
+        selected: false
+        title: ''
+        type: iteration-start
+      draggable: false
+      height: 48
+      id: 1758424761332start
+      parentId: '1758424761332'
+      position:
+        x: 24
+        y: 68
+      positionAbsolute:
+        x: 313.4780808336404
+        y: 2520.4898054706964
+      selectable: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-iteration-start
+      width: 44
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: true
+        isInLoop: false
+        iteration_id: '1758424761332'
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 79a12684-d588-4f52-86ff-b15c5bed5be1
+          role: system
+          text: "是一个精通网络安全知识体系的分类专家。你的任务是基于文件内容，严谨、准确地将其归类到固定的两级分类体系中。你需要像领域专家一样，理解术语的深层含义和上下文。\n\
+            \n重要规则:\n1. 固定分类: 分类体系是两级的（主分类 -> 子分类），不允许添加和修改。\n2. 准确归属: 你必须找到正确的主分类，然后在该主分类下选择最合适的子分类。\n\
+            3.必须根据内容片段给出一个较为接近的分类\n必须参考下面分类体系，分别为可选的主分类和子分类:\n{\n  \"安全基础\": {\n \
+            \   \"网络协议与架构\",\"操作系统安全\",\"编程语言与原理\",\"密码学基础\",\"安全模型与体系结构\",\"经典书籍\"\
+            \n  },\n  \"代码审计\": {\n    \"安全编码规范\",\"静态代码分析\",\"动态行为分析\",\"常见语言的漏洞模式\"\
+            ,\"审计案例与复现\"\n  },\n  \"二进制漏洞挖掘\": {\n    \"程序逆向\",\"栈溢出与缓冲区攻击\",\"格式化字符串漏洞\"\
+            ,\"ROP&JOP&SROP利用\",\"Fuzzing技术\"\n  },\n  \"Web 安全\": {\n    \"OWASP\
+            \ Top 10 全解\",\"登录与认证绕过\",\"Web防御机制与绕过\",\"Web框架安全特性\",\"常见web漏洞挖掘经验\"\
+            \n  },\n  \"安全运营与蓝队\": {\n    \"日志与监控分析\",\"安全设备运维\",\"安全基线与主机加固\",\"\
+            安全事件响应与溯源\",\"蓝队实战经验\"\n  },\n  \"渗透测试与红队\": {\n    \"渗透测试基础流程\",\"内网渗透与AD域\"\
+            ,\"权限维持与痕迹清理\",\"社工钓鱼\",\"红队工具链\",\"红队实战经验\"\n  },\n  \"CTF竞赛\": {\n \
+            \   \"PWN\",\"RE（逆向工程）\",\"Web\",\"Crypto\",\"Misc\",\"Mobile\",\"IoT\"\
+            ,\"CTF概述\"\n  },\n  \"AI 安全\": {\n    \"数据投毒与后门注入\",\"提示词注入\",\"模型窃取与推理干扰\"\
+            ,\"AI 辅助漏洞挖掘\",\"AI 基础知识\",\"AI相关书籍与论文\"\n  },\n  \"标准与合规\": {\n    \"\
+            国内标准\",\"国际标准\",\"安全评估流程\",\"行业合规\"\n  }\n}\n\n输出格式要求:\n你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析。\n\
+            \n正确JSON格式:\n```json\n{\n    \"main_category\": \"主分类名称\",\n    \"sub_category\"\
+            : \"子分类名称\"\n}\n```"
+        - id: 3998b034-50aa-4e50-8d58-be16cf0abec9
+          role: user
+          text: '请对以下文件内容进行分类:
+
+            文件内容: /
+
+            请只返回一个JSON对象，不要包含任何解释或分析文字。'
+        selected: false
+        title: LLM 17
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758425061329'
+      parentId: '1758424761332'
+      position:
+        x: 128
+        y: 65
+      positionAbsolute:
+        x: 417.4780808336404
+        y: 2517.4898054706964
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+      zIndex: 1002
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: SecGPT
+          provider: langgenius/xinference/xinference
+        prompt_template:
+        - id: 8dc60fe2-a192-4b44-98e7-e748af6f7f11
+          role: system
+          text: "候选分类如下：\n{{#1758424761332.output#}}\n综合上述多个main_category和sub_category，给出一个多数的main_category和sub_category\n\
+            输出格式要求:\n你必须只返回一个有效的JSON对象，不要包含任何其他文字、解释或分析，必须给出一个分类。\n\n正确JSON格式:\n```json\n\
+            {\n    \"main_category\": \"主分类名称\",\n    \"sub_category\": \"子分类名称\"\n\
+            }\n```"
+        selected: false
+        title: 文档类型分类汇总
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1758425064250'
+      position:
+        x: 1564.0985120684938
+        y: 2452.4898054706964
+      positionAbsolute:
+        x: 1564.0985120684938
+        y: 2452.4898054706964
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        author: admin
+        desc: ''
+        height: 258
+        selected: false
+        showAuthor: true
+        text: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"文档类型分类","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+        theme: green
+        title: ''
+        type: ''
+        width: 1549
+      height: 258
+      id: '1758425199420'
+      position:
+        x: 273.94279617977554
+        y: 2404.1051616470513
+      positionAbsolute:
+        x: 273.94279617977554
+        y: 2404.1051616470513
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom-note
+      width: 1549
+    - data:
+        code: "import json\ndef main(arg1: str) -> dict:\n    # 先构造一个真正的 JSON 字符串\n\
+          \    json_str = json.dumps({\"result\": arg1}, ensure_ascii=False, indent=2)\n\
+          \    # 再套 ```json 代码块\n    return {\n        \"result\": f\"```json\\n{json_str}\\\
+          n```\",\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 统一为json格式
+        type: code
+        variables:
+        - value_selector:
+          - '1755593160467'
+          - output
+          variable: arg1
+      height: 53
+      id: '1758434683410'
+      position:
+        x: 1502.411447160066
+        y: 268.79588521329185
+      positionAbsolute:
+        x: 1502.411447160066
+        y: 268.79588521329185
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import json\ndef main(arg1: str) -> dict:\n    # 先构造一个真正的 JSON 字符串\n\
+          \    json_str = json.dumps({\"result\": arg1}, ensure_ascii=False, indent=2)\n\
+          \    # 再套 ```json 代码块\n    return {\n        \"result\": f\"```json\\n{json_str}\\\
+          n```\",\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 统一为json格式 (推荐问题）
+        type: code
+        variables:
+        - value_selector:
+          - '1754899920822'
+          - result
+          variable: arg1
+      height: 53
+      id: '17584347711920'
+      position:
+        x: 1543.952316633232
+        y: 465.09480040265
+      positionAbsolute:
+        x: 1543.952316633232
+        y: 465.09480040265
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import json\ndef main(arg1: str) -> dict:\n    # 先构造一个真正的 JSON 字符串\n\
+          \    json_str = json.dumps({\"result\": arg1}, ensure_ascii=False, indent=2)\n\
+          \    # 再套 ```json 代码块\n    return {\n        \"result\": f\"```json\\n{json_str}\\\
+          n```\",\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 统一为json格式 (生成标题汇总）
+        type: code
+        variables:
+        - value_selector:
+          - '1758424403649'
+          - text
+          variable: arg1
+      height: 53
+      id: '17584348291280'
+      position:
+        x: 1569.2232448177149
+        y: 2295.5097645869187
+      positionAbsolute:
+        x: 1569.2232448177149
+        y: 2295.5097645869187
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1755513247661.result#}}
+
+          {{#1758434683410.result#}}
+
+          {{#17584347711920.result#}}
+
+          {{#1758422624302.output#}}
+
+          {{#1758422967750.text#}}
+
+          {{#1758423214692.text#}}
+
+          {{#1758423611757.text#}}
+
+          {{#1758423978087.text#}}
+
+          {{#17584348291280.result#}}
+
+          {{#1758425064250.text#}}
+
+          '
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 269
+      id: '1758437445510'
+      position:
+        x: 2462.79130028725
+        y: 145.77493625964937
+      positionAbsolute:
+        x: 2462.79130028725
+        y: 145.77493625964937
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "\ndef main(arg1, arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9) -> dict:\n\
+          \    return {\n        \"result\": \"1234\",\n    }\n"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 等待几个流都完成，将结果一起返回
+        type: code
+        variables:
+        - value_selector:
+          - '1755513247661'
+          - result
+          variable: arg1
+        - value_selector:
+          - '1758434683410'
+          - result
+          variable: arg2
+        - value_selector:
+          - '1758422624302'
+          - output
+          variable: arg3
+        - value_selector:
+          - '1758422967750'
+          - text
+          variable: arg4
+        - value_selector:
+          - '1758423214692'
+          - text
+          variable: arg5
+        - value_selector:
+          - '1758423611757'
+          - text
+          variable: arg6
+        - value_selector:
+          - '1758423978087'
+          - text
+          variable: arg7
+        - value_selector:
+          - '17584348291280'
+          - result
+          variable: arg8
+        - value_selector:
+          - '1758425064250'
+          - text
+          variable: arg9
+      height: 53
+      id: '1758437787767'
+      position:
+        x: 2075.7345138646438
+        y: 145.77493625964937
+      positionAbsolute:
+        x: 2075.7345138646438
+        y: 145.77493625964937
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 412.6821022399816
+      y: 67.81027416921057
+      zoom: 0.35095921464746976
