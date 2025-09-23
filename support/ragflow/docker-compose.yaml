@@ -40,7 +40,7 @@ services:
       - ${INSTALL_LOCAL}/rag_data/es/plugins:/usr/share/elasticsearch/plugins
 
   ragflow:
-    image: rd.clouditera.com/aigc/ai-intelligence-rag:${RAG_VERSION}
+    image: rd.clouditera.com/aigc/rag/ragflow:${RAG_VERSION}
     depends_on:
       - storage-rag
       - elasticsearch-rag

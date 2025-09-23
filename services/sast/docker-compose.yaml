@@ -1,6 +1,6 @@
 services:
   sast-http:
-    image: rd.clouditera.com/aigc/sast-http-api:v5.2.34
+    image: rd.clouditera.com/aigc/wuji/sast-http-api:v5.2.34
     restart: always
     environment:
       CONTEXT_PATH: /sastapi

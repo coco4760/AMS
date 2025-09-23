@@ -1,6 +1,6 @@
 services:
   email-plugin:
-    image: rd.clouditera.com/aigc/email-plugin:v2.0.0-stable
+    image: rd.clouditera.com/aigc/plugins/email-plugin:v2.0.0-stable
     restart: always
     env_file:
       - .env

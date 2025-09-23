@@ -1,6 +1,6 @@
 services:
   plugin-sectools:
-    image: rd.clouditera.com/aigc/sectoolsapi:v0.1.0
+    image: rd.clouditera.com/aigc/plugins/sectoolsapi:v0.1.0
     restart: always
     env_file:
       - .env

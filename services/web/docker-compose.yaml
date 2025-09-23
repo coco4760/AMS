@@ -11,7 +11,7 @@ services:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
   client-web-html-jibei:
     profiles: ["jibei"]
-    image: rd.clouditera.com/aigc/client-web:v3.3.90
+    image: rd.clouditera.com/aigc/wuji/jibei-web:v2.4.7
     restart: always
     ports:
       - '80:80'
@@ -22,7 +22,7 @@ services:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
   client-web-html-guowang:
     profiles: ["guowang"]
-    image: rd.clouditera.com/aigc/client-web:v3.3.92
+    image: rd.clouditera.com/aigc/wuji/client-web:v3.3.92
     restart: always
     ports:
       - '80:80'
