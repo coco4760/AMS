@@ -1,6 +1,6 @@
 services:
   mcp-tool:
-    image: rd.clouditera.com/mcp-tool/mcp-tool:v1.0.13
+    image: rd.clouditera.com/aigc/plugins/mcp-tool:v1.0.13
     restart: always
     ports:
       - "18089:8081"

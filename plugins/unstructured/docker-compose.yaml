@@ -1,9 +1,9 @@
 services:
   unstructured:
-    image: rd.clouditera.com/aigc/ai-intelligence-unstructured:0.2.0-test-ocr
+    image: rd.clouditera.com/aigc/etl/unstructured:0.2.0-test-ocr
     restart: always
     ports:
-      - "15002:5002"
+      - "15002:5002"@
     environment:
       HF_HUB_OFFLINE: 1
       PORT: 5002
