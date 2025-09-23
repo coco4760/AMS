@@ -1,6 +1,9 @@
 
 # 2.5升级内容说明
 
+## rag
+论文账号下新增知识库:知识库名：paper_peruse，描述:论文研读
+
 ## nacos
 路径：nacos/nacos_config_export_20250919180311.zip
 - rag配置文件中新增knowledge-base-file-meta-service-url，值为plugins/knowledge_base_filemeta服务地址

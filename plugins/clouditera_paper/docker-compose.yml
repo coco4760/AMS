@@ -1,6 +1,6 @@
 services:
   paper-app:
-    image: rd.clouditera.com/aigc/plugins/paper-api:1.3
+    image: rd.clouditera.com/aigc/plugins/paper-api:1.4
     env_file:
       - .env
     ports:

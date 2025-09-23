@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 【论文研读】 对话 20250918
+  name: 【论文研读】 对话 20250919
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -282,36 +282,15 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInLoop: false
-        sourceType: code
-        targetType: llm
-      id: 1756093312879-source-llm-target
-      source: '1756093312879'
-      sourceHandle: source
-      target: llm
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: false
         sourceType: llm
         targetType: code
       id: 1755853167745-source-1758008156256-target
+      selected: false
       source: '1755853167745'
       sourceHandle: source
       target: '1758008156256'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: code
-        targetType: code
-      id: 1758008156256-source-1756093312879-target
-      source: '1758008156256'
-      sourceHandle: source
-      target: '1756093312879'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -340,14 +319,48 @@ workflow:
       type: custom
       zIndex: 0
     - data:
+        isInIteration: false
         isInLoop: false
         sourceType: http-request
         targetType: code
-      id: 1758180144278-source-1756093312879-target
-      selected: false
+      id: 1758180144278-source-1758273018803-target
       source: '1758180144278'
       sourceHandle: source
-      target: '1756093312879'
+      target: '1758273018803'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: code
+      id: 1758273018803-source-1758509438719-target
+      source: '1758273018803'
+      sourceHandle: source
+      target: '1758509438719'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1758509438719-source-llm-target
+      source: '1758509438719'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 1758008156256-source-llm-target
+      source: '1758008156256'
+      sourceHandle: source
+      target: llm
       targetHandle: target
       type: custom
       zIndex: 0
@@ -387,11 +400,12 @@ workflow:
         context:
           enabled: true
           variable_selector:
-          - '1756093312879'
+          - '1758509438719'
           - result
         desc: ''
         model:
-          completion_params: {}
+          completion_params:
+            max_tokens: 32768
           mode: chat
           name: SecGPT
           provider: langgenius/xinference/xinference
@@ -400,14 +414,38 @@ workflow:
           role: system
           text: '# 角色
 
-            你是一个专业的论文解读专家，根据知识库检索内容和论文元数据：{{#context#}}回答客户
+            你是一名专业的论文解读专家，擅长基于论文元数据(meta_data)和检索内容(source_data)进行总结与分析，帮助客户快速理解论文。
+
+
+            # 输入
+
+            - 论文知识库检索内容：{{#context#}}
+
+            - 论文元数据内容：{{#1758008156256.result#}}
 
 
             # 回复要求
 
-            1. 保持专业的态度
+            1. 保持专业的学术态度，答案必须基于输入内容，不得虚构。
 
-            2. 不要回复虚假内容
+            2. 只有在回答中确实使用了知识库检索结果（source_data）时，才必须添加对应的编号 [1]、[2]。若回答完全基于 meta_data
+            或检索结果为空，回答中禁止出现任何编号。
+
+            3. 采用总-分-总结构：
+
+               - 开头：简要概括问题与论文相关性；
+
+               - 中间：逐条结合检索片段展开说明，必要时结合 meta_data 解释；
+
+               - 结尾：总结核心结论。
+
+            4. 若用户问题模糊，但检索结果高度集中于某一主题，可合理引导回答。
+
+            5. 若确实未检索到相关信息，必须明确说明“未检索到相关信息”，禁止编造。
+
+            6. 禁止输出空的 [ ] 或无效的编号。
+
+            7. 输出需简洁清晰，优先使用 Markdown 格式（分段、列表、引用）以突出重点。
 
 
             '
@@ -428,7 +466,7 @@ workflow:
       positionAbsolute:
         x: 2822.130665406641
         y: -432.7142857142858
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -443,11 +481,11 @@ workflow:
       height: 104
       id: answer
       position:
-        x: 3384.4628585917253
-        y: -654.2920361466964
+        x: 3184.8234992912367
+        y: -432.7142857142858
       positionAbsolute:
-        x: 3384.4628585917253
-        y: -654.2920361466964
+        x: 3184.8234992912367
+        y: -432.7142857142858
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -770,72 +808,32 @@ workflow:
       height: 53
       id: '1755856152523'
       position:
-        x: 1607.428571428571
-        y: -680.9313750590637
+        x: 1479.4068973358021
+        y: -812.2782874399569
       positionAbsolute:
-        x: 1607.428571428571
-        y: -680.9313750590637
+        x: 1479.4068973358021
+        y: -812.2782874399569
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     - data:
-        code: "def main(arg1: str, arg2: str) -> dict:\n    arg1_dict = json.loads(arg1)\n\
-          \    arg2_dict = json.loads(arg2)\n\n    meta_data = arg1_dict.get(\"data\"\
-          , \"\")\n    source_data_body = arg2_dict.get(\"body\", \"\")\n\n    source_data\
-          \ = \"\"\n    if source_data_body:\n        try:\n            source_data\
-          \ = json.loads(source_data_body).get(\"data\", \"\")\n        except (json.JSONDecodeError,\
-          \ TypeError):\n            source_data = \"\"\n\n    result_obj = {\n  \
-          \      \"source_data\": source_data,\n        \"meta_data\": meta_data,\n\
-          \    }\n    return {\"result\": json.dumps(result_obj, ensure_ascii=False)}"
-        code_language: python3
-        desc: ''
-        outputs:
-          result:
-            children: null
-            type: string
-        selected: false
-        title: 论文信息聚合
-        type: code
-        variables:
-        - value_selector:
-          - '1758008156256'
-          - result
-          variable: arg1
-        - value_selector:
-          - '1758180144278'
-          - body
-          variable: arg2
-      height: 53
-      id: '1756093312879'
-      position:
-        x: 2506.616426585479
-        y: -379.51047310430374
-      positionAbsolute:
-        x: 2506.616426585479
-        y: -379.51047310430374
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 243
-    - data:
-        code: "import requests\n\ndef main(arg1: str, arg2: str) -> dict:\n    KB_ID\
-          \ = (arg1 or \"\").strip()\n    API_KEY = \"53833e564203427da636fdb8efbc2a75\"\
-          \n    BASE = \"https://rag.clouditera.com/api/v1/documents\"\n    headers\
-          \ = {\"accept\": \"application/json\", \"X-API-Key\": API_KEY}\n\n    #\
-          \ 解析 doc_ids：支持 \"a,b c\" 或 \"doc_ids=a&doc_ids=b\"\n    raw = (arg2 or\
-          \ \"\").strip()\n    parts = []\n    for tok in raw.replace(\",\", \" \"\
-          ).replace(\"&\", \" \").split():\n        if tok.startswith(\"doc_ids=\"\
-          ):\n            tok = tok[8:]\n        if tok:  # 简单校验：只要非空就收\n        \
-          \    parts.append(tok)\n\n    # 去重并保持顺序\n    seen = set()\n    ids = []\n\
-          \    for x in parts:\n        if x not in seen:\n            seen.add(x)\n\
-          \            ids.append(x)\n\n    # 分批（每批最多 50 个）\n    chunks = [ids[i:i+50]\
-          \ for i in range(0, len(ids), 50)] if ids else []\n\n    all_items, errors\
-          \ = [], []\n    for batch in chunks:\n        qs = \"&\".join(f\"doc_ids={i}\"\
-          \ for i in batch)  # doc_id 为 hex，无需额外转义\n        url = f\"{BASE}/{KB_ID}/batch_detail?{qs}\"\
-          \n        try:\n            r = requests.get(url, headers=headers, timeout=30)\n\
+        code: "import requests\n\ndef main(arg1: str, arg2: str, apiKey: str, ragHost:\
+          \ str) -> dict:\n    KB_ID = (arg1 or \"\").strip()\n    API_KEY = apiKey\n\
+          \    BASE = ragHost + \"/api/v1/documents\"\n    headers = {\"accept\":\
+          \ \"application/json\", \"X-API-Key\": API_KEY}\n\n    # 解析 doc_ids：支持 \"\
+          a,b c\" 或 \"doc_ids=a&doc_ids=b\"\n    raw = (arg2 or \"\").strip()\n  \
+          \  parts = []\n    for tok in raw.replace(\",\", \" \").replace(\"&\", \"\
+          \ \").split():\n        if tok.startswith(\"doc_ids=\"):\n            tok\
+          \ = tok[8:]\n        if tok:  # 简单校验：只要非空就收\n            parts.append(tok)\n\
+          \n    # 去重并保持顺序\n    seen = set()\n    ids = []\n    for x in parts:\n \
+          \       if x not in seen:\n            seen.add(x)\n            ids.append(x)\n\
+          \n    # 分批（每批最多 50 个）\n    chunks = [ids[i:i+50] for i in range(0, len(ids),\
+          \ 50)] if ids else []\n\n    all_items, errors = [], []\n    for batch in\
+          \ chunks:\n        qs = \"&\".join(f\"doc_ids={i}\" for i in batch)  # doc_id\
+          \ 为 hex，无需额外转义\n        url = f\"{BASE}/{KB_ID}/batch_detail?{qs}\"\n  \
+          \      try:\n            r = requests.get(url, headers=headers, timeout=30)\n\
           \            if r.status_code == 200:\n                j = r.json()\n  \
           \              if isinstance(j, dict) and \"data\" in j and isinstance(j[\"\
           data\"], list):\n                    all_items.extend(j[\"data\"])\n   \
@@ -858,7 +856,7 @@ workflow:
           result:
             children: null
             type: string
-        selected: false
+        selected: true
         title: 论文元数据获取
         type: code
         variables:
@@ -870,6 +868,14 @@ workflow:
           - '1748591622536'
           - doc_id
           variable: arg2
+        - value_selector:
+          - env
+          - API_KEY
+          variable: apiKey
+        - value_selector:
+          - env
+          - RAG_HOST
+          variable: ragHost
       height: 53
       id: '1758008156256'
       position:
@@ -878,7 +884,7 @@ workflow:
       positionAbsolute:
         x: 1602.7885179162063
         y: -355.9286994408179
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -951,11 +957,11 @@ workflow:
       height: 53
       id: '1758179717538'
       position:
-        x: 1895.061683351287
-        y: -630.3416912084301
+        x: 1836.870013309119
+        y: -861.4457522330396
       positionAbsolute:
-        x: 1895.061683351287
-        y: -630.3416912084301
+        x: 1836.870013309119
+        y: -861.4457522330396
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -993,9 +999,9 @@ workflow:
 
               "batch_size":{{#1758179717538.batch_size#}},
 
-              "filters": [],
+              "filters":[{"key":"ref_doc_id","value":"{{#1748591622536.doc_id#}}","operator":"=="}],
 
-              "doc_ids": ["{{#1748591622536.doc_id#}}"]
+              "doc_ids": []
 
               }'
           type: json
@@ -1020,17 +1026,99 @@ workflow:
       height: 125
       id: '1758180144278'
       position:
-        x: 2182.9667118797975
-        y: -602.908475331408
+        x: 2170.7971579022337
+        y: -884.7224202499067
       positionAbsolute:
-        x: 2182.9667118797975
-        y: -602.908475331408
+        x: 2170.7971579022337
+        y: -884.7224202499067
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "import json\n\ndef main(arg1: str) -> str:\n    # 1) 解析与召回判断\n    try:\n\
+          \        resp = json.loads(arg1)\n        items = resp.get(\"data\") or\
+          \ []\n        if not isinstance(items, list) or len(items) == 0:\n     \
+          \       return {\"result\": {}}\n    except (json.JSONDecodeError, TypeError):\n\
+          \        return {\"result\": {}}\n\n    # 2) 提取与格式化\n    result = []\n \
+          \   for idx, item in enumerate(items, start=1):\n        metadata = item.get(\"\
+          metadata\") or {}\n        doc_name = item.get(\"doc_name\") or \"\"\n \
+          \       content = item.get(\"content\") or \"\"\n\n        formatted_item\
+          \ = {\n            \"metadata\": {\n                \"_source\": \"knowledge\"\
+          ,\n                \"dataset_id\": metadata.get(\"collection_name\", \"\"\
+          ),\n                \"dataset_name\": f\"1_{metadata.get('collection_name',\
+          \ '')}\",\n                \"document_name\": doc_name,\n              \
+          \  \"data_source_type\": \"external\",\n                \"retriever_from\"\
+          : \"workflow\",\n                \"score\": item.get(\"score\", 0.0),\n\
+          \                \"position\": idx\n            },\n            \"title\"\
+          : doc_name,\n            \"content\": f\"[{idx}] {content}\",\n        \
+          \    \"url\": \"\"\n        }\n        result.append(formatted_item)\n\n\
+          \    # 3) 返回 JSON 字符串（result 转为 JSON 字符串）\n    return {\"result\": result}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: format召回结果
+        type: code
+        variables:
+        - value_selector:
+          - '1758180144278'
+          - body
+          variable: arg1
+      height: 53
+      id: '1758273018803'
+      position:
+        x: 2489.9902351448595
+        y: -791.615748182438
+      positionAbsolute:
+        x: 2489.9902351448595
+        y: -791.615748182438
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "#实现功能：为检索内容result 添加索引编号，类似[1]xxxx [2]xxxx\n#即在检索到的内容前面直接加上编号\ndef\
+          \ main(arg1: list) -> dict:\n    # 初始化结果列表\n    results_with_index = []\n\
+          \    \n    # 遍历输入数组，为每个元素添加索引\n    for index, item in enumerate(arg1, start=1):\n\
+          \        # 假设每个item是一个字典，且包含一个'content'键\n        # 在content字符串前加上索引编号\n\
+          \        item['content'] = f\"[{index}] {item['content']}\"\n        \n\
+          \        # 将修改后的字典添加到结果列表\n        results_with_index.append(item)\n   \
+          \ \n    # 返回包含索引的结果数组\n    return {\n        \"result\": results_with_index\n\
+          \    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: array[object]
+        selected: false
+        title: 为检索内容添加索引
+        type: code
+        variables:
+        - value_selector:
+          - '1758273018803'
+          - result
+          variable: arg1
+      height: 53
+      id: '1758509438719'
+      position:
+        x: 2482.0804552052773
+        y: -671.9071698099784
+      positionAbsolute:
+        x: 2482.0804552052773
+        y: -671.9071698099784
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 243
     viewport:
-      x: -79.53209242707885
-      y: 718.9149003355432
-      zoom: 0.4558219397159585
+      x: -465.9121204913147
+      y: 851.400268847174
+      zoom: 0.5340411522507794
