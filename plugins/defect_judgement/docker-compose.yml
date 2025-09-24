@@ -1,6 +1,6 @@
 services:
   llm_sast_backend:
-    image: rd.clouditera.com/aigc/llm_sast:x86_64-0.2.0-backend
+    image: rd.clouditera.com/aigc/llm_sast:x86_64-0.3.5-backend
     ports:
       - "8030:8081"
     volumes:
@@ -23,7 +23,7 @@ services:
       - llm-sast-network
 
   llm_sast_frontend:
-    image: rd.clouditera.com/aigc/llm_sast:x86_64-0.2.0-frontend
+    image: rd.clouditera.com/aigc/llm_sast:x86_64-0.3.5-frontend
     ports:
       - "8031:8080"
     volumes:
