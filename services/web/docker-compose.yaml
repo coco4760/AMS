@@ -1,6 +1,6 @@
 services:
   client-web-html:
-    image: rd.clouditera.com/aigc/wuji/client-web:v3.4.45
+    image: rd.clouditera.com/aigc/wuji/client-web:v3.4.47
     restart: always
     ports:
       - '80:80'
@@ -11,7 +11,7 @@ services:
       - ./config/nginx.conf:/etc/nginx/nginx.conf
   client-web-html-jibei:
     profiles: ["jibei"]
-    image: rd.clouditera.com/aigc/wuji/jibei-web:v1.0.14
+    image: rd.clouditera.com/aigc/wuji/jibei-web:v1.0.15
     restart: always
     ports:
       - '80:80'
