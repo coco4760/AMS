@@ -2,8 +2,8 @@
 # 2.5升级内容说明
 
 ## rag
-论文账号下新增知识库:知识库名：paper_peruse，描述:论文研读
-论文账号下新增知识库:知识库名：document_speed_read，描述:论文速读
+- 论文账号下新增知识库:知识库名：paper_peruse，描述:论文研读
+- 论文账号下新增知识库:知识库名：document_speed_read，描述:论文速读
 
 ## nacos
 路径：nacos/nacos_config_export_20250919180311.zip
