@@ -3,6 +3,7 @@
 
 ## rag
 论文账号下新增知识库:知识库名：paper_peruse，描述:论文研读
+论文账号下新增知识库:知识库名：document_speed_read，描述:论文速读
 
 ## nacos
 路径：nacos/nacos_config_export_20250919180311.zip
@@ -29,6 +30,7 @@
 ### 【论文研读】 对话 20250918工作流
 - 修改环境变量：RAG_HOST:rag地址，API_KEY:rag论文的apiKey
 - 修改AGENT表ID=2的APP_ID和KEY
+- 修改AGENT表ID=9的APP_ID和KEY
 
 ### 【论文研读】摘要总结-20250918工作流
 - 修改环境变量：RAG_SERVICE_HOST：rag地址，API_KEY：rag论文的apiKey，KB_ID：rag中论文研读(paper_peruse)的知识库id
@@ -37,5 +39,7 @@
 ### 【资产研判】【资产研判】研判 20250923
 - 修改环境变量 ASSET_MIND_SERVICE_HOST 为 asset_judgment 插件服务部署地址
 
-
+### 【文档速读】摘要总结-20250925工作流
+- 修改环境变量：RAG_SERVICE_HOST:rag地址，API_KEY:rag论文的apiKey，KB_ID：rag中论文研读(paper_peruse)的知识库id
+- 修改AGENT表ID=120的APP_ID和KEY
 
