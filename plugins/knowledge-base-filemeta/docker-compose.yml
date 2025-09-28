@@ -1,6 +1,6 @@
 services:
   clouditera-knowledge:
-    image: rd.clouditera.com/aigc/plugins/zhiku:v1.3.0-tool
+    image: rd.clouditera.com/aigc/plugins/zhiku:v1.3.1-tool
     env_file:
       - .env
     ports:
