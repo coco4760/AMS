@@ -1,6 +1,6 @@
 services:
   assetmind:
-    image: rd.clouditera.com/aigc/plugins/assetmind:2.0
+    image: rd.clouditera.com/aigc/plugins/assetmind:2.3.2
     container_name: assetmind
     ports:
       - "11001:8000"
@@ -9,7 +9,14 @@ services:
       - PYTHONUNBUFFERED=1
       - DEBUG=false
       - LOG_LEVEL=INFO
-      - PIPELINE_TOTAL_TIMEOUT=40.0
+      - PIPELINE_TOTAL_TIMEOUT=15.0
+      - MAX_CONCURRENT_REQUESTS=30
+      - REQUEST_QUEUE_SIZE=100
+      - MAX_BATCH_SIZE=20
+      - DNS_TIMEOUT=1.0
+      - TLS_SOCKET_TIMEOUT=2.0
+      - TLS_HANDSHAKE_TIMEOUT=3.0
+      - WHOIS_READ_TIMEOUT=1.5
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
