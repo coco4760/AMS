@@ -1,0 +1,114 @@
+services:
+  rag_service_backend:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    ports:
+      - "38081:8081"
+    volumes:
+      - ./data:/app/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    env_file:
+      - .env
+    restart: always
+  
+  slow_parse_worker:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    volumes:
+      - ./data:/app/data
+    command: >
+      celery -A backend.core.celery_app
+      worker --loglevel=info
+      --concurrency=4
+      --pool=prefork
+      --hostname=slow_parse_worker@%h
+      --queues=document_slow_parse_queue
+    env_file:
+      - .env
+    environment:
+      - C_FORCE_ROOT=true
+    restart: always
+       
+  parse_worker:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    volumes:
+      - ./data:/app/data
+    command: >
+      celery -A backend.core.celery_app
+      worker --loglevel=info
+      --concurrency=4
+      --pool=prefork
+      --hostname=parse_worker@%h
+      --queues=document_parse_queue
+    env_file:
+      - .env
+    environment:
+      - C_FORCE_ROOT=true
+    restart: always
+  
+  vectorize_worker:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    volumes:
+      - ./data:/app/data
+    command: >
+      celery -A backend.core.celery_app
+      worker --loglevel=info
+      --concurrency=4
+      --pool=prefork
+      --hostname=vectorize_worker@%h
+      --queues=document_vectorize_queue
+    env_file:
+      - .env
+    environment:
+      - C_FORCE_ROOT=true
+    restart: always
+
+  system_worker:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    volumes:
+      - ./data:/app/data
+    command: >
+      celery -A backend.core.celery_app
+      worker --loglevel=info
+      --concurrency=4
+      --pool=prefork
+      --hostname=system_worker@%h
+      --queues=system_task_queue
+    env_file:
+      - .env
+    environment:
+      - C_FORCE_ROOT=true
+    restart: always
+
+  rag_service_flower:
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.5.9
+    ports:
+      - "35555:5555"
+    command: >
+      celery -A backend.core.celery_app flower
+    env_file:
+      - .env
+    environment:
+      - C_FORCE_ROOT=true
+    restart: always
+  
+  rag_service_frontend:
+    image: rd.clouditera.com/aigc/rag/rag_service/frontend:x86_64-0.5.9
+    ports:
+      - "38082:8080"
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - rag_service_backend
+
+# 移除外部网络依赖，让Docker Compose自动创建网络
+# networks:
+#   default:
+#     name: aigc
+#     external: true
