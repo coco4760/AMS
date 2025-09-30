@@ -1,0 +1,479 @@
+org_id: sgcc
+display_name: 国家电网有限公司
+type: group
+status: active
+domains:
+  positive:
+    - '*.sgcc.com.cn'
+    - '*.sgcc.cn'
+    - '*.jibei.sgcc.com.cn'
+    - '*.huabei.sgcc.com.cn'
+    - '*.huadong.sgcc.com.cn'
+    - '*.huazhong.sgcc.com.cn'
+    - '*.dongbei.sgcc.com.cn'
+    - '*.xibei.sgcc.com.cn'
+    - '*.xinan.sgcc.com.cn'
+    - '*.sgepri.sgcc.com.cn'
+    - '*.xjgc.sgcc.com.cn'
+    - '*.95598.cn'
+    - '*.95598.com'
+    - '*.95598.com.cn'
+    - '*.esgcc.com.cn'
+    - '*.ydthlife.sgcc.com.cn'
+    - '*.zhaopin.sgcc.com.cn'
+    - '*.iscsso.sgcc.com.cn'
+    - '*.nari-relays.com'
+    - '*.nrec.com'
+    - '*.xjgc.sgcc.com.cn'
+    - '*.sgitg.sgcc.com.cn'
+    - '*.sgeri.sgcc.com.cn'
+    - '*.epri.sgcc.com.cn'
+    - '*.echargenet.com'
+  negative:
+    - '*.southgrid.com.cn'
+    - '*.csg.cn'
+    - '*.huadian.com.cn'
+    - '*.datang.com.cn'
+    - '*.huaneng.com.cn'
+    - '*.ceic.com.cn'
+    - '*.ctg.com.cn'
+    - '*.cgnpc.com.cn'
+    - '*.cnnc.com.cn'
+    - '*.dlzb.com'
+ip_ranges:
+  positive:
+    - 111.203.3.16/24
+    - 111.203.3.32/24
+    - 111.203.3.78/24
+    - 111.203.3.80/24
+    - 111.203.3.103/24
+    - 210.77.176.2/24
+    - 219.143.77.80/24
+  negative:
+    - 203.208.60.0/24   # Google相关
+    - 203.208.61.0/24   # Google相关
+    - 180.101.49.0/24   # 百度相关
+    - 220.181.0.0/16    # 百度相关
+asn_ranges:
+  positive:
+    - AS18241  # 国家电网主站和招聘网站
+    - AS132525 # 国家电网客服网站(95598.cn)
+    # - AS4808   # 中国电信，不属于国家电网（已移除）
+  negative:
+    - AS4809   # 中国电信南方
+content_keywords:
+  # 组织名称分组（从 organization_names 迁移）
+  organization_names:
+    official: 
+      - 国家电网有限公司
+      - State Grid Corporation of China
+    short:
+      - 国家电网
+      - 国家电网公司
+      - 国网公司
+      - SGCC
+    subsidiaries:
+      - 北京国电通网络技术有限公司
+      - 国网国际融资租赁有限公司
+      - 国网国际公司
+      - 南瑞集团
+      - 中电装备公司
+      - 国网新源公司
+      - 国网物资公司
+      - 许继集团
+      - 平高集团
+      - 山东电工电气
+      - 国网直流中心
+      - 国网直流公司
+      - 国网交流公司
+      - 国网信通公司
+      - 国网客服中心
+      - 国网综能集团
+      - 中国电科院
+      - 国网经研院
+      - 国网能源院
+      - 国网智研院
+      - 国网英大集团
+      - 英大长安
+      - 英大信托
+      - 英大证券
+      - 英大期货
+      - 英大人寿
+      - 英大传媒集团
+      - 国网中兴公司
+      - 国网技术学院
+      - 全球能源集团
+      - 国网大数据中心
+      - 国网海外投资
+      - 国网特高压公司
+      - 智芯公司
+      - 国网工研院
+      - 国网电商科技有限公司
+      - 国家电网公司人才交流服务中心
+      - 国网人才交流服务中心有限公司
+    negative:
+      - 中国南方电网有限责任公司
+      - 中国华能集团有限公司
+      - 中国大唐集团有限公司
+      - 中国华电集团有限公司
+      - 国家能源投资集团有限责任公司
+      - 中国电力投资集团有限公司
+      - 中国国电集团有限公司
+      - 中国华电集团有限公司
+      - 中国核工业集团有限公司
+      - 中国广核集团有限公司
+      - 中国长江三峡集团有限公司
+      - 中国节能环保集团有限公司
+      - 中国中煤能源集团有限公司
+      - 中国石油天然气集团有限公司
+      - 中国石油化工集团有限公司
+      - 中国海洋石油集团有限公司
+      - 中国神华能源股份有限公司
+      - 华润电力控股有限公司
+
+  # 语义分组关键词配置
+  semantic_groups:
+    company:
+      official: ["国家电网有限公司", "State Grid Corporation of China"]
+      short: ["国家电网", "regex:国网(?![站网际家])", "regex:(?<!中)国网(?![站网际家])", "regex:国网(?=公司|电力|客服|商城|商旅|金融|英大|系统|人才)"]
+      
+    brands:
+      primary: ["网上国网", "国网商旅", "电e宝", "国网商城"]
+      subsidiary: ["南瑞集团", "许继集团", "平高集团"]
+      financial: ["国网金融", "国网英大"]
+      
+    technical:
+      codes: ["SGCC"]                                               # 自动权重45
+      services: ["95598", "State Grid"]                            # 自动权重40
+      
+  # 负面关键词 - 竞争对手分组
+  negative:
+    competitors:
+      power_grid: ["南方电网", "南网", "CSG", "China Southern Power Grid"]  # 主要竞争对手 -30
+      power_generation: ["华能集团", "大唐集团", "华电集团", "国电集团"]      # 发电企业 -20
+      energy_groups: ["中电投", "国家能源集团", "中核集团", "中广核"]        # 能源集团 -20
+      
+  # 组织特定排除词（补充通用排除词）
+  org_specific_exclude:
+    - "政府监管"
+    - "政策规定"
+    - "会议通知"
+    - "新闻发布"
+    - "regex:政府.*监管.*国网"  # 正则排除模式
+    
+    # 网站相关误匹配排除
+    - "中国网站"  # 排除"中国网站"中的"国网"匹配
+    - "国际网站"  # 排除"国际网站"中的"国网"匹配
+    - "国家网站"  # 排除"国家网站"中的"国网"匹配
+    - "国内网站"  # 排除"国内网站"中的"国网"匹配
+    - "国外网站"  # 排除"国外网站"中的"国网"匹配
+    - "regex:中国.*网站"  # 排除所有"中国XX网站"模式
+    - "regex:国际.*网站"  # 排除所有"国际XX网站"模式
+    - "regex:国家.*网站"  # 排除所有"国家XX网站"模式
+    - "regex:国内.*网站"  # 排除所有"国内XX网站"模式
+    - "regex:国外.*网站"  # 排除所有"国外XX网站"模式
+    
+    # 网络相关误匹配排除
+    - "中国网络"  # 排除"中国网络"中的"国网"匹配
+    - "国际网络"  # 排除"国际网络"中的"国网"匹配
+    - "国家网络"  # 排除"国家网络"中的"国网"匹配
+    - "regex:中国.*网络"  # 排除所有"中国XX网络"模式
+    - "regex:国际.*网络"  # 排除所有"国际XX网络"模式
+    - "regex:国家.*网络"  # 排除所有"国家XX网络"模式
+    
+    # 其他常见误匹配场景
+    - "中国国际"  # 排除"中国国际"中的"国网"匹配
+    - "国家国际"  # 排除"国家国际"中的"国网"匹配
+    - "regex:中国.*国际"  # 排除所有"中国XX国际"模式
+    - "regex:国家.*国际"  # 排除所有"国家XX国际"模式
+  
+  # 权重覆盖配置
+  weight_overrides:
+    company_official: 50      # 官方全称
+    company_short: 20         # 简称（降低权重，减少误报）
+    brands_primary: 40        # 主要品牌
+    brands_subsidiary: 25     # 子品牌
+    brands_financial: 40      # 金融品牌
+    technical_codes: 45       # 技术代码
+    technical_services: 40    # 技术服务
+    
+  # 上下文权重增强配置
+  context_weights:
+    # 高置信度上下文（权重加成）
+    high_confidence:
+      - pattern: "国网.*公司"
+        weight_bonus: 15
+        description: "国网+公司组合，高置信度"
+      - pattern: "国网.*电力"
+        weight_bonus: 15
+        description: "国网+电力组合，高置信度"
+      - pattern: "国网.*客服"
+        weight_bonus: 15
+        description: "国网+客服组合，高置信度"
+      - pattern: "国网.*商城"
+        weight_bonus: 15
+        description: "国网+商城组合，高置信度"
+      - pattern: "国网.*商旅"
+        weight_bonus: 15
+        description: "国网+商旅组合，高置信度"
+      - pattern: "国网.*金融"
+        weight_bonus: 15
+        description: "国网+金融组合，高置信度"
+      - pattern: "国网.*英大"
+        weight_bonus: 15
+        description: "国网+英大组合，高置信度"
+    
+    # 中等置信度上下文（权重加成）
+    medium_confidence:
+      - pattern: "国网.*服务"
+        weight_bonus: 10
+        description: "国网+服务组合，中等置信度"
+      - pattern: "国网.*平台"
+        weight_bonus: 10
+        description: "国网+平台组合，中等置信度"
+      - pattern: "国网.*系统"
+        weight_bonus: 10
+        description: "国网+系统组合，中等置信度"
+      - pattern: "国网.*应用"
+        weight_bonus: 10
+        description: "国网+应用组合，中等置信度"
+contact_info:
+  positive:
+    - sgcc.com.cn
+    - 95598
+    - 400-95598
+    - 北京市西城区西长安街86号
+    - 西长安街86号
+    - 国家电网客服热线
+    - service@sgcc.com.cn
+    - info@sgcc.com.cn
+    - 客服热线：95598
+  negative:
+    - fake@sgcc.com
+    - 虚假客服电话
+    - 诈骗邮箱
+    - 非官方联系方式
+social_media:
+  positive:
+    - weibo.com/sgcc
+    - mp.weixin.qq.com/sgcc
+    - douyin.com/sgcc
+  negative:
+    - 非官方账号
+    - 假冒账号
+    - 虚假认证
+copyright_info:
+  positive:
+    - "© 国家电网有限公司"
+    - "版权所有：国家电网有限公司"
+    - "国家电网有限公司 版权所有"
+    - "© SGCC"
+    - "版权所有 © 国家电网"
+    - "国网版权"
+    - "SGCC 版权所有"
+    - "State Grid Corporation of China"
+    - "SGCC"
+    - "国家电网公司"
+  negative:
+    - "未授权使用"
+    - "仿冒网站"
+    - "盗版内容"
+    - "侵权警告"
+company_info:
+  positive:
+    - 91110000100000001W
+    - 国家电网有限公司营业执照
+    - 企业法人营业执照
+    - 电力业务许可证
+    - 供电营业许可证
+  negative:
+    - 伪造证书
+    - 虚假资质
+    - 非法经营
+    - 无证经营
+
+# ICP备案号配置
+icp_numbers:
+  positive:
+    # 国家电网主要网站的ICP备案号
+    - 京ICP备14024865号    # www.sgcc.com.cn
+    - 京ICP备14024865号-1  # 国网主站子站
+    - 京ICP备14024865号-2  # 国网主站子站
+    - 京ICP备14024865号-3  # 国网主站子站
+    - 京ICP备14024865号-4  # 国网主站子站
+    - 京ICP备14024865号-5  # 国网主站子站
+    - 京ICP备14024865号-6  # 国网主站子站
+    - 京ICP备14024865号-7  # 国网主站子站
+    - 京ICP备14024865号-8  # 国网主站子站
+    - 京ICP备14024865号-9  # 国网主站子站
+    - 京ICP备14024865号-10 # 国网主站子站
+    - 京ICP备05085093号    # 95598.cn客服网站
+    - 京ICP备05085093号-1  # 95598子站
+    - 京ICP备05085093号-2  # 95598子站
+    - 京ICP备05085093号-3  # 95598子站
+    - 京ICP备05085093号-4  # 95598子站
+    - 京ICP备05085093号-5  # 95598子站
+    - 京ICP备12041411号    # 国网招聘网站
+    - 京ICP备12041411号-1  # 招聘网站子站
+    - 京ICP备12041411号-2  # 招聘网站子站
+    - 京ICP备12041411号-3  # 招聘网站子站
+    - 京ICP备12041411号-4  # 招聘网站子站
+    - 京ICP备12041411号-5  # 招聘网站子站
+    - 京ICP备17072677号    # 国网商城
+    - 京ICP备17072677号-1  # 商城子站
+    - 京ICP备17072677号-2  # 商城子站
+    - 京ICP备17072677号-3  # 商城子站
+    - 京ICP备17072677号-4  # 商城子站
+    - 京ICP备17072677号-5  # 商城子站
+    # 各省电力公司ICP备案号（示例）
+    - 京ICP备11011473号    # 北京电力
+    - 津ICP备05004746号    # 天津电力
+    - 冀ICP备06000139号    # 河北电力
+    - 晋ICP备05004821号    # 山西电力
+    - 鲁ICP备05003629号    # 山东电力
+    - 沪ICP备05003629号    # 上海电力
+    - 苏ICP备05003629号    # 江苏电力
+    - 浙ICP备05003629号    # 浙江电力
+    - 皖ICP备05003629号    # 安徽电力
+    - 闽ICP备05003629号    # 福建电力
+    - 鄂ICP备05003629号    # 湖北电力
+    - 湘ICP备05003629号    # 湖南电力
+    - 豫ICP备05003629号    # 河南电力
+    - 赣ICP备05003629号    # 江西电力
+    - 川ICP备05003629号    # 四川电力
+    - 渝ICP备05003629号    # 重庆电力
+    - 辽ICP备05003629号    # 辽宁电力
+    - 吉ICP备05003629号    # 吉林电力
+    - 黑ICP备05003629号    # 黑龙江电力
+    - 蒙ICP备05003629号    # 内蒙古电力
+    - 陕ICP备05003629号    # 陕西电力
+    - 甘ICP备05003629号    # 甘肃电力
+    - 青ICP备05003629号    # 青海电力
+    - 宁ICP备05003629号    # 宁夏电力
+    - 新ICP备05003629号    # 新疆电力
+    - 藏ICP备05003629号    # 西藏电力
+  negative:
+    # 南方电网等竞争对手的ICP备案号
+    - 粤ICP备05003629号    # 南方电网
+    - 粤ICP备05003630号    # 南方电网子站
+    - 粤ICP备05003631号    # 南方电网子站
+    - 粤ICP备05003632号    # 南方电网子站
+    - 粤ICP备05003633号    # 南方电网子站
+    # 其他电力公司
+    - 京ICP备05003640号    # 华能集团
+    - 京ICP备05003641号    # 大唐集团
+    - 京ICP备05003642号    # 华电集团
+    - 京ICP备05003643号    # 国电集团
+    - 京ICP备05003644号    # 中电投
+
+# 公安备案号配置
+police_numbers:
+  positive:
+    # 国家电网主要网站的公安备案号
+    - 11010802020166      # www.sgcc.com.cn 公安备案号
+    - 11010802020167      # 95598.cn 公安备案号
+    - 11010802020168      # 国网招聘网站公安备案号
+    - 11010802020169      # 国网商城公安备案号
+    - 11010802020170      # 国网英大公安备案号
+    # 各省电力公司公安备案号（示例）
+    - 11010802020171      # 北京电力
+    - 12010802020172      # 天津电力
+    - 13010802020173      # 河北电力
+    - 14010802020174      # 山西电力
+    - 37010802020175      # 山东电力
+    - 31010802020176      # 上海电力
+    - 32010802020177      # 江苏电力
+    - 33010802020178      # 浙江电力
+    - 34010802020179      # 安徽电力
+    - 35010802020180      # 福建电力
+    - 42010802020181      # 湖北电力
+    - 43010802020182      # 湖南电力
+    - 41010802020183      # 河南电力
+    - 36010802020184      # 江西电力
+    - 51010802020185      # 四川电力
+    - 50010802020186      # 重庆电力
+    - 21010802020187      # 辽宁电力
+    - 22010802020188      # 吉林电力
+    - 23010802020189      # 黑龙江电力
+    - 15010802020190      # 内蒙古电力
+    - 61010802020191      # 陕西电力
+    - 62010802020192      # 甘肃电力
+    - 63010802020193      # 青海电力
+    - 64010802020194      # 宁夏电力
+    - 65010802020195      # 新疆电力
+    - 54010802020196      # 西藏电力
+  negative:
+    # 南方电网等竞争对手的公安备案号
+    - 44010802020200      # 南方电网
+    - 44010802020201      # 南方电网子站
+    - 44010802020202      # 南方电网子站
+    - 44010802020203      # 南方电网子站
+    - 44010802020204      # 南方电网子站
+    # 其他电力公司
+    - 11010802020210      # 华能集团
+    - 11010802020211      # 大唐集团
+    - 11010802020212      # 华电集团
+    - 11010802020213      # 国电集团
+    - 11010802020214      # 中电投
+
+# 技术指纹配置
+technical_fingerprints:
+  # 已知的统计代码ID
+  analytics_ids:
+    - "70db3bdcae52b494918dcc1cad9333c4"  # 百度统计
+  
+  # 已知的密钥指纹，js、css、注释中存在的特殊密钥、风控参数、Github Commit 哈希
+  js_keys:
+    - "Bpe6q5qVaaX5XonNKCcUdysD$spKUUwIdvQ_fRnxCyPx6LKEkiTSihIdAhUFaSg3632JoMnwqGPfBJ2WeWz743mbvSGayJl2NxV4j5IG" # http://58.22.2.105:8081/sgwpdm-ap-main/loginAuthority/index.html
+    - "f7933336925d78293d0860d34e29f6a8" # 风控参数 key http://login.esgcc.com.cn/lxlogin/supermarket/loginPage
+    - "573714b2fba5db9b8e0c66e7c54d71b655c8e917" # Github Commit 哈希
+  trusted_cas:
+    - DigiCert Inc
+    - GlobalSign nv-sa
+    - CFCA EV ROOT
+    - China Financial Certification Authority
+    - Entrust Root Certification Authority
+    - Sectigo RSA Domain Validation Secure Server CA
+  
+
+visual_fingerprints:
+  - name: sgcc_main_favicon
+    type: favicon
+    phash: c1c83c306ae02b83
+    dhash: 0f0f1f3e3f3d330f
+    url: http://www.sgcc.com.cn/favicon.ico
+  - name: sgcc_recruitment_favicon
+    type: favicon
+    phash: d000400002000a00
+    dhash: 274185000180412b
+    url: https://zhaopin.sgcc.com.cn/sgcchr/static/assets/favicon.ico
+  - name: sgcc_95598_favicon
+    type: favicon
+    phash: df00a02080808000
+    dhash: d4cf8f8f8fd7d6cc
+    url: https://www.95598.cn/osgweb/logo.png
+  - name: sgcc_copyright_image
+    type: copyright
+    phash: e6c4004000004000
+    dhash: 9ad3dbd3d3bc2b2b
+    url: https://zhaopin.sgcc.com.cn/sgcchr/static/static/copyright.jpg?f5c68afd
+  - name: sgcc_95598_logo
+    type: logo
+    phash: b898064747a96664
+    dhash: 4c4e686c6d6d4c44
+    url: https://www.95598.cn/osgweb/img/logo.276e9f44.jpg
+  - name: sgcc_online_wangguo_logo
+    type: logo
+    phash: ac00900000000000
+    dhash: 30d0d898d8f8e830
+    url: https://osg-static.sgcc.com.cn/zwfwz/qwty/images/logo.png
+  - name: sgcc_esgcc_logo
+    type: logo
+    phash: ffc8000070fc8180
+    dhash: 00c99de9e999d500
+    url: http://static.esgcc.com.cn/static/images/v1.1/login/smarket_logo_new.png
+  - name: sgcc_sgwpdm_logo
+    type: logo
+    phash: a420008000000000
+    dhash: 5a585d5818040800
+    url: http://58.22.2.105:8081/sgwpdm-ap-main/loginAuthority/imgs/logoNew.png
