@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 【论文研读】 对话 20250919
+  name: 【论文研读】 对话 20250924
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -412,47 +412,19 @@ workflow:
         prompt_template:
         - id: 707b325a-2c62-488f-9ffc-df0992d3bd7a
           role: system
-          text: '# 角色
-
-            你是一名专业的论文解读专家，擅长基于论文元数据(meta_data)和检索内容(source_data)进行总结与分析，帮助客户快速理解论文。
-
-
-            # 输入
-
-            - 论文知识库检索内容：{{#context#}}
-
-            - 论文元数据内容：{{#1758008156256.result#}}
-
-
-            # 回复要求
-
-            1. 保持专业的学术态度，答案必须基于输入内容，不得虚构。
-
-            2. 只有在回答中确实使用了知识库检索结果（source_data）时，才必须添加对应的编号 [1]、[2]。若回答完全基于 meta_data
-            或检索结果为空，回答中禁止出现任何编号。
-
-            3. 采用总-分-总结构：
-
-               - 开头：简要概括问题与论文相关性；
-
-               - 中间：逐条结合检索片段展开说明，必要时结合 meta_data 解释；
-
-               - 结尾：总结核心结论。
-
-            4. 若用户问题模糊，但检索结果高度集中于某一主题，可合理引导回答。
-
-            5. 若确实未检索到相关信息，必须明确说明“未检索到相关信息”，禁止编造。
-
-            6. 禁止输出空的 [ ] 或无效的编号。
-
-            7. 输出需简洁清晰，优先使用 Markdown 格式（分段、列表、引用）以突出重点。
-
-
-            '
+          text: "# 角色\n你是一名专业的论文解读专家，擅长基于论文元数据(meta_data)和检索内容(source_data)进行总结与分析，帮助客户快速理解论文。\n\
+            \n# 输入\n- 论文知识库检索内容：{{#context#}}\n- 论文元数据内容：{{#1758008156256.result#}}\n\
+            \n# 输出要求\n1. **必须基于提供的内容撰写**，禁止虚构信息或添加模型臆测内容。\n2. 当回答内容**确实引用了检索结果**（source_data）时，需在引用处标注编号\
+            \ [1]、[2] 等；\n   - 编号数量应与实际使用的检索结果对应；\n   - 未使用检索结果时，不得出现任何编号。\n3. **禁止**出现\
+            \ “本回答基于X个引用生成”、“以上引用”等总结性语句。\n4. 采用 **总-分-总** 结构：\n   - **开头**：简要概述论文主题及问题关联；\n\
+            \   - **中间**：结合检索片段逐条分析，适当引用编号；\n   - **结尾**：总结论文核心观点或研究贡献。\n5. 回答需逻辑清晰、语言正式、结构分明，优先使用\
+            \ Markdown 格式。\n6. 当检索结果为空或无关时，请明确说明：“未检索到相关信息”。\n\n# 输出示例（结构参考）\n**示例：**\n\
+            \n本问题涉及论文在模糊测试中的同步机制设计，与论文主题高度相关。\n\n论文首先提出基于全局同步池的种子同步策略，可有效在多实例间共享测试输入，从而提升崩溃检测效率\
+            \ [1]。此外，在实际应用中，作者验证该机制在多个开源项目中表现优异 [2]。\n\n综合来看，该论文的核心贡献在于提出高效的种子同步与监控框架，显著提升了模糊测试的漏洞发现能力。"
         - id: 10655f24-90fa-4031-8172-6fcf027824b7
           role: user
           text: 客户的问题：{{#conversation.question#}}
-        selected: false
+        selected: true
         title: LLM
         type: llm
         variables: []
@@ -466,7 +438,7 @@ workflow:
       positionAbsolute:
         x: 2822.130665406641
         y: -432.7142857142858
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -478,7 +450,7 @@ workflow:
         title: 直接回复
         type: answer
         variables: []
-      height: 104
+      height: 103
       id: answer
       position:
         x: 3184.8234992912367
@@ -605,15 +577,15 @@ workflow:
         cases:
         - case_id: 'true'
           conditions:
-          - comparison_operator: '>'
-            id: ea234aab-5431-46a3-8bb8-867350344a84
-            value: '0'
-            varType: number
+          - comparison_operator: not empty
+            id: abb21402-adef-4d02-862b-d6b94fc9d581
+            value: ''
+            varType: array[string]
             variable_selector:
-            - sys
-            - dialogue_count
+            - conversation
+            - memory
           id: 'true'
-          logical_operator: and
+          logical_operator: or
         desc: ''
         selected: false
         title: 条件分支
@@ -856,7 +828,7 @@ workflow:
           result:
             children: null
             type: string
-        selected: true
+        selected: false
         title: 论文元数据获取
         type: code
         variables:
@@ -884,7 +856,7 @@ workflow:
       positionAbsolute:
         x: 1602.7885179162063
         y: -355.9286994408179
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1023,7 +995,7 @@ workflow:
         type: http-request
         url: '{{#env.RAG_HOST#}}/api/v1/search'
         variables: []
-      height: 125
+      height: 124
       id: '1758180144278'
       position:
         x: 2170.7971579022337
@@ -1040,8 +1012,8 @@ workflow:
         code: "import json\n\ndef main(arg1: str) -> str:\n    # 1) 解析与召回判断\n    try:\n\
           \        resp = json.loads(arg1)\n        items = resp.get(\"data\") or\
           \ []\n        if not isinstance(items, list) or len(items) == 0:\n     \
-          \       return {\"result\": {}}\n    except (json.JSONDecodeError, TypeError):\n\
-          \        return {\"result\": {}}\n\n    # 2) 提取与格式化\n    result = []\n \
+          \       return {\"result\": []}\n    except (json.JSONDecodeError, TypeError):\n\
+          \        return {\"result\": []}\n\n    # 2) 提取与格式化\n    result = []\n \
           \   for idx, item in enumerate(items, start=1):\n        metadata = item.get(\"\
           metadata\") or {}\n        doc_name = item.get(\"doc_name\") or \"\"\n \
           \       content = item.get(\"content\") or \"\"\n\n        formatted_item\
@@ -1119,6 +1091,6 @@ workflow:
       type: custom
       width: 243
     viewport:
-      x: -465.9121204913147
-      y: 851.400268847174
-      zoom: 0.5340411522507794
+      x: 207.72731708927193
+      y: 655.4529638743288
+      zoom: 0.5340411522507803

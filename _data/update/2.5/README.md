@@ -27,7 +27,7 @@
 - 更新 docker-compose.yml 和 .env 文件
 
 ## dify工作流
-### 【论文研读】 对话 20250918工作流
+### 【论文研读】 对话 20250924工作流
 - 修改环境变量：RAG_HOST:rag地址，API_KEY:rag论文的apiKey
 - 修改AGENT表ID=2的APP_ID和KEY
 - 修改AGENT表ID=9的APP_ID和KEY
@@ -36,7 +36,7 @@
 - 修改环境变量：RAG_SERVICE_HOST：rag地址，API_KEY：rag论文的apiKey，KB_ID：rag中论文研读(paper_peruse)的知识库id
 - 修改AGENT表ID=119的APP_ID和KEY
 
-### 【资产研判】【资产研判】研判 20250923
+### 【资产研判】【资产研判】研判 20250925
 - 修改环境变量 ASSET_MIND_SERVICE_HOST 为 asset_judgment 插件服务部署地址
 
 ### 【文档速读】摘要总结-20250925工作流

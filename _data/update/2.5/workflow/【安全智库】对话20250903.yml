@@ -437,7 +437,7 @@ workflow:
           max_retries: 3
           retry_enabled: false
           retry_interval: 1000
-        selected: false
+        selected: true
         title: 结果归纳
         type: code
         variables:
@@ -461,7 +461,7 @@ workflow:
       positionAbsolute:
         x: 1113.714285714286
         y: 965.142857142857
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -916,7 +916,7 @@ workflow:
       positionAbsolute:
         x: 1113.714285714286
         y: 758
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -953,6 +953,6 @@ workflow:
       type: custom
       width: 243
     viewport:
-      x: 111.36898321074727
-      y: -8.721544553993965
+      x: 197.8689832107475
+      y: 121.77845544600609
       zoom: 0.609385394307287
