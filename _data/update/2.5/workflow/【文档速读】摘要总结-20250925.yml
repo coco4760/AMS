@@ -211,7 +211,7 @@ workflow:
         type: http-request
         url: '{{#env.RAG_SERVICE_HOST#}}/api/v1/documents/{{#env.KB_ID#}}/{{#1755766802773.docId#}}/detail'
         variables: []
-      height: 199
+      height: 197
       id: '1755766853232'
       position:
         x: 380

@@ -3,7 +3,7 @@ app:
   icon: 🤖
   icon_background: '#FFEAD5'
   mode: advanced-chat
-  name: 【安全论文检索】检索20250901
+  name: 【安全论文检索】检索 20250905
   use_icon_as_answer_icon: false
 dependencies:
 - current_identifier: null
@@ -45,7 +45,7 @@ workflow:
     selector:
     - env
     - VECTOR_SIMILARITY_WEIGHT
-    value: 0.7
+    value: 1
     value_type: number
   - description: ''
     id: bdfb2258-3368-4db7-9b0a-3dca601850f4
@@ -69,7 +69,7 @@ workflow:
     selector:
     - env
     - RERANK_ID
-    value: default
+    value: '""'
     value_type: string
   - description: ''
     id: e6ac775e-2bbf-438a-8120-c61a26daf07b
@@ -85,7 +85,7 @@ workflow:
     selector:
     - env
     - TOP_K
-    value: 20
+    value: 100
     value_type: number
   features:
     file_upload:
@@ -290,6 +290,7 @@ workflow:
         sourceType: code
         targetType: parameter-extractor
       id: 1756455269677-source-1752550168163-target
+      selected: false
       source: '1756455269677'
       sourceHandle: source
       target: '1752550168163'
@@ -408,11 +409,11 @@ workflow:
       height: 89
       id: '1752550168163'
       position:
-        x: 327.21985178714147
-        y: -45.238693336594295
+        x: 353.37208831677026
+        y: -47.10671023156779
       positionAbsolute:
-        x: 327.21985178714147
-        y: -45.238693336594295
+        x: 353.37208831677026
+        y: -47.10671023156779
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -456,50 +457,49 @@ workflow:
           \            if line.strip():\n                try:\n                  \
           \  data.append(json.loads(line))\n                except:\n            \
           \        continue\n\n    papers = {}\n\n    for chunk in data:\n       \
-          \ print(\"cccccc\",chunk)\n        paper_id = chunk.get(\"doc_id\") or chunk.get(\"\
-          paper_id\")\n        if not paper_id:\n            continue\n\n        score\
-          \ = float(chunk.get(\"score\", 0)) if isinstance(chunk.get(\"score\"), (str,\
-          \ int, float)) else 0\n        metadata = chunk.get(\"metadata\", {})\n\n\
-          \        def get_field(field, default=\"\"):\n            return metadata.get(field,\
-          \ chunk.get(field, default))\n\n        def try_json(value):\n         \
-          \   try:\n                return json.loads(value) if isinstance(value,\
-          \ str) else value\n            except:\n                return []\n\n  \
-          \      # 解析字段（新格式字段名都是大写）\n        language = get_field(\"LANGUAGE\", \"\
-          \")\n        authors = try_json(get_field(\"AUTHOR\", \"[]\"))\n       \
-          \ abstract_en = get_field(\"ABSTRACT\", \"\")\n        abstract_zh = get_field(\"\
-          ABSTRACT_ZH\", \"\")\n        title_en = get_field(\"TITLE\", \"\")\n  \
-          \      title_zh = get_field(\"TITLE_ZH\", \"\")\n        ai_summary = get_field(\"\
-          AI_ABSTRACT\", \"\") or (abstract_en[:200] + \"...\" if abstract_en else\
-          \ \"\")\n        keywords = try_json(get_field(\"KEYWORDS\", \"[]\"))\n\
-          \        qa = try_json(get_field(\"RECOMMENDED_QA\", \"[]\"))\n        ai_notes\
-          \ = try_json(get_field(\"AI_NOTE\", \"[]\"))\n        quality_score = get_field(\"\
-          CONTENT_QUALITY_SCORE\", \"[]\")\n\n        if paper_id not in papers:\n\
-          \            papers[paper_id] = {\n                \"paper_id\": paper_id,\n\
-          \                \"language\": language,\n                \"title\": {\"\
-          zh\": title_zh, \"en\": title_en},\n                \"authors\": authors\
-          \ if isinstance(authors, list) else [authors],\n                \"ai_summary\"\
-          : ai_summary,\n                \"publication_info\": {\n               \
-          \     \"journal_source\": get_field(\"JOURNAL_SOURCE_ABBREVIATION\"),\n\
-          \                    # \"url\": get_field(\"SOURCE_URL\"),\n           \
-          \         \"paper_type\": get_field(\"PAPER_TYPE\"),\n                 \
-          \   \"publication_date\": get_field(\"PUBLISH_TIME\"),\n               \
-          \     \"doi\": get_field(\"DOI\") or \"-\",\n                    \"pdf_url\"\
-          : get_field(\"SOURCE_URL\"),\n                    \"code_url\": get_field(\"\
-          OPENSOURCE_CODE_URL\", \"\")\n                },\n                \"keywords\"\
-          : keywords,\n                \"qa\": qa,\n                \"abstract\":\
-          \ {\"en\": abstract_en, \"zh\": abstract_zh},\n                \"ai_notes\"\
-          : ai_notes,\n                \"content_quality_score\": quality_score,\n\
-          \                \"relevance_score\": score,\n                \"scores\"\
-          : [score]\n            }\n        else:\n            paper = papers[paper_id]\n\
-          \            paper[\"scores\"].append(score)\n\n    # Aggregate scores\n\
-          \    results = []\n    for paper in papers.values():\n        paper[\"relevance_score\"\
-          ] = sum(paper[\"scores\"]) / len(paper[\"scores\"])\n        del paper[\"\
-          scores\"]\n        results.append(paper)\n\n    results.sort(key=lambda\
-          \ x: x[\"relevance_score\"], reverse=True)\n\n    response = {\n       \
-          \ \"code\": 200,\n        \"message\": \"检索成功\",\n        \"data\": {\n\
-          \            \"query\": {\"original_query\": query_input, \"filters\": filters},\n\
-          \            \"results\": results\n        }\n    }\n\n    return {\"response\"\
-          : response}"
+          \ paper_id = chunk.get(\"doc_id\") or chunk.get(\"paper_id\")\n        if\
+          \ not paper_id:\n            continue\n\n        score = float(chunk.get(\"\
+          score\", 0)) if isinstance(chunk.get(\"score\"), (str, int, float)) else\
+          \ 0\n        metadata = chunk.get(\"metadata\", {})\n\n        def get_field(field,\
+          \ default=\"\"):\n            return metadata.get(field, chunk.get(field,\
+          \ default))\n\n        def try_json(value):\n            try:\n        \
+          \        return json.loads(value) if isinstance(value, str) else value\n\
+          \            except:\n                return []\n\n        # 解析字段（新格式字段名都是大写）\n\
+          \        language = get_field(\"LANGUAGE\", \"\")\n        authors = try_json(get_field(\"\
+          AUTHOR\", \"[]\"))\n        abstract_en = get_field(\"ABSTRACT\", \"\")\n\
+          \        abstract_zh = get_field(\"ABSTRACT_ZH\", \"\")\n        title_en\
+          \ = get_field(\"TITLE\", \"\")\n        title_zh = get_field(\"TITLE_ZH\"\
+          , \"\")\n        ai_summary = get_field(\"AI_ABSTRACT\", \"\") or (abstract_en[:200]\
+          \ + \"...\" if abstract_en else \"\")\n        keywords = try_json(get_field(\"\
+          KEYWORDS\", \"[]\"))\n        qa = try_json(get_field(\"RECOMMENDED_QA\"\
+          , \"[]\"))\n        ai_notes = try_json(get_field(\"AI_NOTE\", \"[]\"))\n\
+          \        quality_score = get_field(\"CONTENT_QUALITY_SCORE\", \"[]\")\n\n\
+          \        if paper_id not in papers:\n            papers[paper_id] = {\n\
+          \                \"paper_id\": paper_id,\n                \"language\":\
+          \ language,\n                \"title\": {\"zh\": title_zh, \"en\": title_en},\n\
+          \                \"authors\": authors if isinstance(authors, list) else\
+          \ [authors],\n                \"ai_summary\": ai_summary,\n            \
+          \    \"publication_info\": {\n                    \"journal_source\": get_field(\"\
+          JOURNAL_SOURCE_ABBREVIATION\"),\n                    # \"url\": get_field(\"\
+          SOURCE_URL\"),\n                    \"paper_type\": get_field(\"PAPER_TYPE\"\
+          ),\n                    \"publication_date\": get_field(\"PUBLISH_TIME\"\
+          ),\n                    \"doi\": get_field(\"DOI\") or \"-\",\n        \
+          \            \"pdf_url\": get_field(\"SOURCE_URL\"),\n                 \
+          \   \"code_url\": get_field(\"OPENSOURCE_CODE_URL\", \"\")\n           \
+          \     },\n                \"keywords\": keywords,\n                \"qa\"\
+          : qa,\n                \"abstract\": {\"en\": abstract_en, \"zh\": abstract_zh},\n\
+          \                \"ai_notes\": ai_notes,\n                \"content_quality_score\"\
+          : quality_score,\n                \"relevance_score\": score,\n        \
+          \        \"scores\": [score]\n            }\n        else:\n           \
+          \ paper = papers[paper_id]\n            paper[\"scores\"].append(score)\n\
+          \n    # Aggregate scores\n    results = []\n    for paper in papers.values():\n\
+          \        paper[\"relevance_score\"] = sum(paper[\"scores\"]) / len(paper[\"\
+          scores\"])\n        del paper[\"scores\"]\n        results.append(paper)\n\
+          \n    results.sort(key=lambda x: x[\"relevance_score\"], reverse=True)\n\
+          \n    response = {\n        \"code\": 200,\n        \"message\": \"检索成功\"\
+          ,\n        \"data\": {\n            \"query\": {\"original_query\": query_input,\
+          \ \"filters\": filters},\n            \"results\": results\n        }\n\
+          \    }\n\n    return {\"response\": response}"
         code_language: python3
         desc: ''
         outputs:
@@ -590,7 +590,7 @@ workflow:
         type: http-request
         url: http://192.168.31.26:48080/api/search-parsed-content?q={{#sys.query#}}&limit=100
         variables: []
-      height: 173
+      height: 172
       id: '1756359935180'
       position:
         x: 345.9000207368764
@@ -598,7 +598,7 @@ workflow:
       positionAbsolute:
         x: 345.9000207368764
         y: 558.8414780521264
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -669,42 +669,41 @@ workflow:
           \ or \"\").splitlines():\n            if line.strip():\n               \
           \ try:\n                    obj = json.loads(line)\n                   \
           \ data.append(obj)\n                except Exception:\n                \
-          \    continue\n\n    papers = {}\n\n    for chunk in data:\n        print(\"\
-          cccccc\", chunk)\n        if not isinstance(chunk, dict):\n            continue\n\
-          \        paper_id = chunk.get(\"doc_id\") or chunk.get(\"paper_id\")\n \
-          \       if not paper_id:\n            continue\n\n        # 优先用 extra_body\
-          \ 里的 hit_count（通过 rag_ainote_doc_id == paper_id 关联）\n        if paper_id\
-          \ in hit_count_map:\n            score = int(hit_count_map[paper_id])\n\
-          \        else:\n            raw_score = chunk.get(\"score\", 0)\n      \
-          \      score = int(raw_score) if isinstance(raw_score, (str, int, float))\
-          \ else 0\n\n        metadata = chunk.get(\"metadata\", {}) if isinstance(chunk.get(\"\
-          metadata\", {}), dict) else {}\n\n        def get_field(field, default=\"\
-          \"):\n            return metadata.get(field, chunk.get(field, default))\n\
-          \n        def try_json(value):\n            try:\n                return\
-          \ json.loads(value) if isinstance(value, str) else value\n            except\
-          \ Exception:\n                return []\n\n        language = get_field(\"\
-          LANGUAGE\", \"\")\n        authors = try_json(get_field(\"AUTHOR\", \"[]\"\
-          ))\n        abstract_en = get_field(\"ABSTRACT\", \"\")\n        abstract_zh\
-          \ = get_field(\"ABSTRACT_ZH\", \"\")\n        title_en = get_field(\"TITLE\"\
-          , \"\")\n        title_zh = get_field(\"TITLE_ZH\", \"\")\n        ai_summary\
-          \ = get_field(\"AI_ABSTRACT\", \"\") or (abstract_en[:200] + \"...\" if\
-          \ abstract_en else \"\")\n        keywords = try_json(get_field(\"KEYWORDS\"\
-          , \"[]\"))\n        qa = try_json(get_field(\"RECOMMENDED_QA\", \"[]\"))\n\
-          \        ai_notes = try_json(get_field(\"AI_NOTE\", \"[]\"))\n        quality_score\
-          \ = get_field(\"CONTENT_QUALITY_SCORE\", \"[]\")\n\n        if paper_id\
-          \ not in papers:\n            papers[paper_id] = {\n                \"paper_id\"\
-          : paper_id,\n                \"language\": language,\n                \"\
-          title\": {\"zh\": title_zh, \"en\": title_en},\n                \"authors\"\
-          : authors if isinstance(authors, list) else [authors],\n               \
-          \ \"ai_summary\": ai_summary,\n                \"publication_info\": {\n\
-          \                    \"journal_source\": get_field(\"JOURNAL_SOURCE_ABBREVIATION\"\
-          ),\n                    \"paper_type\": get_field(\"PAPER_TYPE\"),\n   \
-          \                 \"publication_date\": get_field(\"PUBLISH_TIME\"),\n \
-          \                   \"doi\": get_field(\"DOI\") or \"-\",\n            \
-          \        \"pdf_url\": get_field(\"SOURCE_URL\"),\n                    \"\
-          code_url\": get_field(\"OPENSOURCE_CODE_URL\", \"\")\n                },\n\
-          \                \"keywords\": keywords,\n                \"qa\": qa,\n\
-          \                \"abstract\": {\"en\": abstract_en, \"zh\": abstract_zh},\n\
+          \    continue\n\n    papers = {}\n\n    for chunk in data:\n        if not\
+          \ isinstance(chunk, dict):\n            continue\n        paper_id = chunk.get(\"\
+          doc_id\") or chunk.get(\"paper_id\")\n        if not paper_id:\n       \
+          \     continue\n\n        # 优先用 extra_body 里的 hit_count（通过 rag_ainote_doc_id\
+          \ == paper_id 关联）\n        if paper_id in hit_count_map:\n            score\
+          \ = int(hit_count_map[paper_id])\n        else:\n            raw_score =\
+          \ chunk.get(\"score\", 0)\n            score = int(raw_score) if isinstance(raw_score,\
+          \ (str, int, float)) else 0\n\n        metadata = chunk.get(\"metadata\"\
+          , {}) if isinstance(chunk.get(\"metadata\", {}), dict) else {}\n\n     \
+          \   def get_field(field, default=\"\"):\n            return metadata.get(field,\
+          \ chunk.get(field, default))\n\n        def try_json(value):\n         \
+          \   try:\n                return json.loads(value) if isinstance(value,\
+          \ str) else value\n            except Exception:\n                return\
+          \ []\n\n        language = get_field(\"LANGUAGE\", \"\")\n        authors\
+          \ = try_json(get_field(\"AUTHOR\", \"[]\"))\n        abstract_en = get_field(\"\
+          ABSTRACT\", \"\")\n        abstract_zh = get_field(\"ABSTRACT_ZH\", \"\"\
+          )\n        title_en = get_field(\"TITLE\", \"\")\n        title_zh = get_field(\"\
+          TITLE_ZH\", \"\")\n        ai_summary = get_field(\"AI_ABSTRACT\", \"\"\
+          ) or (abstract_en[:200] + \"...\" if abstract_en else \"\")\n        keywords\
+          \ = try_json(get_field(\"KEYWORDS\", \"[]\"))\n        qa = try_json(get_field(\"\
+          RECOMMENDED_QA\", \"[]\"))\n        ai_notes = try_json(get_field(\"AI_NOTE\"\
+          , \"[]\"))\n        quality_score = get_field(\"CONTENT_QUALITY_SCORE\"\
+          , \"[]\")\n\n        if paper_id not in papers:\n            papers[paper_id]\
+          \ = {\n                \"paper_id\": paper_id,\n                \"language\"\
+          : language,\n                \"title\": {\"zh\": title_zh, \"en\": title_en},\n\
+          \                \"authors\": authors if isinstance(authors, list) else\
+          \ [authors],\n                \"ai_summary\": ai_summary,\n            \
+          \    \"publication_info\": {\n                    \"journal_source\": get_field(\"\
+          JOURNAL_SOURCE_ABBREVIATION\"),\n                    \"paper_type\": get_field(\"\
+          PAPER_TYPE\"),\n                    \"publication_date\": get_field(\"PUBLISH_TIME\"\
+          ),\n                    \"doi\": get_field(\"DOI\") or \"-\",\n        \
+          \            \"pdf_url\": get_field(\"SOURCE_URL\"),\n                 \
+          \   \"code_url\": get_field(\"OPENSOURCE_CODE_URL\", \"\")\n           \
+          \     },\n                \"keywords\": keywords,\n                \"qa\"\
+          : qa,\n                \"abstract\": {\"en\": abstract_en, \"zh\": abstract_zh},\n\
           \                \"ai_notes\": ai_notes,\n                \"content_quality_score\"\
           : quality_score,\n                \"relevance_score\": score,\n        \
           \        \"scores\": [score]\n            }\n        else:\n           \
@@ -759,7 +758,8 @@ workflow:
           variable_selector: []
         desc: ''
         model:
-          completion_params: {}
+          completion_params:
+            max_tokens: 2048
           mode: chat
           name: SecGPT
           provider: langgenius/xinference/xinference
@@ -818,10 +818,10 @@ workflow:
       id: '1756455269677'
       position:
         x: 345.9000207368764
-        y: -186.7951608230465
+        y: -184.927143928073
       positionAbsolute:
         x: 345.9000207368764
-        y: -186.7951608230465
+        y: -184.927143928073
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -871,10 +871,10 @@ workflow:
       height: 53
       id: '1756811838552'
       position:
-        x: 1801.998207696878
+        x: 1800.1301908019047
         y: 33.90756082662341
       positionAbsolute:
-        x: 1801.998207696878
+        x: 1800.1301908019047
         y: 33.90756082662341
       selected: false
       sourcePosition: right
@@ -888,7 +888,7 @@ workflow:
         title: 直接回复 3
         type: answer
         variables: []
-      height: 104
+      height: 103
       id: '1756811931870'
       position:
         x: 2102.700810986884
@@ -1000,7 +1000,7 @@ workflow:
 
               "vector_similarity_weight":{{#1756884803465.vector_similarity_weight#}},
 
-              "rerank_id":"{{#env.RERANK_ID#}}",
+              "rerank_id":{{#env.RERANK_ID#}},
 
               "page":{{#1756884803465.page#}},
 
@@ -1030,15 +1030,15 @@ workflow:
         type: http-request
         url: '{{#env.BASE_HOST#}}/api/v1/search'
         variables: []
-      height: 125
+      height: 124
       id: '1756884981009'
       position:
-        x: 1057.0518168041456
-        y: -252.60724009948436
+        x: 1058.9198336991192
+        y: -252.60724009948433
       positionAbsolute:
-        x: 1057.0518168041456
-        y: -252.60724009948436
-      selected: true
+        x: 1058.9198336991192
+        y: -252.60724009948433
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1114,6 +1114,6 @@ workflow:
       type: custom
       width: 243
     viewport:
-      x: 313.8251099752769
-      y: 385.77902121418686
-      zoom: 0.5353270640596599
+      x: 200.13048043223642
+      y: -34.400821557675386
+      zoom: 0.7578582832551995
