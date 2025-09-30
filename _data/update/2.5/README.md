@@ -43,3 +43,7 @@
 - 修改环境变量：RAG_SERVICE_HOST:rag地址，API_KEY:rag论文的apiKey，KB_ID：rag中论文研读(paper_peruse)的知识库id
 - 修改AGENT表ID=120的APP_ID和KEY
 
+### 【文档速读】对话 20250930工作流
+- 修改环境变量：host:rag地址，api_key:rag论文的apiKey
+- 修改AGENT表ID=9的APP_ID和KEY
+
