@@ -835,8 +835,11 @@ CREATE TABLE `PAPER_FILE_INFO` (
   `RAG_DOC_PATH` varchar(1024) DEFAULT NULL COMMENT 'RAG 文档路径',
   `RAG_KB_ID` varchar(128) DEFAULT NULL COMMENT 'RAG 知识库ID',
   `RAG_AINOTE_DOC_ID` varchar(255) DEFAULT NULL COMMENT 'RAG AINOTE 知识库文档ID',
+  `PUBLISH_YEAR` int GENERATED ALWAYS AS (cast(nullif(substring_index(`PUBLISH_TIME`,_utf8mb4'-',1),_utf8mb4'') as unsigned)) VIRTUAL,
+  `AUTHOR_TEXT` text GENERATED ALWAYS AS (trim(regexp_replace(`AUTHOR`,_utf8mb4'[\\[\\]"]|,',_utf8mb4' '))) STORED,
+  `CCF_LEVEL` enum('A','B','C','OTHER') DEFAULT NULL COMMENT 'CCF等级',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5510 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='论文文件信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=20332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='论文文件信息表'
 
 
 -- clouditera_aigc.PAPER_JOURNAL_TYPE definition
@@ -846,14 +849,15 @@ CREATE TABLE `PAPER_JOURNAL_TYPE` (
   `NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '名称',
   `JOURNAL_COUNT` int DEFAULT NULL COMMENT '顶会数量',
   `SORT` int DEFAULT NULL COMMENT '排序',
-  `START_TIME` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '开始时间',
-  `END_TIME` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '结束时间',
+  `START_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '开始时间',
+  `END_TIME` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '结束时间',
+  `CCF_LEVEL` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ccf等级',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-期刊类型';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-期刊类型'
 
 
 -- clouditera_aigc.PAPER_KEYWORDS definition
