@@ -1,0 +1,6 @@
+services:
+  pdfmathtranslate:
+    image: awwaawwa/pdfmathtranslate-next:dev
+    restart: always
+    ports:
+      - "37860:7860"
