@@ -12,6 +12,8 @@
 - rd.clouditera.com/aigc/wuji/client-http-api:v3.10.11
 ### 无极前端版本
 - rd.clouditera.com/aigc/wuji/client-web:v3.4.77
+### clouditera_paper
+- 版本：rd.clouditera.com/aigc/plugins/paper-api:2.2
 
 ## dify工作流
 ### 【安全论文检索】检索 20251027-关键词检索测试用 工作流
