@@ -130,7 +130,7 @@ if [[ -n "$FOLDER_PATTERNS" || -n "$EXCLUDE_FOLDER_PATTERNS" ]]; then
   echo "📁 过滤后剩余文件: ${#COMPOSE_FILES[@]} 个"
 fi
 
-declare -A PULLED_IMAGES   # set
+declare -A PULLED_IMAGES   # set of successfully pulled images
 declare -A ALL_IMAGES_SET  # set of all images
 declare -A ALL_SERVICES    # set of all service names
 
@@ -296,32 +296,171 @@ _pull_one() {
   fi
   pull_cmd+=("$img")
 
-  until "${pull_cmd[@]}"; do
+  # 捕获错误输出
+  local error_output
+  error_output=$("${pull_cmd[@]}" 2>&1)
+  local pull_status=$?
+
+  until [[ $pull_status -eq 0 ]]; do
     tries=$((tries+1))
     if (( tries > max )); then
       echo "❌ 拉取失败: $img"
+      # 检查是否是认证问题
+      if echo "$error_output" | grep -qi "unauthorized\|authentication required\|login"; then
+        # 提取仓库地址
+        local registry
+        if [[ "$img" =~ ^([^/]+)/ ]]; then
+          registry="${BASH_REMATCH[1]}"
+          if [[ "$registry" != "docker.io" ]] && [[ "$registry" != "registry-1.docker.io" ]]; then
+            echo "   💡 提示: 请先登录私有仓库: docker login $registry"
+          else
+            echo "   💡 提示: 该镜像可能需要登录 Docker Hub 或私有仓库"
+          fi
+        fi
+      elif echo "$error_output" | grep -qi "not found\|manifest unknown"; then
+        echo "   💡 提示: 镜像不存在或标签错误，请检查镜像名称和版本"
+      fi
       return 1
     fi
     echo "⏳ 重试($tries/$max): $img"
     sleep 2
+    error_output=$("${pull_cmd[@]}" 2>&1)
+    pull_status=$?
   done
   echo "✅ 拉取成功: $img"
+  # 记录成功拉取的镜像（追加操作通常是原子的）
+  echo "$img" >> "$SUCCESS_FILE"
 }
 
 # 并发控制：最多 PARALLEL 个后台任务
 run_with_limit() {
   local -a items=("$@")
+  local -a pids=()
+  local -A pid_to_img  # 映射 PID 到镜像名称
+  local total=${#items[@]}
+  local idx=0
   local running=0
-  for it in "${items[@]}"; do
-    _pull_one "$it" &
-    running=$((running+1))
-    if (( running >= PARALLEL )); then
-      wait -n || true
-      running=$((running-1))
+  
+  # 启动初始批次
+  while (( idx < total && running < PARALLEL )); do
+    _pull_one "${items[$idx]}" &
+    local pid=$!
+    pids+=($pid)
+    pid_to_img[$pid]="${items[$idx]}"
+    running=$((running + 1))
+    idx=$((idx + 1))
+  done
+  
+  # 处理剩余任务
+  local iteration=0
+  while (( idx < total || running > 0 )); do
+    iteration=$((iteration + 1))
+    
+    # 检查哪些进程已完成
+    local new_pids=()
+    local completed_this_round=0
+    for pid in "${pids[@]}"; do
+      if kill -0 "$pid" 2>/dev/null; then
+        # 进程仍在运行
+        new_pids+=($pid)
+      else
+        # 进程已结束，等待它（清理僵尸进程）
+        wait "$pid" 2>/dev/null || true
+        unset 'pid_to_img[$pid]'  # 清理映射
+        running=$((running - 1))
+        completed_this_round=$((completed_this_round + 1))
+      fi
+    done
+    pids=("${new_pids[@]}")
+    
+    # 启动新任务
+    while (( running < PARALLEL && idx < total )); do
+      _pull_one "${items[$idx]}" &
+      local pid=$!
+      pids+=($pid)
+      pid_to_img[$pid]="${items[$idx]}"
+      running=$((running + 1))
+      idx=$((idx + 1))
+    done
+    
+    # 如果还有任务在运行，稍等一下再检查
+    if (( running > 0 )); then
+      # 每10次迭代显示一次进度（避免输出过多）
+      if (( iteration % 10 == 0 )); then
+        local remaining=$((total - idx))
+        local completed=$((total - remaining - running))
+        echo "⏳ 等待中... (运行中: $running, 已完成: $completed, 待启动: $remaining)"
+        # 显示仍在运行的进程信息（用于调试）
+        if (( iteration % 30 == 0 && ${#pids[@]} > 0 )); then
+          echo "   🔍 正在拉取的镜像:"
+          for pid in "${pids[@]}"; do
+            if [[ -v pid_to_img[$pid] ]]; then
+              echo "      - ${pid_to_img[$pid]} (PID: $pid)"
+            else
+              echo "      - 未知镜像 (PID: $pid)"
+            fi
+          done
+        fi
+      fi
+      sleep 0.5
+    elif (( idx >= total && running == 0 )); then
+      # 所有任务都完成了
+      break
+    fi
+    
+    # 防止无限循环（安全措施）
+    if (( iteration > 10000 )); then
+      echo "⚠️  警告: 检测到可能的死循环，强制退出"
+      break
     fi
   done
-  wait || true
+  
+  echo "✅ 所有拉取任务完成"
 }
+
+# 检查私有仓库登录状态
+check_registry_auth() {
+  local img="$1"
+  # 提取仓库地址（格式：registry/namespace/image:tag）
+  local registry
+  if [[ "$img" =~ ^([^/]+)/ ]]; then
+    registry="${BASH_REMATCH[1]}"
+    # 跳过 Docker Hub 和本地镜像
+    if [[ "$registry" == "docker.io" ]] || [[ "$registry" == "registry-1.docker.io" ]] || [[ "$registry" == "localhost" ]]; then
+      return 0
+    fi
+    # 检查是否已登录该仓库
+    if ! docker info 2>/dev/null | grep -q "$registry" && ! grep -q "\"$registry\"" ~/.docker/config.json 2>/dev/null; then
+      echo "⚠️  警告: 未检测到 $registry 的登录信息，拉取可能失败"
+      echo "   💡 建议先执行: docker login $registry"
+      return 1
+    fi
+  fi
+  return 0
+}
+
+# 创建临时文件记录成功拉取的镜像
+SUCCESS_FILE=$(mktemp)
+TEMP_DIR=""
+cleanup() {
+  [[ -n "$SUCCESS_FILE" ]] && rm -f "$SUCCESS_FILE"
+  [[ -n "$TEMP_DIR" && -d "$TEMP_DIR" ]] && rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
+
+# 检查所有镜像的仓库登录状态
+echo "🔐 检查私有仓库登录状态..."
+declare -A CHECKED_REGISTRIES
+for img in "${IMAGES[@]}"; do
+  if [[ "$img" =~ ^([^/]+)/ ]]; then
+    registry="${BASH_REMATCH[1]}"
+    # 使用 -v 检查键是否存在，避免 unbound variable 错误
+    if [[ ! -v CHECKED_REGISTRIES[$registry] ]]; then
+      check_registry_auth "$img" || true
+      CHECKED_REGISTRIES[$registry]=1
+    fi
+  fi
+done
 
 # 执行拉取
 echo "⬇️ 正在并行拉取镜像（并发=$PARALLEL）..."
@@ -331,38 +470,75 @@ run_with_limit "${IMAGES[@]}"
 if [[ "$SAVE_IMAGES" == true ]]; then
   echo "💾 保存镜像为单个压缩包..."
   
-  # 生成压缩包名称（基于当前时间和目录名）
-  timestamp=$(date +"%Y%m%d_%H%M%S")
-  dir_name=$(basename "$SCAN_DIR")
-  archive_name="images_${dir_name}_${timestamp}.tar.gz"
-  out_dir="${SAVE_DIR:-$SCAN_DIR}"
-  mkdir -p "$out_dir"
-  archive_path="$out_dir/$archive_name"
+  # 等待一下确保所有写入完成
+  sleep 1
   
-  echo "📦 创建镜像压缩包: $archive_path"
-  
-  # 创建临时目录来存放所有镜像的 tar 文件
-  temp_dir=$(mktemp -d)
-  trap 'rm -rf "$temp_dir"' EXIT
-  
-  # 保存所有镜像到临时目录
-  for img in "${IMAGES[@]}"; do
-    # 生成安全文件名
-    tar_name="$(echo "$img" | tr '/:' '__').tar"
-    temp_tar="$temp_dir/$tar_name"
-    echo "   - 保存: $img -> $temp_tar"
-    docker save "$img" > "$temp_tar"
-  done
-  
-  # 将所有 tar 文件打包成一个压缩包
-  echo "📦 打包所有镜像到: $archive_path"
-  cd "$temp_dir"
-  tar -czf "$archive_path" *.tar
-  
-  # 显示压缩包信息
-  archive_size=$(du -h "$archive_path" | cut -f1)
-  echo "✅ 镜像压缩包创建完成: $archive_path (大小: $archive_size)"
-  echo "📋 包含镜像数量: ${#IMAGES[@]}"
+  # 读取成功拉取的镜像列表
+  if [[ ! -s "$SUCCESS_FILE" ]]; then
+    echo "⚠️  没有成功拉取的镜像，跳过保存"
+    echo "   (SUCCESS_FILE: $SUCCESS_FILE, 大小: $(stat -c%s "$SUCCESS_FILE" 2>/dev/null || echo 0) 字节)"
+  else
+    echo "📋 成功拉取的镜像数量: $(wc -l < "$SUCCESS_FILE" | tr -d ' ')"
+    # 生成压缩包名称（基于当前时间和目录名）
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    dir_name=$(basename "$SCAN_DIR")
+    archive_name="images_${dir_name}_${timestamp}.tar.gz"
+    out_dir="${SAVE_DIR:-$SCAN_DIR}"
+    mkdir -p "$out_dir"
+    archive_path="$out_dir/$archive_name"
+    
+    echo "📦 创建镜像压缩包: $archive_path"
+    
+    # 创建临时目录来存放所有镜像的 tar 文件
+    TEMP_DIR=$(mktemp -d)
+    
+    # 保存成功拉取的镜像到临时目录
+    saved_count=0
+    total_to_save=$(wc -l < "$SUCCESS_FILE" | tr -d ' ')
+    current=0
+    while IFS= read -r img; do
+      [[ -z "$img" ]] && continue
+      current=$((current + 1))
+      
+      # 再次检查镜像是否存在（双重保险）
+      if ! docker image inspect "$img" >/dev/null 2>&1; then
+        echo "⚠️  [$current/$total_to_save] 跳过不存在的镜像: $img"
+        continue
+      fi
+      
+      # 生成安全文件名
+      tar_name="$(echo "$img" | tr '/:' '__').tar"
+      temp_tar="$TEMP_DIR/$tar_name"
+      echo "💾 [$current/$total_to_save] 正在保存: $img"
+      if docker save "$img" > "$temp_tar" 2>&1; then
+        saved_count=$((saved_count + 1))
+        file_size=$(du -h "$temp_tar" 2>/dev/null | cut -f1 || echo "未知")
+        echo "   ✅ 保存成功 ($file_size)"
+      else
+        echo "   ❌ 保存失败: $img"
+        rm -f "$temp_tar"
+      fi
+    done < "$SUCCESS_FILE"
+    
+    if [[ $saved_count -eq 0 ]]; then
+      echo "⚠️  没有成功保存任何镜像"
+      rm -rf "$TEMP_DIR"
+      TEMP_DIR=""
+    else
+      # 将所有 tar 文件打包成一个压缩包
+      echo "📦 打包所有镜像到: $archive_path"
+      cd "$TEMP_DIR"
+      tar -czf "$archive_path" *.tar 2>/dev/null || {
+        echo "❌ 打包失败"
+        exit 1
+      }
+      
+      # 显示压缩包信息
+      archive_size=$(du -h "$archive_path" | cut -f1)
+      echo "✅ 镜像压缩包创建完成: $archive_path (大小: $archive_size)"
+      echo "📋 包含镜像数量: $saved_count"
+    fi
+  fi
 fi
 
 # 汇总
