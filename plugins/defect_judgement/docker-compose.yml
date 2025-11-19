@@ -45,7 +45,7 @@ services:
       - llm-sast-network
 
   postgres:
-    image: rd.clouditera.com/library/pgvector:pg17
+    image: rd.clouditera.com/docker/pgvector:pg17
     ports:
       - "5432:5432"
     logging:
