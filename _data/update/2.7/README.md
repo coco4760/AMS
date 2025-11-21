@@ -4,7 +4,7 @@
 ### 无极后台服务版本
 - rd.clouditera.com/aigc/wuji/client-http-api:v3.10.33
 ### 无极前端版本
-- rd.clouditera.com/aigc/wuji/client-web:v3.x.x
+- rd.clouditera.com/aigc/wuji/client-web:v3.5.5
 
 ## plugins
 ### cloudflow
