@@ -4,8 +4,11 @@
 set -euo pipefail
 
 # 加载通用函数库
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DEPLOY_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$DEPLOY_SCRIPT_DIR"
 source "$SCRIPT_DIR/scripts/common.sh"
+# 确保 SCRIPT_DIR 指向项目根目录（common.sh 会重新定义，这里恢复）
+SCRIPT_DIR="$DEPLOY_SCRIPT_DIR"
 
 # ========================================
 # 主函数
@@ -111,12 +114,40 @@ show_component_menu() {
     
     echo ""
     
-    # 按顺序部署组件
-    local failed_components=()
+    # 优化组件部署顺序：优先部署 infra 基础组件 (CortexInfra)
+    # CortexInfra 包含数据库、Redis、MinIO 等基础设施服务，需要优先启动
+    local sorted_components=()
+    local other_components=()
+    
+    # 分离 infra (CortexInfra) 和其他组件
     for component in "${components[@]}"; do
+        if [ "$component" = "infra" ]; then
+            sorted_components+=("infra")
+        else
+            other_components+=("$component")
+        fi
+    done
+    
+    # 合并：infra (CortexInfra) 在前，其他组件在后
+    sorted_components+=("${other_components[@]}")
+    
+    # 按优化后的顺序部署组件
+    local failed_components=()
+    for component in "${sorted_components[@]}"; do
+        local deploy_result=0
         if ! deploy_component_by_name "$component"; then
             failed_components+=("$component")
+            deploy_result=1
         fi
+        
+        # 如果是 infra (CortexInfra) 组件部署成功，等待 10 秒确保基础组件完全启动
+        # 这确保了数据库、Redis 等服务完全就绪后再部署依赖它们的服务
+        if [ "$component" = "infra" ] && [ $deploy_result -eq 0 ]; then
+            log_info "基础设施组件 (CortexInfra) 部署完成，等待服务完全启动（10秒）..."
+            sleep 10
+            log_success "基础设施服务启动等待完成"
+        fi
+        
         echo ""
     done
     
@@ -130,60 +161,74 @@ show_component_menu() {
 deploy_component_by_name() {
     local component="$1"
     
+    # 确保 SCRIPT_DIR 正确（防止被 common.sh 覆盖）
+    local script_path="$SCRIPT_DIR/scripts"
+    if [ ! -d "$script_path" ]; then
+        # 如果路径不对，尝试使用当前脚本所在目录
+        script_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/scripts"
+    fi
+    
     case "$component" in
         infra)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_infra.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_infra.sh"
+            local deploy_script="$script_path/deploy_infra.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_infra.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         auth)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_auth.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_auth.sh"
+            local deploy_script="$script_path/deploy_auth.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_auth.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         gateway)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_gateway.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_gateway.sh"
+            local deploy_script="$script_path/deploy_gateway.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_gateway.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         server)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_server.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_server.sh"
+            local deploy_script="$script_path/deploy_server.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_server.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         rag)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_rag.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_rag.sh"
+            local deploy_script="$script_path/deploy_rag.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_rag.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         sop)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_sop.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_sop.sh"
+            local deploy_script="$script_path/deploy_sop.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_sop.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;
         web)
-            if [ -f "$SCRIPT_DIR/scripts/deploy_web.sh" ]; then
-                bash "$SCRIPT_DIR/scripts/deploy_web.sh"
+            local deploy_script="$script_path/deploy_web.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
             else
-                log_error "部署脚本不存在: deploy_web.sh"
+                log_error "部署脚本不存在: $deploy_script"
                 return 1
             fi
             ;;

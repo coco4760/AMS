@@ -1,7 +1,7 @@
 {
   "Port": "8840",
   "RPCPort": "2201",
-  "Endpoint": "192.168.31.92:19000",
+  "Endpoint": "192.168.34.7:19000",
   "AccessKeyID": "clouditera",
   "SecretAccessKey": "HwaJ1L5QMxSmyoO6"
 }

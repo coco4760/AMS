@@ -15,8 +15,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # 默认配置
-DEFAULT_OLD_IP="192.168.31.92"
-DATA_ROOT="/data/secCortex"
+DEFAULT_OLD_IP="192.168.34.7"
+DATA_ROOT="/var/lib/clouditera/data"
 
 # ========================================
 # 日志输出函数
@@ -68,6 +68,76 @@ check_docker_compose() {
     return 0
 }
 
+check_cpu_avx() {
+    # 检查 CPU 是否支持 AVX 指令集
+    if grep -q avx /proc/cpuinfo 2>/dev/null; then
+        return 0  # 支持 AVX
+    else
+        return 1  # 不支持 AVX
+    fi
+}
+
+fix_elasticsearch_permissions() {
+    # 修复 Elasticsearch 数据目录权限
+    # Elasticsearch 需要以 uid:gid 1000:1000 运行
+    local data_root="${1:-$DATA_ROOT}"
+    local es_data_dir="$data_root/es/data"
+    local es_plugins_dir="$data_root/es/plugins"
+    
+    if [ ! -d "$es_data_dir" ]; then
+        mkdir -p "$es_data_dir"
+    fi
+    
+    if [ ! -d "$es_plugins_dir" ]; then
+        mkdir -p "$es_plugins_dir"
+    fi
+    
+    log_info "修复 Elasticsearch 数据目录权限..."
+    
+    # 尝试使用 chown 设置权限（需要 root 权限）
+    if chown -R 1000:1000 "$es_data_dir" "$es_plugins_dir" 2>/dev/null; then
+        log_success "Elasticsearch 目录权限已修复"
+        return 0
+    else
+        # 如果 chown 失败，提示用户手动执行
+        log_warning "无法自动修复 Elasticsearch 目录权限（需要 root 权限）"
+        log_warning "请手动执行以下命令："
+        log_warning "  sudo chown -R 1000:1000 $es_data_dir $es_plugins_dir"
+        log_warning "  sudo chmod -R 755 $es_data_dir $es_plugins_dir"
+        return 1
+    fi
+}
+
+fix_postgres_permissions() {
+    # 修复 PostgreSQL 数据目录权限
+    # PostgreSQL 需要以 uid:gid 999:999 运行
+    local data_root="${1:-$DATA_ROOT}"
+    local pg_data_dir="$data_root/pgdata"
+    
+    if [ ! -d "$pg_data_dir" ]; then
+        mkdir -p "$pg_data_dir"
+    fi
+    
+    log_info "修复 PostgreSQL 数据目录权限..."
+    
+    # 尝试使用 chown 设置权限（需要 root 权限）
+    # 递归修复所有文件和目录
+    if chown -R 999:999 "$pg_data_dir" 2>/dev/null && \
+       find "$pg_data_dir" -type f -exec chmod 600 {} \; 2>/dev/null && \
+       find "$pg_data_dir" -type d -exec chmod 700 {} \; 2>/dev/null; then
+        log_success "PostgreSQL 目录权限已修复"
+        return 0
+    else
+        # 如果 chown 失败，提示用户手动执行
+        log_warning "无法自动修复 PostgreSQL 目录权限（需要 root 权限）"
+        log_warning "请手动执行以下命令："
+        log_warning "  sudo chown -R 999:999 $pg_data_dir"
+        log_warning "  sudo find $pg_data_dir -type f -exec chmod 600 {} \\;"
+        log_warning "  sudo find $pg_data_dir -type d -exec chmod 700 {} \\;"
+        return 1
+    fi
+}
+
 check_dependencies() {
     log_step "检查系统依赖"
     local failed=0
@@ -78,6 +148,12 @@ check_dependencies() {
     
     if ! check_docker_compose; then
         failed=1
+    fi
+    
+    # 检查 CPU AVX 支持（用于 MongoDB 5.0+）
+    if ! check_cpu_avx; then
+        log_warning "当前 CPU 不支持 AVX 指令集"
+        log_warning "MongoDB 5.0+ 需要 AVX 支持，建议使用 MongoDB 4.4 或更低版本"
     fi
     
     if [ $failed -eq 1 ]; then
@@ -187,6 +263,7 @@ create_data_directories() {
         "$data_root/qdrant"
         "$data_root/es/data"
         "$data_root/es/plugins"
+        "$data_root/rabbitmq"
         
         # RAG 相关
         "$data_root/rag_service/postgres-data"
@@ -267,6 +344,9 @@ deploy_component() {
     else
         compose_cmd="docker-compose"
     fi
+    
+    # 设置环境变量（如果未设置）
+    export INSTALL_LOCAL="${INSTALL_LOCAL:-$DATA_ROOT}"
     
     log_info "启动服务..."
     if $compose_cmd up -d; then

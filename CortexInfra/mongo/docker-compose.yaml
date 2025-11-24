@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: rd.clouditera.com/docker/mongo:5.0.5
+    image: rd.clouditera.com/docker/mongo:4
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}

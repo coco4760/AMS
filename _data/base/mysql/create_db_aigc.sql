@@ -839,7 +839,7 @@ CREATE TABLE `PAPER_FILE_INFO` (
   `AUTHOR_TEXT` text GENERATED ALWAYS AS (trim(regexp_replace(`AUTHOR`,_utf8mb4'[\\[\\]"]|,',_utf8mb4' '))) STORED,
   `CCF_LEVEL` enum('A','B','C','OTHER') DEFAULT NULL COMMENT 'CCF等级',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='论文文件信息表'
+) ENGINE=InnoDB AUTO_INCREMENT=20332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='论文文件信息表';
 
 
 -- clouditera_aigc.PAPER_JOURNAL_TYPE definition
@@ -857,7 +857,7 @@ CREATE TABLE `PAPER_JOURNAL_TYPE` (
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-期刊类型'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='安全论文检索-期刊类型';
 
 
 -- clouditera_aigc.PAPER_KEYWORDS definition

@@ -35,6 +35,12 @@ main() {
     # 部署组件
     if deploy_component "CortexSOP" "$SOP_DIR" "$compose_file"; then
         log_success "工作流编排服务部署完成"
+        
+        # 等待服务完全启动
+        log_info "等待 SOP 服务完全启动（15秒）..."
+        sleep 15
+        log_success "SOP 服务启动等待完成"
+        
         return 0
     else
         log_error "工作流编排服务部署失败"

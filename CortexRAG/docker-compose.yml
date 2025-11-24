@@ -2,7 +2,7 @@ services:
   rag_service_backend:
     image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     ports:
-      - "8081:8081"
+      - "38082:8081"
     volumes:
       - ./data:/app/data
     logging:

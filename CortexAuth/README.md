@@ -108,7 +108,7 @@ server:
 
 nacos:
   config:
-    server-addr: 192.168.31.92:18848          # Nacos 服务器地址
+    server-addr: 192.168.34.7:18848          # Nacos 服务器地址
     username: nacos                           # Nacos 用户名
     password: clouditera                      # Nacos 密码
     data-ids: redis, security, mysql, postgresql, webide, dify, plugin, keycloak, minio
