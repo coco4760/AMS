@@ -1,6 +1,6 @@
 services:
   kong-migrations:
-    image: rd.clouditera.com/sca-sast-lib/kong:3.7.0
+    image: rd.clouditera.com/docker/kong:3.7.0
     user: kong
     command: kong migrations bootstrap
     restart: on-failure
@@ -20,7 +20,7 @@ services:
     networks:
       - kong-network
   kong:
-    image: rd.clouditera.com/sca-sast-lib/kong:3.7.0
+    image: rd.clouditera.com/docker/kong:3.7.0
     user: kong
     restart: always
     depends_on:
@@ -65,7 +65,7 @@ services:
       - "sasthttp:${SAST_HTTP_HOST}"
 
   kong-deck:
-    image: rd.clouditera.com/sca-sast-lib/kong/deck:v1.37.0
+    image: rd.clouditera.com/docker/kong/deck:v1.37.0
     restart: on-failure
     depends_on:
       kong:
