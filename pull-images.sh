@@ -374,11 +374,92 @@ echo "🚀 开始拉取镜像..."
 run_with_limit "${IMAGES[@]}"
 
 # ----------------------------
-# 镜像保存逻辑（原有功能保持不变，可选择保存）
+# 镜像保存逻辑
 # ----------------------------
+SAVED_ARCHIVE_PATH=""
 if [[ "$SAVE_IMAGES" == true ]]; then
   echo "💾 保存镜像为压缩包..."
-  # 原保存逻辑可直接使用 SUCCESS_FILE 生成 tar.gz
+  
+  # 等待一下确保所有写入完成
+  sleep 1
+  
+  # 读取成功拉取的镜像列表
+  if [[ ! -s "$SUCCESS_FILE" ]]; then
+    echo "⚠️  没有成功拉取的镜像，跳过保存"
+  else
+    success_count=$(wc -l < "$SUCCESS_FILE" | tr -d ' ')
+    echo "📋 成功拉取的镜像数量: $success_count"
+    
+    # 生成压缩包名称（基于当前时间和目录名）
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    dir_name=$(basename "$SCAN_DIR")
+    archive_name="images_${dir_name}_${timestamp}.tar.gz"
+    out_dir="${SAVE_DIR:-$SCAN_DIR}"
+    mkdir -p "$out_dir"
+    archive_path="$out_dir/$archive_name"
+    SAVED_ARCHIVE_PATH=$(realpath "$archive_path" 2>/dev/null || echo "$archive_path")
+    
+    echo "📦 创建镜像压缩包: $archive_path"
+    
+    # 创建临时目录来存放所有镜像的 tar 文件
+    TEMP_DIR=$(mktemp -d)
+    trap '[[ -n "$TEMP_DIR" && -d "$TEMP_DIR" ]] && rm -rf "$TEMP_DIR"' EXIT
+    
+    # 保存成功拉取的镜像到临时目录
+    saved_count=0
+    current=0
+    while IFS= read -r img; do
+      [[ -z "$img" ]] && continue
+      current=$((current + 1))
+      
+      # 再次检查镜像是否存在（双重保险）
+      if ! docker image inspect "$img" >/dev/null 2>&1; then
+        echo "⚠️  [$current/$success_count] 跳过不存在的镜像: $img"
+        continue
+      fi
+      
+      # 生成安全文件名
+      tar_name="$(echo "$img" | tr '/:' '__').tar"
+      temp_tar="$TEMP_DIR/$tar_name"
+      echo "💾 [$current/$success_count] 正在保存: $img"
+      if docker save "$img" > "$temp_tar" 2>&1; then
+        saved_count=$((saved_count + 1))
+        file_size=$(du -h "$temp_tar" 2>/dev/null | cut -f1 || echo "未知")
+        echo "   ✅ 保存成功 ($file_size)"
+      else
+        echo "   ❌ 保存失败: $img"
+        rm -f "$temp_tar"
+      fi
+    done < "$SUCCESS_FILE"
+    
+    if [[ $saved_count -eq 0 ]]; then
+      echo "⚠️  没有成功保存任何镜像"
+      rm -rf "$TEMP_DIR"
+      TEMP_DIR=""
+    else
+      # 将所有 tar 文件打包成一个压缩包
+      echo "📦 打包所有镜像到: $archive_path"
+      cd "$TEMP_DIR"
+      tar -czf "$archive_path" *.tar 2>/dev/null || {
+        echo "❌ 打包失败"
+        exit 1
+      }
+      
+      # 显示压缩包信息
+      archive_size=$(du -h "$archive_path" | cut -f1)
+      
+      echo
+      echo "═══════════════════════════════════════════════════════════"
+      echo "✅ 镜像压缩包创建完成！"
+      echo "═══════════════════════════════════════════════════════════"
+      echo "📦 压缩包名称: $archive_name"
+      echo "📁 保存位置: $SAVED_ARCHIVE_PATH"
+      echo "💾 文件大小: $archive_size"
+      echo "📋 包含镜像数量: $saved_count"
+      echo "═══════════════════════════════════════════════════════════"
+      echo
+    fi
+  fi
 fi
 
 # ----------------------------
@@ -399,6 +480,10 @@ echo "📦 总计镜像: $total_count"
 echo "✅ 成功拉取: $success_count"
 if [[ $failed_count -gt 0 ]]; then
   echo "❌ 拉取失败: $failed_count"
+fi
+if [[ -n "$SAVED_ARCHIVE_PATH" && -f "$SAVED_ARCHIVE_PATH" ]]; then
+  archive_size=$(du -h "$SAVED_ARCHIVE_PATH" | cut -f1)
+  echo "💾 镜像已保存: $SAVED_ARCHIVE_PATH (大小: $archive_size)"
 fi
 
 if [[ $failed_count -gt 0 ]]; then
