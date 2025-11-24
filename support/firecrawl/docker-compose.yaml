@@ -86,7 +86,7 @@ services:
     command: [ "pnpm", "run", "workers" ]
 
   redis:
-    image: rd.clouditera.com/sca-sast-lib/library/redis:7.2.0
+    image: rd.clouditera.com/docker/redis:7.2.0
     networks:
       - backend
     command: redis-server --bind 0.0.0.0

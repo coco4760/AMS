@@ -1,6 +1,6 @@
 services:
   storage:
-    image: rd.clouditera.com/infra/minio:RELEASE.2023-08-16T20-17-30Z
+    image: rd.clouditera.com/docker/minio:RELEASE.2023-08-16T20-17-30Z
     restart: always
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}

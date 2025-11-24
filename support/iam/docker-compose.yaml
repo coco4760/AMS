@@ -1,6 +1,6 @@
 services:
   iam:
-    image: rd.clouditera.com/sca-sast-lib/library/keycloak:22.0.0
+    image: rd.clouditera.com/docker/keycloak:22.0.0
     container_name: "clouditera-iam"
     restart: always
     command: [ "start", "--hostname-strict-https=false" ]
