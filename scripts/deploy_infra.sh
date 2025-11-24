@@ -51,6 +51,50 @@ main() {
         components_found=$((components_found + 1))
         log_info "发现组件 [$components_found]: $component_name"
         
+        # 特殊处理：Elasticsearch 权限修复
+        if [ "$component_name" = "es" ]; then
+            log_info "检查 Elasticsearch 数据目录权限..."
+            fix_elasticsearch_permissions "$DATA_ROOT" || {
+                log_warning "Elasticsearch 权限修复失败，部署可能会失败"
+                if ! confirm_action "是否继续部署 Elasticsearch（可能会失败）"; then
+                    log_info "已跳过 Elasticsearch 部署"
+                    continue
+                fi
+            }
+        fi
+        
+        # 特殊处理：PostgreSQL 权限修复
+        if [ "$component_name" = "postgres" ]; then
+            log_info "检查 PostgreSQL 数据目录权限..."
+            fix_postgres_permissions "$DATA_ROOT" || {
+                log_warning "PostgreSQL 权限修复失败，部署可能会失败"
+                if ! confirm_action "是否继续部署 PostgreSQL（可能会失败）"; then
+                    log_info "已跳过 PostgreSQL 部署"
+                    continue
+                fi
+            }
+        fi
+        
+        # 特殊处理：MongoDB 兼容性检查
+        if [ "$component_name" = "mongo" ]; then
+            if ! check_cpu_avx; then
+                # 检查 MongoDB 镜像版本
+                local mongo_image=$(grep -E "^\s*image:" "$component_path/$compose_file" | head -1 | sed 's/.*image:\s*//' | tr -d '"' | tr -d "'")
+                if echo "$mongo_image" | grep -qE "mongo:5\.[0-9]|mongo:6\.[0-9]|mongo:7\.[0-9]"; then
+                    log_warning "检测到 MongoDB 5.0+ 版本，但当前 CPU 不支持 AVX 指令集"
+                    log_warning "MongoDB 5.0+ 需要 AVX 支持，部署可能会失败"
+                    log_warning "建议："
+                    log_warning "  1. 修改 $component_path/$compose_file 使用 MongoDB 4.4 版本"
+                    log_warning "  2. 或跳过 MongoDB 部署"
+                    echo ""
+                    if ! confirm_action "是否继续部署 MongoDB（可能会失败）"; then
+                        log_info "已跳过 MongoDB 部署"
+                        continue
+                    fi
+                fi
+            fi
+        fi
+        
         # 部署组件
         if deploy_component "$component_name" "$component_path" "$compose_file"; then
             success+=("$component_name")

@@ -38,7 +38,7 @@ Kong API Gateway
 在 `CortexWeb/.env` 中至少配置：
 
 ```bash
-KONG_HOST=192.168.31.92   # Kong 实例地址（供前端容器解析）
+KONG_HOST=192.168.34.7   # Kong 实例地址（供前端容器解析）
 WEB_PORT=18080            # 可选：对外暴露端口（如需映射非 80）
 ```
 
