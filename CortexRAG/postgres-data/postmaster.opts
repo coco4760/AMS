@@ -1,0 +1,1 @@
+/usr/lib/postgresql/17/bin/postgres "-c" "shared_preload_libraries=vchord" "-c" "max_connections=1000" "-c" "shared_buffers=256MB" "-c" "effective_cache_size=1GB" "-c" "work_mem=4MB" "-c" "maintenance_work_mem=64MB"

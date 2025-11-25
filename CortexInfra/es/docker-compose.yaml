@@ -9,8 +9,8 @@ services:
       xpack.security.enabled: true
       discovery.type: single-node
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "${ELASTICSEARCH_HTTP_PORT:-10012}:9200"
+      - "${ELASTICSEARCH_CLUSTER_PORT:-10013}:9300"
     volumes:
       - ${INSTALL_LOCAL}/es/data:/usr/share/elasticsearch/data
       - ${INSTALL_LOCAL}/es/plugins:/usr/share/elasticsearch/plugins

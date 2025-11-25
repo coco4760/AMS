@@ -5,8 +5,8 @@ support/rag_service/postgres-data/*
 plugins/defect_judgement/data/postgres/*
 plugins/defect_judgement/data/backend/*
 CortexServer/plugins/defect_judgement/data/*
-CortexRAG/qdrant-data/*
-CortexRAG/redis-data/*
+CortexFlow/data
+CortexFlow/data/*
 ai_brain/app
 ai_brain/sandbox
 HELP.md

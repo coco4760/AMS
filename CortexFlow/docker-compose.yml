@@ -2,7 +2,7 @@ services:
   cloudflow_backend:
     image: rd.clouditera.com/aigc/cloudflow:0.5.3.1
     ports:
-      - "8032:8082"
+      - "${CLOUDFLOW_BACKEND_PORT:-20027}:8082"
     volumes:
       - ./data/backend:/app/data
     logging:
@@ -69,8 +69,7 @@ services:
 
   cloudflow_postgres:
     image: rd.clouditera.com/docker/pgvector:pg17
-    ports:
-      - "45432:5432"
+    # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"
       options:
@@ -90,8 +89,7 @@ services:
 
   cloudflow_redis:
     image: rd.clouditera.com/docker/redis:latest
-    ports:
-      - "46379:6379"
+    # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"
       options:

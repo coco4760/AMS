@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "${PG_PORT}:5432"
+      - "${PG_PORT:-10002}:5432"
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres"]
       interval: 30s

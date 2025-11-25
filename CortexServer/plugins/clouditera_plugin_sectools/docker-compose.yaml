@@ -5,4 +5,4 @@ services:
     env_file:
       - .env
     ports:
-      - "18006:5000"
+      - "${SECTOOLS_PLUGIN_PORT:-20019}:5000"

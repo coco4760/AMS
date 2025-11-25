@@ -6,6 +6,6 @@ services:
       RABBITMQ_DEFAULT_USER: clouditera
       RABBITMQ_DEFAULT_PASS: clouditera
     ports:
-      - "8672:5672"    # AMQP 协议端口
-      - "18672:15672"   # Web 管理控制台端口
+      - "${RABBITMQ_AMQP_PORT:-10004}:5672"    # AMQP 协议端口
+      - "${RABBITMQ_UI_PORT:-10005}:15672"   # Web 管理控制台端口
     restart: unless-stopped

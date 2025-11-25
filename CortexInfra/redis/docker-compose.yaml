@@ -8,4 +8,4 @@ services:
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
     ports:
-      - "${HOST_PORT:-16379}:${CONTAINER_PORT:-6379}"
+      - "${REDIS_PORT:-10003}:${CONTAINER_PORT:-6379}"

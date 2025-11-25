@@ -46,7 +46,7 @@ services:
       - redis
       - playwright-service
     ports:
-      - "3002:3002"
+      - "${FIRECRAWL_PORT:-10016}:3002"
     command: [ "pnpm", "run", "start:production" ]
 
   worker:

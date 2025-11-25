@@ -3,7 +3,7 @@ services:
     image: rd.clouditera.com/aigc/plugins/assetmind:2.3.2
     container_name: assetmind
     ports:
-      - "11001:8000"
+      - "${ASSET_JUDGMENT_PORT:-20015}:8000"
     environment:
       - PYTHONPATH=/app
       - PYTHONUNBUFFERED=1
