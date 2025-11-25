@@ -18,7 +18,7 @@ services:
   enabled: true
   host: authhttp
   name: authapi
-  port: 18889
+  port: 20001
   protocol: http
   read_timeout: 600000
   retries: 5
@@ -44,7 +44,7 @@ services:
   enabled: true
   host: clienthttp
   name: clientapi
-  port: 18888
+  port: 20002
   protocol: http
   read_timeout: 600000
   retries: 5
@@ -70,7 +70,7 @@ services:
   enabled: true
   host: ai-plugin
   name: plugin
-  port: 18002
+  port: 20017
   protocol: http
   read_timeout: 600000
   retries: 5

@@ -10,7 +10,7 @@ services:
       - ${INSTALL_LOCAL}/ai_brain/app/storage:/app/api/storage
       - ./privkeys:/app/api/storage/privkeys
     ports:
-      - "15001:5001"
+      - "${SOP_API_PORT:-20009}:5001"
     depends_on:
       - sandbox
     extra_hosts:
@@ -56,7 +56,7 @@ services:
     volumes:
       - ${INSTALL_LOCAL}/ai_brain/sandbox/dependencies:/dependencies
     ports:
-      - "18194:8194"
+      - "${SOP_SANDBOX_PORT:-20012}:8194"
 
   plugin_daemon:
     image: rd.clouditera.com/aigc/brain/plugin-daemon:0.0.7
@@ -71,8 +71,8 @@ services:
       PLUGIN_WORKING_PATH: /app/storage/cwd
       FORCE_VERIFYING_SIGNATURE: "false"
     ports:
-      - "15004:5002"
-      - "15003:5003"
+      - "${SOP_PLUGIN_PORT_1:-20010}:5002"
+      - "${SOP_PLUGIN_PORT_2:-20011}:5003"
     volumes:
       - ./plugin_daemon:/app/storage
 
@@ -87,4 +87,4 @@ services:
       - api
       - web
     ports:
-      - "10081:80"
+      - "${SOP_FRONTEND_PORT:-30003}:80"

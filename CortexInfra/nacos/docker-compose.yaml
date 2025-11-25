@@ -5,6 +5,6 @@ services:
     env_file:
       - .env
     ports:
-      - "18848:8848"
-      - "19848:9848"
+      - "${NACOS_HTTP_PORT:-18848}:8848"
+      - "${NACOS_GRPC_PORT:-19848}:9848"
     restart: always

@@ -7,7 +7,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${AUTH_HTTP_PORT}:80"
+      - "${AUTH_HTTP_PORT:-20001}:80"
     volumes:
       - ${INSTALL_LOCAL}/wuji/volumes/webide/code:/tmp/webide
       - ./config/application.yml:/app/resources/application.yml

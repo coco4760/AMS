@@ -9,11 +9,11 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
       KC_PROXY: edge
       KC_DB: ${KC_DB}
-      KC_DB_URL: jdbc:mysql://clouditera.mysql.com:13306/clouditera_iam
+      KC_DB_URL: jdbc:mysql://clouditera.mysql.com:10001/clouditera_iam
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
       KC_HOSTNAME_STRICT: false
     extra_hosts:
       - "clouditera.mysql.com:${MYSQL_HOST}"
     ports:
-      - "18080:8080"
+      - "${KEYCLOAK_PORT:-10015}:8080"

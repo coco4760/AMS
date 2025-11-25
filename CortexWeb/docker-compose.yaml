@@ -3,7 +3,7 @@ services:
     image: rd.clouditera.com/aigc/wuji/client-web:v3.5.5
     restart: always
     ports:
-      - '80:80'
+      - "${WEB_FRONTEND_PORT:-80}:80"
     extra_hosts:
       - "kong.host.com:${KONG_HOST}"
       - "kong:${KONG_HOST}"
@@ -14,7 +14,7 @@ services:
     image: rd.clouditera.com/aigc/wuji/jibei-web:v1.0.23
     restart: always
     ports:
-      - '80:80'
+      - "${WEB_FRONTEND_PORT:-80}:80"
     extra_hosts:
       - "kong.host.com:${KONG_HOST}"
       - "kong:${KONG_HOST}"
@@ -25,7 +25,7 @@ services:
     image: rd.clouditera.com/aigc/wuji/guowang-web:v1.0.10
     restart: always
     ports:
-      - '80:80'
+      - "${WEB_FRONTEND_PORT:-80}:80"
     extra_hosts:
       - "kong.host.com:${KONG_HOST}"
       - "kong:${KONG_HOST}"

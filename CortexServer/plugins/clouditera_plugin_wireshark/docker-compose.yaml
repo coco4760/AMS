@@ -8,4 +8,4 @@ services:
       - ${INSTALL_LOCAL}/plugin/data:/app/data
       - ${INSTALL_LOCAL}/plugin/nuclei-templates:/root/nuclei-templates
     ports:
-      - "18005:5000"
+      - "${WIRESHARK_PLUGIN_PORT:-20020}:5000"

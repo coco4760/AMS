@@ -7,5 +7,5 @@ services:
     volumes:
       - ${INSTALL_LOCAL}/qdrant:/qdrant/storage
     ports:
-      - "${QDRANT_REST_API_PORT}:6333"
-      - "${QDRANT_GRPC_API_PORT}:6334"
+      - "${QDRANT_REST_API_PORT:-10010}:6333"
+      - "${QDRANT_GRPC_API_PORT:-10011}:6334"

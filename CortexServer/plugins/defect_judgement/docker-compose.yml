@@ -2,7 +2,7 @@ services:
   llm_sast_backend:
     image: rd.clouditera.com/aigc/llm_sast:x86_64-0.3.5-backend
     ports:
-      - "8030:8081"
+      - "${DEFECT_JUDGEMENT_BACKEND_PORT:-20013}:8081"
     volumes:
       - ./data/backend:/app/data
     logging:
@@ -25,7 +25,7 @@ services:
   llm_sast_frontend:
     image: rd.clouditera.com/aigc/llm_sast:x86_64-0.3.5-frontend
     ports:
-      - "8031:8080"
+      - "${DEFECT_JUDGEMENT_FRONTEND_PORT:-20014}:8080"
     volumes:
       - ./data:/app/data
     logging:
@@ -46,8 +46,7 @@ services:
 
   postgres:
     image: rd.clouditera.com/docker/pgvector:pg17
-    ports:
-      - "5432:5432"
+    # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"
       options:

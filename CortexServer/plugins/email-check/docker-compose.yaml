@@ -5,5 +5,5 @@ services:
     env_file:
       - .env
     ports:
-      - "18003:8080"
+      - "${EMAIL_PLUGIN_PORT:-20021}:8080"
     network_mode: "bridge"

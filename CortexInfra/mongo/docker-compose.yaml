@@ -6,6 +6,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     ports:
-      - "${MONGO_PORT}:27017"
+      - "${MONGO_PORT:-10014}:27017"
     volumes:
       - ${INSTALL_LOCAL}/mongod:/data/db

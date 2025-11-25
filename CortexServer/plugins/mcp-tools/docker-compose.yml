@@ -3,7 +3,7 @@ services:
     image: rd.clouditera.com/aigc/plugins/mcp-tool:v1.0.13
     restart: always
     ports:
-      - "18089:8081"
+      - "${MCP_TOOLS_PORT:-20025}:8081"
     environment:
       - TZ=Asia/Shanghai
       - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
