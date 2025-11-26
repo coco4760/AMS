@@ -8,7 +8,7 @@ DEPLOY_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPT_DIR="$DEPLOY_SCRIPT_DIR"
 source "$SCRIPT_DIR/scripts/common.sh"
 # 确保 SCRIPT_DIR 指向项目根目录（common.sh 会重新定义，这里恢复）
-SCRIPT_DIR="$DEPLOY_SCRIPT_DIR"
+# SCRIPT_DIR="$DEPLOY_SCRIPT_DIR"
 
 # ========================================
 # 主函数
