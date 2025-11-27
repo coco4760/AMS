@@ -16,7 +16,12 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-ai_brain/plugin_daemon/cwd/langgenius/*
+CortexRAG/data
+CortexRAG/postgres-data
+CortexRAG/postgres-data/*
+CortexRAG/redis-data
+CortexRAG/qdrant-data
+CortexSOP/plugin_daemon/cwd/langgenius/*
 CortexSOP/plugin_daemon/cwd/junjiem/**
 CortexSOP/plugin_daemon/cwd/langgenius/**
 __pycache__/
