@@ -31,9 +31,11 @@ clientSecret: jbSM7ihAH8i5AlYlUF5fLYn5BTJEs1B5
 jwkSetUri=http://192.168.34.7:10015/realms/Clouditera-IAM/protocol/openid-connect/certs
 defaultPassword=P@ss1234','9d33a596812d1400d72987c1089e81d2','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
 	 ('minio','aigc','endpoint: http://192.168.34.7:10006
-accessKey: clouditera
-secretKey: HwaJ1L5QMxSmyoO6','d0951a5c36cc24b116bd979b8395d7f6','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
+accessKey: admin@clouditera.com
+secretKey: Aa123456','d0951a5c36cc24b116bd979b8395d7f6','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
 	 ('rag','aigc','base-url=http://192.168.34.7:30002
+knowledge-base-file-meta-service-url=http://192.168.34.7:20024
+paper-file-meta-service-url=http://192.168.34.7:20016
 api-key=cddb4cf4651f455a94b8366e16d145ce
 paper-api-key=cddb4cf4651f455a94b8366e16d145ce','654273d5169774a4c010591ee95ce1c4','2025-08-13 01:29:01','2025-11-25 19:51:19','nacos','192.168.32.30','','','','','','text','',''),
 	 ('rabbitmq','aigc','host=192.168.34.7
