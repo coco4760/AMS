@@ -343,21 +343,22 @@ CREATE TABLE `DEFECT_ANALYSIS_CONCURRENCY` (
 CREATE TABLE `DEFECT_ANALYSIS_INFO` (
   `ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ID',
   `CLASSIFY_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分类id',
-  `AI_SAST_TASK_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'sast任务id',
+  `AI_SAST_TASK_ID` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'sast任务id',
   `CODE_PATH` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '代码文件路径',
   `BURST_ROW_NUMBER` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '爆发行号',
   `BURST_ROW_CODE` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '爆发行代码',
   `TRACK_PATH` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '跟踪路径',
   `JUDGE_RESULT` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '研判结果',
-  `CAUSE_ANALYSIS` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
-  `FIX_SUGGEST` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '修复建议',
+  `CAUSE_ANALYSIS` text COLLATE utf8mb4_unicode_ci COMMENT '成因分析',
+  `FIX_SUGGEST` text COLLATE utf8mb4_unicode_ci COMMENT '修复建议',
+  `START_TIME` datetime DEFAULT NULL COMMENT '开始时间',
+  `END_TIME` datetime DEFAULT NULL COMMENT '结束时间',
   `CREATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `CREATED_TIME` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '最后一次修改人',
   `UPDATED_TIME` timestamp NULL DEFAULT NULL COMMENT '最后一次时间',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='缺陷分析-缺陷信息表';
-
 
 -- clouditera_aigc.DEFECT_ANALYSIS_TASK definition
 
