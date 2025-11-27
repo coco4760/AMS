@@ -160,6 +160,7 @@ services:
       - .env
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+      - ./init_db:/docker-entrypoint-initdb.d
     restart: always
 
   rag_service_redis:

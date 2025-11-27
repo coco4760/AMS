@@ -2,9 +2,9 @@
 -- FROM pg_stat_activity 
 -- WHERE datname='kong' AND pid <> pg_backend_pid();
 -- DROP DATABASE kong;
-create database rag_service;
+-- create database rag_service;
 
-\c rag_service;
+-- \c rag_service;
 
 -- public.alembic_version definition
 
