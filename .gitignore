@@ -20,6 +20,7 @@ CortexRAG/data
 CortexRAG/postgres-data
 CortexRAG/postgres-data/*
 CortexRAG/redis-data
+CortexRAG/redis.conf
 CortexRAG/qdrant-data
 CortexSOP/plugin_daemon/cwd/langgenius/*
 CortexSOP/plugin_daemon/cwd/junjiem/**
