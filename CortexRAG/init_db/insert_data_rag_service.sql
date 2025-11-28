@@ -1,8 +1,8 @@
 INSERT INTO public.alembic_version (version_num) VALUES
 	 ('857a576c00c7');
 INSERT INTO public.models (id,model_name,model_type,provider,model_configs,created_at,updated_at) VALUES
-	 ('3979e143763243609f8a60f120e859a3','bge-reranker-v2-m3','rerank','xinference','{"model": "bge-reranker-v2-m3", "base_url": "http://10.20.25.2:9997", "batch_size": 10}','2025-11-25 11:33:14.66515','2025-11-25 11:33:14.665166'),
-	 ('43a142a50bee4070abf46d9af3c93f53','Qwen3-Embedding-0.6B','embedding','xinference','{"model_uid": "Qwen3-Embedding-0.6B", "base_url": "http://10.20.25.2:9997", "vector_dimension": 1024}','2025-11-25 11:32:30.014653','2025-11-25 11:34:01.956754');
+	 ('3979e143763243609f8a60f120e859a3','bge-reranker-v2-m3','rerank','xinference','{"model": "bge-reranker-v2-m3", "base_url": "http://10.20.25.2:9997", "batch_size": 10, "timeout": 30}','2025-11-25 11:33:14.66515','2025-11-25 11:33:14.665166'),
+	 ('43a142a50bee4070abf46d9af3c93f53','Qwen3-Embedding-0.6B','embedding','xinference','{"model_uid": "Qwen3-Embedding-0.6B", "base_url": "http://10.20.25.2:9997", "vector_dimension": 1024, "timeout": 30}','2025-11-25 11:32:30.014653','2025-11-25 11:34:01.956754');
 INSERT INTO public.users (username,email,hashed_password,is_active,created_at,updated_at) VALUES
 	 ('admin@clouditera.com','admin@clouditera.com','$2b$12$QEEsLbdACzC0VUz548iqE.qpOPEb88bv88gwY4YMFHNt3pOSbE.Oe',true,'2025-11-25 08:17:47.093095','2025-11-25 08:17:47.093108');
 INSERT INTO public.api_keys (id,api_key,"name",remark,owner_id,created_at,expired_time) VALUES
