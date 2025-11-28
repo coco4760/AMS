@@ -1,6 +1,6 @@
 services:
   rag_service_backend:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     ports:
       - "20008:8081"
     volumes:
@@ -22,7 +22,7 @@ services:
     restart: always
 
   slow_parse_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -45,7 +45,7 @@ services:
     restart: always
 
   parse_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -68,7 +68,7 @@ services:
     restart: always
 
   vectorize_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -91,7 +91,7 @@ services:
     restart: always
 
   system_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -114,7 +114,7 @@ services:
     restart: always
 
   rag_service_flower:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post1
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post2
     ports:
       - "40001:5555"
     command: >
