@@ -69,7 +69,8 @@ show_component_menu() {
     echo -e "  ${CYAN}[5]${NC} RAG (检索增强生成服务)"
     echo -e "  ${CYAN}[6]${NC} SOP (工作流编排服务: DIFY)"
     echo -e "  ${CYAN}[7]${NC} Web (前端服务)"
-    echo -e "  ${CYAN}[8]${NC} All (部署所有组件)"
+    echo -e "  ${CYAN}[8]${NC} Flow (工作流服务: CortexFlow)"
+    echo -e "  ${CYAN}[9]${NC} All (部署所有组件)"
     echo -e "  ${CYAN}[0]${NC} 退出"
     echo ""
     
@@ -93,7 +94,8 @@ show_component_menu() {
             5) components+=("rag") ;;
             6) components+=("sop") ;;
             7) components+=("web") ;;
-            8) components=("infra" "auth" "gateway" "server" "rag" "sop" "web") ;;
+            8) components+=("flow") ;;
+            9) components=("infra" "auth" "gateway" "server" "rag" "sop" "web" "flow") ;;
             *) log_warning "无效的选择: $sel，已跳过" ;;
         esac
     done
@@ -225,6 +227,15 @@ deploy_component_by_name() {
             ;;
         web)
             local deploy_script="$script_path/deploy_web.sh"
+            if [ -f "$deploy_script" ]; then
+                bash "$deploy_script"
+            else
+                log_error "部署脚本不存在: $deploy_script"
+                return 1
+            fi
+            ;;
+        flow)
+            local deploy_script="$script_path/deploy_flow.sh"
             if [ -f "$deploy_script" ]; then
                 bash "$deploy_script"
             else
