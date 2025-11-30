@@ -95,6 +95,25 @@ main() {
             fi
         fi
         
+        # 特殊处理：MinIO 数据初始化
+        if [ "$component_name" = "minio" ]; then
+            local minio_data_dir="$component_path/minioData"
+            local minio_data_archive="$component_path/minioData.tar.gz"
+            
+            # 如果数据目录不存在，但存在压缩包，则解压
+            if [ ! -d "$minio_data_dir" ] && [ -f "$minio_data_archive" ]; then
+                log_info "检测到 MinIO 数据压缩包，正在解压..."
+                if tar -xzf "$minio_data_archive" -C "$component_path"; then
+                    log_success "MinIO 数据解压完成"
+                else
+                    log_error "MinIO 数据解压失败"
+                    return 1
+                fi
+            elif [ -d "$minio_data_dir" ] && [ -f "$minio_data_archive" ]; then
+                log_info "MinIO 数据目录已存在，跳过解压"
+            fi
+        fi
+        
         # 部署组件
         if deploy_component "$component_name" "$component_path" "$compose_file"; then
             success+=("$component_name")

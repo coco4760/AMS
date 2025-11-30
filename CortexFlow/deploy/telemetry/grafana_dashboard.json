@@ -1,0 +1,220 @@
+{
+    "annotations": {
+        "list": []
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+        {
+            "datasource": {
+                "type": "loki",
+                "uid": "loki_uuid"
+            },
+            "gridPos": {
+                "h": 15,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 1,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "loki_uuid"
+                    },
+                    "editorMode": "code",
+                    "expr": "{service_name=~\"cloudflow-.*\", log_level=~\"$logLevel\"} |~ \"$logSearch\"",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "All CloudFlow Logs",
+            "type": "logs"
+        },
+        {
+            "datasource": {
+                "type": "loki",
+                "uid": "loki_uuid"
+            },
+            "gridPos": {
+                "h": 15,
+                "w": 24,
+                "x": 0,
+                "y": 15
+            },
+            "id": 2,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "loki_uuid"
+                    },
+                    "editorMode": "builder",
+                    "expr": "{service_name=\"cloudflow-backend\", log_level=~\"$logLevel\"} |~ \"$logSearch\"",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Backend Logs",
+            "type": "logs"
+        },
+        {
+            "datasource": {
+                "type": "loki",
+                "uid": "loki_uuid"
+            },
+            "gridPos": {
+                "h": 15,
+                "w": 24,
+                "x": 0,
+                "y": 30
+            },
+            "id": 3,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "loki_uuid"
+                    },
+                    "editorMode": "code",
+                    "expr": "{service_name=\"cloudflow-celery\", log_level=~\"$logLevel\"} |~ \"$logSearch\"",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Celery Worker Logs",
+            "type": "logs"
+        },
+        {
+            "datasource": {
+                "type": "loki",
+                "uid": "loki_uuid"
+            },
+            "gridPos": {
+                "h": 15,
+                "w": 24,
+                "x": 0,
+                "y": 45
+            },
+            "id": 4,
+            "options": {
+                "dedupStrategy": "none",
+                "enableLogDetails": true,
+                "prettifyLogMessage": false,
+                "showCommonLabels": false,
+                "showLabels": false,
+                "showTime": true,
+                "sortOrder": "Descending",
+                "wrapLogMessage": false
+            },
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "loki",
+                        "uid": "loki_uuid"
+                    },
+                    "editorMode": "code",
+                    "expr": "{service_name=~\"cloudflow-agent-.*\", log_level=~\"$logLevel\"} |~ \"$logSearch\"",
+                    "queryType": "range",
+                    "refId": "A"
+                }
+            ],
+            "title": "Agent Logs",
+            "type": "logs"
+        }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": [
+            {
+                "allValue": ".*",
+                "current": {
+                    "selected": true,
+                    "text": "全部",
+                    "value": ".*"
+                },
+                "datasource": {
+                    "type": "loki",
+                    "uid": "loki_uuid"
+                },
+                "definition": "label_values({service_name=~\"cloudflow-.*\"}, log_level)",
+                "description": "选择日志级别进行过滤，选择全部时不应用 log_level 条件",
+                "hide": 0,
+                "includeAll": true,
+                "label": "日志级别",
+                "multi": false,
+                "name": "logLevel",
+                "options": [],
+                "query": "label_values({service_name=~\"cloudflow-.*\"}, log_level)",
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 1,
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "current": {
+                    "selected": false,
+                    "text": "",
+                    "value": ""
+                },
+                "description": "输入部分日志内容（正则），为空则不过滤",
+                "hide": 0,
+                "label": "日志内容搜索",
+                "name": "logSearch",
+                "options": [],
+                "query": "",
+                "skipUrlSync": false,
+                "type": "textbox"
+            }
+        ]
+    },
+    "time": {
+        "from": "now-1h",
+        "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "CloudFlow Logs Dashboard",
+    "uid": "cloudflow-logs-v1",
+    "version": 1,
+    "weekStart": ""
+}

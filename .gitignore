@@ -22,6 +22,8 @@ CortexRAG/postgres-data/*
 CortexRAG/redis-data
 CortexRAG/redis.conf
 CortexRAG/qdrant-data
+CortexInfra/minio/minioData
+CortexInfra/minio/minioData/*
 CortexSOP/plugin_daemon/cwd/langgenius/*
 CortexSOP/plugin_daemon/cwd/junjiem/**
 CortexSOP/plugin_daemon/cwd/langgenius/**
