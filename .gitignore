@@ -24,9 +24,8 @@ CortexRAG/redis.conf
 CortexRAG/qdrant-data
 CortexInfra/minio/minioData
 CortexInfra/minio/minioData/*
-CortexSOP/plugin_daemon/cwd/langgenius/*
-CortexSOP/plugin_daemon/cwd/junjiem/**
-CortexSOP/plugin_daemon/cwd/langgenius/**
+CortexSOP/plugin_daemon
+CortexSOP/plugin_daemon/*
 __pycache__/
 *.pyc
 *.pyo
