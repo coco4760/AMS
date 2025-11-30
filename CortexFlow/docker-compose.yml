@@ -1,8 +1,8 @@
 services:
   cloudflow_backend:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.3.2
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4
     ports:
-      - "${CLOUDFLOW_BACKEND_PORT:-20027}:8082"
+      - "20027:8082"
     volumes:
       - ./data/backend:/app/data
     logging:
@@ -20,6 +20,8 @@ services:
       - CACHE_DIR=/app/data/cache
       - AGENT_REGISTRY=http://cloudflow_backend:8082/
       - HOSTNAME=cloudflow_backend
+      - TRACKING_ENDPOINT=http://cloudflow_trace:5000
+      - OTEL_COLLECTOR_ENDPOINT=otel-collector:4317
     env_file:
       - .env
     depends_on:
@@ -29,9 +31,9 @@ services:
     restart: always
     networks:
       - cloudflow-network
-
+  
   high_priority_tasks_worker:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.3.2
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4
     volumes:
       - ./data/backend:/app/data
     # 高优先级任务队列用于保证需要快速响应的任务能够及时执行, 并发数量默认与cloudflow/backend/core/settings.py中的
@@ -60,16 +62,35 @@ services:
       - WORKSPACE_DIR=/app/data/workspace
       - AGENT_REGISTRY=http://cloudflow_backend:8082/
       - HOSTNAME=high_priority_tasks_worker
+      - OTEL_COLLECTOR_ENDPOINT=otel-collector:4317
     depends_on:
       - cloudflow_postgres
       - cloudflow_redis
     restart: always
     networks:
       - cloudflow-network
+    
+  cloudflow_trace:
+    image: rd.clouditera.com/aigc/mlflow:3.6.0
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=postgresql://postgres:C10ud1tera2025_@cloudflow_postgres:5432/
+      - MLFLOW_LOGGING_LEVEL=DEBUG
+      - MLFLOW_SERVER_ALLOWED_HOSTS=*
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - cloudflow_postgres
+    restart: always
+    networks:
+      - cloudflow-network
 
   cloudflow_postgres:
     image: rd.clouditera.com/docker/pgvector:pg17
-    # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"
       options:
@@ -86,10 +107,9 @@ services:
     restart: always
     networks:
       - cloudflow-network
-
+  
   cloudflow_redis:
     image: rd.clouditera.com/docker/redis:latest
-    # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"
       options:
@@ -99,7 +119,57 @@ services:
     networks:
       - cloudflow-network
 
+  # --- Loki: 日志数据库 ---
+  loki:
+    image: rd.clouditera.com/docker/loki:3.5.8
+    user: "0:0" # 以root用户运行
+    command: -config.file=/etc/loki/local-config.yaml # 指定容器内的配置文件路径
+    volumes:
+      - ./deploy/telemetry/loki-config.yaml:/etc/loki/local-config.yaml  # 挂载配置文件到容器内的 /etc/loki 目录
+      - ./data/telemetry/loki-data:/loki  # 挂载数据卷到容器内的 /loki 目录
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - cloudflow-network
+
+  # --- Grafana: 可视化面板 ---
+  grafana:
+    image: rd.clouditera.com/docker/grafana:12.3
+    user: "0:0" # 以root用户运行
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # 设置初始管理员密码
+    volumes:
+      - ./data/telemetry/grafana-data:/var/lib/grafana 
+    depends_on:
+      - loki # 确保 Loki 先启动
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - cloudflow-network
+
+  # --- OTEL Collector: 接收应用 OTLP 数据 ---
+  otel-collector:
+    image: rd.clouditera.com/docker/opentelemetry-collector-contrib:0.140.0
+    user: "0:0" # 以root用户运行
+    volumes:
+      - ./deploy/telemetry/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml # 挂载配置文件
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - cloudflow-network
+
 networks:
   cloudflow-network:
     driver: bridge
-
