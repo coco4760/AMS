@@ -1,6 +1,6 @@
 services:
   cloudflow_backend:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.4
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4.1
     ports:
       - "20027:8082"
     volumes:
@@ -33,7 +33,7 @@ services:
       - cloudflow-network
   
   high_priority_tasks_worker:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.4
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4.1
     volumes:
       - ./data/backend:/app/data
     # 高优先级任务队列用于保证需要快速响应的任务能够及时执行, 并发数量默认与cloudflow/backend/core/settings.py中的
