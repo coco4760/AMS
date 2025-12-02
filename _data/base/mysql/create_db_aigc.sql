@@ -36,6 +36,7 @@ CREATE TABLE `AGENT` (
   `COMMON_QUESTION` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否添加常用对话 1为true，0为flase，默认为true',
   `PARENT_ID` varchar(64) DEFAULT NULL COMMENT '父id',
   `AGENT_METADATA` text COMMENT '智能体元数据配置',
+  `AGENT_LEVEL` VARCHAR(50) DEFAULT 'NORMAL' COMMENT '智能体等级：NORMAL-普通级，ADVANCED-进阶级',
   PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -98,6 +99,27 @@ CREATE TABLE `ASSET_JUDGMENT_TAG` (
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='资产研判标签表';
 
+
+-- 创建 API_TOKEN 表
+CREATE TABLE API_TOKEN (
+    `ID`               VARCHAR(36)                  NOT NULL COMMENT 'Token ID' PRIMARY KEY,
+    `TOKEN_HASH`       VARCHAR(64)                  NOT NULL COMMENT 'Token哈希值 (HMAC-SHA256)',
+    `USER_ID`          VARCHAR(36)                  NOT NULL COMMENT '用户ID',
+    `NAME`             VARCHAR(100)                 NULL COMMENT 'Token名称/备注',
+    `STATUS`           VARCHAR(20) DEFAULT 'ACTIVE' NOT NULL COMMENT '状态 (ACTIVE/REVOKED)',
+    `LAST_ACCESS_TIME` DATETIME                     NULL COMMENT '最近访问时间',
+    `CREATED_TIME`     DATETIME                     NOT NULL COMMENT '创建时间',
+    `CREATED_BY`       VARCHAR(36)                  NULL COMMENT '创建人',
+    `UPDATED_TIME`     DATETIME                     NOT NULL COMMENT '更新时间',
+    `UPDATED_BY`       VARCHAR(36)                  NULL COMMENT '更新人',
+    CONSTRAINT TOKEN_HASH UNIQUE (TOKEN_HASH)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='API Token表';
+
+-- 创建索引
+CREATE INDEX `idx_last_access_time` ON `API_TOKEN` (`LAST_ACCESS_TIME`);
+CREATE INDEX `idx_status` ON `API_TOKEN` (`STATUS`);
+CREATE INDEX `idx_token_hash` ON `API_TOKEN` (`TOKEN_HASH`);
+CREATE INDEX `idx_user_id` ON `API_TOKEN` (`USER_ID`);
 
 -- clouditera_aigc.ASSET_JUDGMENT_TAG_REL definition
 
@@ -1397,6 +1419,7 @@ CREATE TABLE `AI_SAST_TASK` (
   `UPDATED_BY` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '更新人',
   `FILE_SIZE` bigint DEFAULT NULL COMMENT '文件大小（字节）',
   `VULN_ARTIFACT_COUNT` int DEFAULT NULL COMMENT '检测出的漏洞数量统计',
+  `API_TOKEN_ID` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'API Token ID',
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AI 代码漏洞挖掘任务表';
 -- clouditera_aigc.PDF_TRANSLATE_TASK definition
@@ -1417,3 +1440,33 @@ CREATE TABLE `PDF_TRANSLATE_TASK` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='PDF文件翻译任务表';
 
+CREATE TABLE IF NOT EXISTS AI_SAST_QUOTA_USAGE (
+    `ID` VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    TASK_ID VARCHAR(64) NOT NULL COMMENT '任务ID（唯一标识，类似conversationId）',
+    `GROUP_ID` VARCHAR(255) NOT NULL COMMENT '小组ID',
+    `YEAR_MONTH` VARCHAR(7) NOT NULL COMMENT '年月（格式：YYYY-MM，用于按月统计）',
+    `STATUS` VARCHAR(20) NOT NULL COMMENT '使用状态：CONSUMED-已消费, RESTORED-已恢复',
+    `CREATED_TIME` DATETIME NOT NULL COMMENT '创建时间',
+    `CREATED_BY` VARCHAR(255) COMMENT '创建人',
+    `UPDATED_TIME` DATETIME COMMENT '更新时间',
+    `UPDATED_BY` VARCHAR(255) COMMENT '更新人'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='AI SAST使用次数使用记录表（类似USER_TOKEN_DETAIL）';
+
+-- ============================================
+-- 2. 创建索引
+-- ============================================
+
+-- 唯一索引：TASK_ID（确保每个任务只记录一次，类似conversationId的唯一性）
+CREATE UNIQUE INDEX `UK_TASK_ID` ON `AI_SAST_QUOTA_USAGE`(`TASK_ID`);
+
+-- 普通索引：GROUP_ID + YEAR_MONTH（统计查询，类似token按日统计）
+CREATE INDEX `IDX_GROUP_YEAR_MONTH` ON `AI_SAST_QUOTA_USAGE`(`GROUP_ID`, `YEAR_MONTH`);
+
+-- 普通索引：STATUS（查询已消费/已恢复的记录）
+CREATE INDEX `IDX_STATUS` ON `AI_SAST_QUOTA_USAGE`(`STATUS`);
+
+-- 普通索引：GROUP_ID（按小组查询）
+CREATE INDEX `IDX_GROUP_ID` ON `AI_SAST_QUOTA_USAGE`(`GROUP_ID`);
+
+-- 普通索引：YEAR_MONTH（按年月查询）
+CREATE INDEX `IDX_YEAR_MONTH` ON `AI_SAST_QUOTA_USAGE`(`YEAR_MONTH`);
