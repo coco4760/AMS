@@ -1,6 +1,6 @@
 services:
   client-web-html:
-    image: rd.clouditera.com/aigc/wuji/client-web:v3.5.26
+    image: rd.clouditera.com/aigc/wuji/client-web:v3.5.27
     restart: always
     ports:
       - "${WEB_FRONTEND_PORT:-80}:80"
