@@ -1,6 +1,6 @@
 services:
   auth-http-api:
-    image: rd.clouditera.com/aigc/wuji/auth-http-api:v1.5.6
+    image: rd.clouditera.com/aigc/wuji/auth-http-api:v1.5.14
     restart: always
     environment:
       CONTEXT_PATH: /authapi
