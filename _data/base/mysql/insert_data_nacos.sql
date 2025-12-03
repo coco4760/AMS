@@ -18,7 +18,7 @@ ragFlowApiKey: ragflow-E2NzBiMmYwZjNlNjExZWZiMjQ1MDI0Mj
 modelActivity: false','1c786d5f79b8012d43ef9df461c1aff9','2025-08-13 01:29:01','2025-08-13 01:29:01','nacos','10.8.0.20','','',NULL,NULL,NULL,'text',NULL,''),
 	 ('plugin','aigc','host: http://192.168.34.7:20017
 local-host: http://183.242.161.27:21682
-search-host: http://192.168.34.7:20018
+search-host: http://183.242.161.27:21682
 penetration-tools-host: http://192.168.34.7:20020
 codeInvoke: http://192.168.34.7:1111
 # izPull true: 漏洞情报数据私有化部署 local-host 应该为本地地址 可以进行远程拉取漏洞数据 search-host 配置为 http://183.242.161.27:21682
