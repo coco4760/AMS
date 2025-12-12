@@ -1,6 +1,6 @@
 services:
   rag_service_backend:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     ports:
       - "20008:8081"
     volumes:
@@ -22,7 +22,7 @@ services:
     restart: always
 
   slow_parse_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -45,7 +45,7 @@ services:
     restart: always
 
   parse_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -68,7 +68,7 @@ services:
     restart: always
 
   vectorize_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -91,7 +91,7 @@ services:
     restart: always
 
   system_worker:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     volumes:
       - ./data:/app/data
     command: >
@@ -114,7 +114,7 @@ services:
     restart: always
 
   rag_service_flower:
-    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/backend:x86_64-0.6.1.post2
     ports:
       - "40001:5555"
     command: >
@@ -132,7 +132,7 @@ services:
     restart: always
 
   rag_service_frontend:
-    image: rd.clouditera.com/aigc/rag/rag_service/frontend:x86_64-0.6.2.post3
+    image: rd.clouditera.com/aigc/rag/rag_service/frontend:x86_64-0.6.1.post2
     ports:
       - "30002:8080"
     restart: always
@@ -164,7 +164,7 @@ services:
     restart: always
 
   rag_service_redis:
-    image: rd.clouditera.com/docker/redis:8.0.2
+    image: rd.clouditera.com/docker/redis:latest
     ports:
       - "50002:6379"
     logging:
@@ -179,7 +179,7 @@ services:
     restart: always
 
   rag_service_qdrant:
-    image: rd.clouditera.com/docker/qdrant:v1.15
+    image: rd.clouditera.com/sca-sast-lib/library/qdrant:v1.9.3
     ports:
       - "50003:6333"
       - "50004:6334"

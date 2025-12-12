@@ -1,6 +1,6 @@
 services:
   elasticsearch:
-    image: rd.clouditera.com/docker/elasticsearch:8.12.2
+    image: rd.clouditera.com/sca-sast-lib/library/elasticsearch:8.12.2
     restart: always
     environment:
       ES_USER: ${ES_USER}

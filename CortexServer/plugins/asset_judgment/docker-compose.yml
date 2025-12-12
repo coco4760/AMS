@@ -1,6 +1,6 @@
 services:
   assetmind:
-    image: rd.clouditera.com/aigc/plugins/assetmind:2.3.2
+    image: rd.clouditera.com/aigc/plugins/assetmind:2.0
     container_name: assetmind
     ports:
       - "${ASSET_JUDGMENT_PORT:-20015}:8000"

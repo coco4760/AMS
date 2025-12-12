@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: rd.clouditera.com/docker/mysql:8.0.34
+    image: rd.clouditera.com/sca-sast-lib/library/mysql:8.0.34
     command: [ "--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci" ]
     ports:
       - "${MYSQL_PORT:-10001}:3306"

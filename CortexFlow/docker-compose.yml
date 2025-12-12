@@ -1,6 +1,6 @@
 services:
   cloudflow_backend:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.4.1
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4.3
     ports:
       - "20027:8082"
     volumes:
@@ -33,7 +33,7 @@ services:
       - cloudflow-network
   
   high_priority_tasks_worker:
-    image: rd.clouditera.com/aigc/cloudflow:0.5.4.1
+    image: rd.clouditera.com/aigc/cloudflow:0.5.4.3
     volumes:
       - ./data/backend:/app/data
     # 高优先级任务队列用于保证需要快速响应的任务能够及时执行, 并发数量默认与cloudflow/backend/core/settings.py中的
@@ -90,7 +90,7 @@ services:
       - cloudflow-network
 
   cloudflow_postgres:
-    image: rd.clouditera.com/docker/pgvector:pg17
+    image: rd.clouditera.com/library/pgvector:pg17
     logging:
       driver: "json-file"
       options:
@@ -109,7 +109,7 @@ services:
       - cloudflow-network
   
   cloudflow_redis:
-    image: rd.clouditera.com/docker/redis:latest
+    image: rd.clouditera.com/sca-sast-lib/library/redis:7.2.0
     logging:
       driver: "json-file"
       options:
