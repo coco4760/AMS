@@ -38,7 +38,7 @@ CortexServer/
 
 | 服务 | 镜像 | 默认端口 |
 | --- | --- | --- |
-| `client-http` | `rd.clouditera.com/aigc/wuji/client-http-api:v3.10.33` | `CLIENT_HTTP_PORT` → 80 |
+| `client-http` | `rd.clouditera.com/aigc/wuji/client-http-api:v4.0.12` | `CLIENT_HTTP_PORT` → 80 |
 
 ### 主要配置（`config/application.yml`）
 

@@ -25,7 +25,7 @@ Kong API Gateway
 
 | 服务 | 镜像 | 场景 | 启动方式 |
 | --- | --- | --- | --- |
-| `client-web-html` | `rd.clouditera.com/aigc/wuji/client-web:v3.5.5` | 默认（标准版） | 默认启用 |
+| `client-web-html` | `rd.clouditera.com/aigc/wuji/client-web:v3.5.38` | 默认（标准版） | 默认启用 |
 | `client-web-html-jibei` | `rd.clouditera.com/aigc/wuji/jibei-web:v1.0.23` | 集贝定制 | `--profile jibei` |
 | `client-web-html-guowang` | `rd.clouditera.com/aigc/wuji/guowang-web:v1.0.10` | 国网定制 | `--profile guowang` |
 
