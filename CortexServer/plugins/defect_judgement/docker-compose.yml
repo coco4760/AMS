@@ -45,7 +45,7 @@ services:
       - llm-sast-network
 
   postgres:
-    image: rd.clouditera.com/library/pgvector:pg17
+    image: rd.clouditera.com/docker/pgvector:pg17
     # 内部服务，不对外暴露端口
     logging:
       driver: "json-file"

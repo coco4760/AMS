@@ -90,7 +90,7 @@ services:
       - cloudflow-network
 
   cloudflow_postgres:
-    image: rd.clouditera.com/library/pgvector:pg17
+    image: rd.clouditera.com/docker/pgvector:pg17
     logging:
       driver: "json-file"
       options:
