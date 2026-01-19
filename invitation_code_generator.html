@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>授权码生成系统</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-gradient-light: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 48px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            opacity: 0.95;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+
+        .tab-nav{display:flex;gap:4px;margin-top:28px;background:rgba(0,0,0,0.2);padding:8px;border-radius:14px;z-index:1;max-width:600px;margin-left:auto;margin-right:auto}
+        .tab-nav a{flex:1;color:rgba(255,255,255,0.7)!important;text-decoration:none!important;padding:16px 32px!important;border-radius:10px!important;font-size:16px!important;font-weight:600!important;text-align:center!important;transition:all 0.3s!important;background:transparent!important;border:none!important;box-shadow:none!important}
+        .tab-nav a:hover{color:rgba(255,255,255,0.9)!important;background:rgba(255,255,255,0.1)!important}
+        .tab-nav a.active{color:white!important;background:rgba(255,255,255,0.3)!important;box-shadow:0 4px 12px rgba(0,0,0,0.2)!important}
+
+        .form-container {
+            padding: 48px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-section:nth-child(1) { animation-delay: 0.1s; }
+        .form-section:nth-child(2) { animation-delay: 0.2s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 5px;
+            height: 24px;
+            background: var(--bg-gradient);
+            margin-right: 14px;
+            border-radius: 3px;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--bg-gradient);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .required {
+            color: var(--danger);
+            margin-left: 4px;
+            font-weight: 700;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        input:hover,
+        select:hover {
+            border-color: var(--primary-light);
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .code-display {
+            background: var(--bg-gradient-light);
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px dashed var(--primary);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .code-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .code-display:hover {
+            border-color: var(--primary-dark);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .code-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-value {
+            font-size: 42px;
+            font-weight: 700;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 6px;
+            font-family: 'Courier New', 'Monaco', monospace;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .btn-generate-code {
+            background: var(--bg-gradient);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-generate-code:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-generate-code:active {
+            transform: translateY(-1px);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkbox-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-gradient-light);
+            transition: left 0.3s;
+            z-index: 0;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .checkbox-item:hover::before {
+            left: 0;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: var(--primary);
+            position: relative;
+            z-index: 1;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked {
+            animation: checkmark 0.3s;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .checkbox-item:has(input:checked) {
+            border-color: var(--primary);
+            background: var(--bg-gradient-light);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 16px 36px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: white;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #f9fafb;
+            border-color: var(--primary-light);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-box {
+            background: var(--bg-gradient-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 32px 24px;
+            }
+
+            .header {
+                padding: 36px 24px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .code-value {
+                font-size: 32px;
+                letter-spacing: 4px;
+            }
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 成功提示 */
+        .success-message {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: white;
+            padding: 20px 28px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            border-left: 4px solid var(--success);
+            z-index: 1000;
+            animation: slideInRight 0.4s ease-out;
+            max-width: 400px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 授权码生成系统</h1>
+            <p>生成和管理邀请码授权信息</p>
+            <div class="tab-nav">
+                <a href="/" class="active">➕ 生成授权码</a>
+                <a href="/manager">🔍 授权码管理</a>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="invitationForm">
+                <!-- 授权码生成区域 -->
+                <div class="form-section">
+                    <div class="section-title">授权码信息</div>
+                    <div class="form-group">
+                        <label>授权码 <span class="required">*</span></label>
+                        <div class="code-display">
+                            <div class="code-label">自动生成的6位授权码</div>
+                            <div class="code-value" id="generatedCode">点击生成</div>
+                            <button type="button" class="btn-generate-code" onclick="generateCode()">
+                                🔄 重新生成授权码
+                            </button>
+                        </div>
+                        <div class="help-text">系统将自动生成不与数据库重复的6位授权码</div>
+                    </div>
+                </div>
+
+                <!-- CODE_INFO 配置区域 -->
+                <div class="form-section">
+                    <div class="section-title">授权配置信息 (CODE_INFO)</div>
+                    
+                    <div class="info-box">
+                        <p><strong>说明：</strong>以下配置将作为 CODE_INFO 字段的 JSON 数据保存到数据库</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>用户数量 (size) <span class="required">*</span></label>
+                            <input type="number" id="size" name="size" min="1" value="2" required>
+                            <div class="help-text">允许使用此授权码的用户数量</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>进阶智能体使用次数 (sastQuota) <span class="required">*</span></label>
+                            <input type="number" id="sastQuota" name="sastQuota" min="0" value="3" required>
+                            <div class="help-text">进阶智能体的使用次数限制</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>进阶智能体使用频率 (sastQuotaPeriod) <span class="required">*</span></label>
+                            <select id="sastQuotaPeriod" name="sastQuotaPeriod" required>
+                                <option value="daily">日度 (daily)</option>
+                                <option value="weekly" selected>周度 (weekly)</option>
+                                <option value="monthly">月度 (monthly)</option>
+                            </select>
+                            <div class="help-text">进阶智能体使用次数的统计周期</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>授权开始时间 (beginDate) <span class="required">*</span></label>
+                            <input type="date" id="beginDate" name="beginDate" required>
+                            <div class="help-text">授权码生效的起始日期</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>授权结束时间 (endDate) <span class="required">*</span></label>
+                            <input type="date" id="endDate" name="endDate" required>
+                            <div class="help-text">授权码失效的结束日期</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Token 量 (tokens) <span class="required">*</span></label>
+                        <select id="tokens" name="tokens" required>
+                            <option value="50000000">50,000,000</option>
+                            <option value="100000000" selected>100,000,000</option>
+                            <option value="200000000">200,000,000</option>
+                            <option value="300000000">300,000,000</option>
+                        </select>
+                        <div class="help-text">选择授权码包含的 Token 数量</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>智能体权限 (agents) <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_1" name="agents" value="1" checked>
+                                <label for="agent_1">通用会话</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_16" name="agents" value="16" checked>
+                                <label for="agent_16">安全资讯</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_2" name="agents" value="2" checked>
+                                <label for="agent_2">论文研读</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_21" name="agents" value="21" checked>
+                                <label for="agent_21">安全智库</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_24" name="agents" value="24" checked>
+                                <label for="agent_24">安全论文检索</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_25" name="agents" value="25" checked>
+                                <label for="agent_25">AI漏洞猎人</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_27" name="agents" value="27" checked>
+                                <label for="agent_27">论文翻译</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_9" name="agents" value="9" checked>
+                                <label for="agent_9">文档速读</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="agent_22" name="agents" value="22">
+                                <label for="agent_22">缺陷研判</label>
+                            </div>
+                        </div>
+                        <div class="help-text">选择该授权码可使用的智能体功能</div>
+                    </div>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">重置</button>
+                    <button type="submit" class="btn btn-primary">生成授权码</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // API配置 - 自动检测API地址（与UI同端口）
+        function getApiBaseUrl() {
+            // 尝试从URL参数获取API地址
+            const urlParams = new URLSearchParams(window.location.search);
+            const apiHost = urlParams.get('api_host');
+            const apiPort = urlParams.get('api_port');
+            
+            if (apiHost && apiPort) {
+                return `http://${apiHost}:${apiPort}/api`;
+            }
+            
+            // 自动检测：使用当前页面的协议、主机和端口
+            const protocol = window.location.protocol;
+            const host = window.location.hostname;
+            const currentPort = window.location.port;
+            
+            // 如果当前URL有端口，使用该端口；否则使用默认端口30111
+            const apiPortNum = apiPort || currentPort || '30111';
+            
+            // 构建API地址（与UI同端口）
+            if (apiPortNum === '80' || apiPortNum === '443' || apiPortNum === '') {
+                // 标准HTTP/HTTPS端口，不需要在URL中显示
+                return `${protocol}//${host}/api`;
+            } else {
+                return `${protocol}//${host}:${apiPortNum}/api`;
+            }
+        }
+        
+        const API_BASE_URL = getApiBaseUrl();
+        
+        // 在控制台显示API地址（便于调试）
+        console.log('API地址:', API_BASE_URL);
+
+        // 设置默认日期（当天）
+        function setDefaultDates() {
+            const today = new Date();
+            const oneMonthLater = new Date(today);
+            oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+            const formatDate = (date) => {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            };
+
+            document.getElementById('beginDate').value = formatDate(today);
+            document.getElementById('endDate').value = formatDate(oneMonthLater);
+        }
+
+        // 显示错误消息
+        function showErrorMessage(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'success-message';
+            errorDiv.style.borderLeftColor = 'var(--danger)';
+            errorDiv.innerHTML = `<strong>❌ 错误！</strong><br>${message}`;
+            document.body.appendChild(errorDiv);
+            
+            setTimeout(() => {
+                errorDiv.style.animation = 'slideInRight 0.4s ease-out reverse';
+                setTimeout(() => errorDiv.remove(), 400);
+            }, 4000);
+        }
+
+        // 生成6位授权码（调用后端API）
+        async function generateCode() {
+            const codeElement = document.getElementById('generatedCode');
+            const generateBtn = document.querySelector('.btn-generate-code');
+            
+            // 显示加载状态
+            codeElement.textContent = '生成中...';
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '🔄 生成中<span class="loading"></span>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/generate-code`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const code = data.code;
+                    // 直接显示代码，移除打字动画以提升响应速度
+                    codeElement.textContent = code;
+                    codeElement.style.animation = 'pulse 0.3s ease-in-out';
+                } else {
+                    throw new Error(data.message || '生成授权码失败');
+                }
+            } catch (error) {
+                console.error('生成授权码错误:', error);
+                showErrorMessage(`生成授权码失败: ${error.message}<br>请检查后端服务是否启动`);
+                codeElement.textContent = '生成失败';
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '🔄 重新生成授权码';
+            }
+        }
+
+        // 显示成功消息
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `<strong>✅ 成功！</strong><br>${message}`;
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.style.animation = 'slideInRight 0.4s ease-out reverse';
+                setTimeout(() => successDiv.remove(), 400);
+            }, 3000);
+        }
+
+        // 表单提交
+        document.getElementById('invitationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const code = document.getElementById('generatedCode').textContent.trim();
+            if (code === '点击生成' || code === '' || code === '生成中...' || code === '生成失败') {
+                showErrorMessage('请先生成授权码！');
+                await generateCode();
+                return;
+            }
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '保存中<span class="loading"></span>';
+            submitBtn.disabled = true;
+
+            // 收集表单数据
+            const formData = {
+                code: code,
+                size: parseInt(document.getElementById('size').value),
+                beginDate: document.getElementById('beginDate').value,
+                endDate: document.getElementById('endDate').value,
+                tokens: parseInt(document.getElementById('tokens').value),
+                agents: Array.from(document.querySelectorAll('input[name="agents"]:checked')).map(cb => cb.value),
+                sastQuota: parseInt(document.getElementById('sastQuota').value),
+                sastQuotaPeriod: document.getElementById('sastQuotaPeriod').value
+            };
+
+            // 验证智能体选择
+            if (formData.agents.length === 0) {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                showErrorMessage('请至少选择一个智能体权限！');
+                return;
+            }
+
+            try {
+                // 调用后端API保存到数据库
+                const response = await fetch(`${API_BASE_URL}/create-invitation`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccessMessage(`授权码 <strong>${formData.code}</strong> 已成功保存到数据库！<br>创建时间: ${data.data.createdTime}`);
+                    
+                    // 重置表单（可选）
+                    setTimeout(() => {
+                        if (confirm('授权码已保存成功！是否生成新的授权码？')) {
+                            resetForm();
+                        }
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || '保存失败');
+                }
+            } catch (error) {
+                console.error('保存授权码错误:', error);
+                showErrorMessage(`保存失败: ${error.message}<br>请检查后端服务是否正常运行`);
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // 重置表单
+        function resetForm() {
+            if (confirm('确定要重置所有表单数据吗？')) {
+                document.getElementById('invitationForm').reset();
+                document.getElementById('generatedCode').textContent = '点击生成';
+                setDefaultDates();
+                generateCode();
+            }
+        }
+
+        // 日期验证：结束日期不能早于开始日期
+        document.getElementById('beginDate').addEventListener('change', function() {
+            const beginDate = new Date(this.value);
+            const endDateInput = document.getElementById('endDate');
+            const endDate = new Date(endDateInput.value);
+            
+            if (endDate < beginDate) {
+                const oneMonthLater = new Date(beginDate);
+                oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+                endDateInput.value = oneMonthLater.toISOString().slice(0, 10);
+            }
+        });
+
+        // 检查后端服务连接
+        async function checkApiHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                if (data.success) {
+                    console.log('✅ 后端服务连接正常');
+                } else {
+                    console.warn('⚠️ 后端服务连接异常:', data.message);
+                }
+            } catch (error) {
+                console.error('❌ 无法连接到后端服务:', error);
+                showErrorMessage('无法连接到后端服务，请确保API服务已启动（运行 invitation_code_api.py）');
+            }
+        }
+
+        // 初始化
+        setDefaultDates();
+        checkApiHealth();
+        generateCode();
+    </script>
+</body>
+</html>

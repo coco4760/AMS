@@ -1,6 +1,0 @@
-services:
-  pdfmathtranslate:
-    image: rd.clouditera.com/docker/pdfmathtranslate-next:v1.0
-    restart: always
-    ports:
-      - "${PDF_TRANSLATE_PORT:-20026}:7860"

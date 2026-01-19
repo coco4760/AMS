@@ -1,65 +1,33 @@
-
-support/rag_service/data/backups/*
-support/rag_service/data/uploads/*
-support/rag_service/postgres-data/*
-plugins/defect_judgement/data/postgres/*
-plugins/defect_judgement/data/backend/*
-CortexServer/plugins/defect_judgement/data/*
-CortexFlow/data
-CortexFlow/data/*
-ai_brain/app
-ai_brain/sandbox
-HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-CortexRAG/data
-CortexRAG/postgres-data
-CortexRAG/postgres-data/*
-CortexRAG/redis-data
-CortexRAG/redis.conf
-CortexRAG/qdrant-data
-CortexInfra/minio/minioData
-CortexInfra/minio/minioData/*
-CortexSOP/plugin_daemon
-CortexSOP/plugin_daemon/*
+# Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# 配置文件（包含敏感信息）
+config.json
+.env
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
+# 日志文件
+logs/
 *.log
 
-images_*.tar.gz
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 临时文件
+*.tmp
+*.bak
+

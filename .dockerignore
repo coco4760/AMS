@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# 日志
+logs/
+*.log
+
+# 配置文件（敏感信息）
+config.json
+.env
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+# 文档
+*.md
+docs/
+
+# 脚本（不需要在容器内）
+*.sh
+*.bat
+
+# 数据文件
+*.zip
+*.tar.gz
+
+# 其他
+.DS_Store
+Thumbs.db
+tmpclaude-*

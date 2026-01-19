@@ -1,0 +1,24 @@
+{
+    "database": {
+        "host": "10.20.25.3",
+        "port": 13306,
+        "database": "clouditera_aigc",
+        "user": "root",
+        "password": "Clouditera@2023",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci"
+    },
+    "api": {
+        "host": "0.0.0.0",
+        "port": 30111,
+        "debug": true
+    },
+    "default_values": {
+        "expired": "2027-03-01 10:16:00",
+        "person_knowledge_count": 3,
+        "group_knowledge_count": 10,
+        "document_count": 100,
+        "created_by": "admin"
+    }
+}
+

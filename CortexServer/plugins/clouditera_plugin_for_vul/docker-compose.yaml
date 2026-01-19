@@ -1,8 +1,0 @@
-services:
-  ai-plugin-for-vul:
-    image: rd.clouditera.com/aigc/plguins/ai-plugin-for-vul:v0.1.7
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "${VUL_PLUGIN_PORT:-20018}:8001"

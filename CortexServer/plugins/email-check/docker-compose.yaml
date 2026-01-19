@@ -1,9 +1,0 @@
-services:
-  email-plugin:
-    image: rd.clouditera.com/aigc/plugins/email-plugin:v2.0.0-stable
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "${EMAIL_PLUGIN_PORT:-20021}:8080"
-    network_mode: "bridge"

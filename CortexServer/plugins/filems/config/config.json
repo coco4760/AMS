@@ -1,7 +1,0 @@
-{
-  "Port": "8840",
-  "RPCPort": "2201",
-  "Endpoint": "192.168.34.7:10006",
-  "AccessKeyID": "admin@clouditera.com",
-  "SecretAccessKey": "Aa123456"
-}
